@@ -1,0 +1,95 @@
+/* NetRexx Pipe */
+--  © Copyright Alan Sampson 2026
+
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class OrderedWords extends stage public final
+
+  properties private
+    wds     = Rexx ''
+    ct      = Rexx ''
+    ordered = Rexx''
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method OrderedWords() public
+
+    wds[0] = 0
+    ct[0]  = 0
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Custom Stage: Only passes words that conform to requirements 
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method run() public
+    loop forever
+      line = Rexx peekto()
+      if OrderedWords.isOrdered(line) then
+        output(line)
+      readto()
+    catch StageError
+      rc = rc()
+    end
+
+    exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method pipeDriver() public
+
+    -- process input stream and use OrderedWords custom stage to filter
+    -- out wirds that don't conform to requirements
+    pipe (owords stall 1000 debug 0 ) 
+      < ../../data/unixdict.txt |
+      OrderedWords |
+      stem wds
+
+    -- examine conforming words to determine max length
+    pipe (owords_ct)
+      stem wds |
+      count maxline |
+      stem ct
+
+--  say 'wds[0]:' wds[0]
+--  say 'ct[0]:' ct[0]
+--  say '  [1]:' ct[1]
+
+    -- loop over contforming words and filter out any that are shorter than max
+    maxlen = ct[1]
+    ordered = ''
+    loop pw = 0 to wds[0]
+      if wds[pw].length = maxlen then
+        ordered = ordered wds[pw]','
+    end pw
+
+    -- collect results in a list of the form: [wd1, wd2, ..., wdN] 
+    ordered = ordered.strip.strip('t', ',') 
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method getOrderedString() public returns Rexx
+
+    return '[' || ordered || ']'
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    instance = OrderedWords()
+    instance.pipeDriver()
+    say instance.getOrderedString()
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- examine word to identify those where letters are in ascending order
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method isOrdered(dword = Rexx) static binary returns boolean
+  wdword = String(dword)
+  wchars = wdword.toCharArray
+  Arrays.sort(wchars)
+  return wdword.equalsIgnoreCase(String(wchars))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

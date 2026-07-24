@@ -1,0 +1,10 @@
+
+pipe (f281 )
+  comment : x2a ascii == x5c ebcdic == * |
+  literal First~record Second~record | split | xlate /~/ / |
+  specs
+     w1  1
+     x2a next
+     w2  next |
+  console
+

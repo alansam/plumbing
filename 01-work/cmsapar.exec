@@ -1,0 +1,19 @@
+/* home: vm.marist.edu/~pipeline
+   Sir Rob the Plumber rvdheij.wordpress.com
+   CMSPIP-L subscribe: listserv@marist.edu 
+   Melinda Varien
+   CMS Pipelins Author's Edition
+*/
+pipe
+  cp query cpservice apar vm6
+| drop 1
+| l: lookup 1.7
+| sort unique 1-7
+| > applied apars a
+?< required apars a
+| split
+|l:
+| hole
+?l:
+| > missing apars a
+

@@ -1,0 +1,19 @@
+/* NetRexx Pipes */
+--  © Copyright Alan Sampson 2026
+
+pipe (cmsapar_report end ? stall 1000 debug 0 )
+  diskr applied-apars.a1 |
+  specs 1-7 4 |
+  sort |
+  unique |
+  a: fanin |
+  console ?
+  literal ~~~~~~~ |
+  specs 1-7 4 |
+  a: ?
+  diskr missing-apars.a1 |
+  sort |
+  unique |
+  specs 1-7 4 |
+  a: ?
+

@@ -1,0 +1,12 @@
+
+pipe (f289 )
+  comment : '/' followed by '*' is the start of a comment. Change delimiter from '/' to '!' |
+  literal First~record Second~record Short | split | xlate /~/ / |
+  specs
+    1.4 c2x  1
+    5.4 c2x  nextword
+    !*!      19
+    1.8      next.8
+    !*!      next |
+  console
+

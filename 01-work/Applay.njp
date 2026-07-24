@@ -1,0 +1,39 @@
+/* NetRexx */
+--  © Copyright Alan Sampson 2026
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class Applay public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method Applay() public
+
+    ash = [ Rexx 6, 'O,', 'for', 'a', 'muse', 'of', 'fire' ]
+    ath = Rexx[7]
+
+    pipe (fit_the_first stall 1000 )
+      array {ash} | console | reverse | arrayw {ath}
+
+    say
+    loop a_ over ath
+      say a_
+    end a_
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+
+    arg = Rexx(args)
+
+    if arg.length > 0 then
+      say gullymet[0] || arg || gullymet[1]
+
+    Applay()
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

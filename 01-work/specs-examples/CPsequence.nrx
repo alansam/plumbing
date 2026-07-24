@@ -1,0 +1,21 @@
+/* NetRexx Pipes */
+options replace format comments java nobinary
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
+  dlm = '....o....O....o....O....o....O....o....O....o....O....o....O'
+
+  say dlm
+  say "pipe \-"
+  say -
+      "< CPsequence.nrx |" -
+      "spec 1.72 1.72 pad 0 number 73.4 right _0000_ 77 |" -
+      "cons"
+
+  Address pipe -
+      "< CPsequence.nrx |" -
+      "spec 1.72 1.72 pad 0 number 73.4 right _0000_ 77 |" -
+      "cons"
+  say RC
+
+  exit RC
+

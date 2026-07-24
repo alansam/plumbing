@@ -1,0 +1,9 @@
+
+pipe (f287 )
+  literal First~record Second~record| split | xlate /~/ / |
+  specs
+    word 1   5
+    pad *
+    word 2  15 |
+  console
+

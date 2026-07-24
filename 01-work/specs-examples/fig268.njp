@@ -1,0 +1,5 @@
+
+pipe (f268 )
+  literal First.record Second.record | split | xlate /./ / |
+  specs word 1  5 | cons
+

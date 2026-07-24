@@ -1,0 +1,8 @@
+
+pipe (f280 )
+  literal First~record Second~record | split | xlate /~/ / |
+  specs
+     w1 1
+     /banana/ nextword |
+  console
+

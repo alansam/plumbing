@@ -1,0 +1,8 @@
+--  © Copyright Alan Sampson 2026
+
+pipe (cp_classpath stall 1000 debug 0 )
+  command ./cp_clspth.rex |
+  split string /:/ |
+  specs word1 6 |
+  console
+

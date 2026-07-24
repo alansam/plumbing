@@ -1,0 +1,35 @@
+/* NetRexx Pipes */
+options replace format comments java nobinary
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
+  dlm = '....o....O....o....O....o....O....o....O....o....O....o....O'
+
+  say dlm
+  say "pipe \-"
+  say -
+      "strliteral x123c | spec 1-* c2p | console"
+
+  Address pipe -
+      "strliteral x123c | spec 1-* c2p | console"
+  say RC
+
+  say dlm
+  say "pipe \-"
+  say -
+      "strliteral x123c | spec 1-* c2p(0) | console"
+
+  Address pipe -
+      "strliteral x123c | spec 1-* c2p(0) | console"
+  say RC
+
+  say dlm
+  say "pipe \-"
+  say -
+      "strliteral x123c | spec 1-* c2p(1) | console"
+
+  Address pipe -
+      "strliteral x123c | spec 1-* c2p(1) | console"
+  say RC
+
+  exit RC
+

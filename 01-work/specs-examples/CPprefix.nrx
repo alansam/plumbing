@@ -1,0 +1,47 @@
+/* NetRexx Pipes */
+options replace format comments java nobinary
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
+  dlm = '....o....O....o....O....o....O....o....O....o....O....o....O'
+
+  say dlm
+  say "pipe \-"
+  say -
+      "< CPprefix.nrx |" -
+      "spec x0000 1 1-* v2c next |" -
+      "cons"
+
+  Address pipe -
+      "< CPprefix.nrx |" -
+      "spec x0000 1 1-* v2c next |" -
+      "cons"
+  say RC
+
+  say dlm
+  say "pipe \-"
+  say -
+      "< CPprefix.nrx |" -
+      "spec 1-* 1 /xx/ next | spec 1-* v2c 1 | spec 1;-3 1 |" -
+      "cons"
+
+  Address pipe -
+      "< CPprefix.nrx |" -
+      "spec 1-* 1 /xx/ next | spec 1-* v2c 1 | spec 1;-3 1 |" -
+      "cons"
+  say RC
+
+  say dlm
+  say "pipe \-"
+  say -
+      "< CPprefix.nrx |" -
+      "spec 1-* 1 /xx/ next | spec 1-* c2v | spec 1;-3 |" -
+      "cons"
+
+  Address pipe -
+      "< CPprefix.nrx |" -
+      "spec 1-* 1 /xx/ next | spec 1-* c2v | spec 1;-3 |" -
+      "cons"
+  say RC
+
+  exit RC
+

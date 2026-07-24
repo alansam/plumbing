@@ -1,0 +1,27 @@
+/* NetRexx Pipes */
+--  © Copyright Alan Sampson 2026
+
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class jar_stages extends stage public final
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method jar_stages public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    --pipe (js stall 1000 debug 0 )
+      -- command jar -tf /Users/alansampson/usr/local/NetRexx/lib/NetRexxF.jar |
+      -- locate /stages/ | xlate 2f 20 | xlate 2e 20 | specs word 5-5 1 |
+    pipe (js stall 1000 debug 0 )
+      diskr jar-stages.a |
+      join 4 / / | menufmt | console
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

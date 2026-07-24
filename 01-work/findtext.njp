@@ -1,0 +1,12 @@
+--  © Copyright Alan Sampson 2026
+
+pipe (findtext end ? runaway 60000 debug 0 )
+   command ls -F {2} |                      -- get the directory
+a: not getfiles |                           -- flip streams 0/1
+b: juxtapose |                              -- prefix with the file name
+   specs word1 1-40 word2-* next |          -- format the output
+   console ?                                -- display it
+a: |
+   locate /{1}/ |                           -- send lines to juxta to display
+b:
+

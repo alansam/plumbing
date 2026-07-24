@@ -1,0 +1,93 @@
+/* NetRexx */
+--  © Copyright Alan Sampson 2026
+
+options replace java comments format
+
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class OdePipe public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method main(args = String[]) public static
+
+  arg = Rexx(args)
+  parse version ver
+  parse source src
+  say 'progrem args:' ''''arg''''
+  say 'version:' ver
+  say 'source:' src
+
+  odeProcess()
+
+  exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method odeProcess() private static signals ThreadQ
+
+  anon = Rexx ''
+  anon[0] = 0
+  bump = anon[0] + 1; anon[0] = bump -- A Midsummer Night's Dream
+  anon[bump] = '''The course of true love never did run smooth'' -- A Midsummer Night''s Dream'
+  bump = anon[0] + 1; anon[0] = bump -- dream
+  anon[bump] = '''Love looks not with the eyes, but with the mind; and therefore is winged Cupid painted blind'' -- dream'
+  bump = anon[0] + 1; anon[0] = bump -- as you like it
+  anon[bump] = '''All the world''s a stage, and all the men and women merely players'' -- As You Like It'
+  bump = anon[0] + 1; anon[0] = bump -- Hamlet
+  anon[bump] = '''There is nothing either good or bad, but thinking makes it so'' -- Hamlet'
+  bump = anon[0] + 1; anon[0] = bump -- The Tempest
+  anon[bump] = '''We are such stuff as dreams are made on, and our little life is rounded with a sleep'' -- The Tempest'
+  bump = anon[0] + 1; anon[0] = bump -- As You Like It
+  anon[bump] = '''The fool doth think he is wise, but the wise man knows himself to be a fool'' -- As You Like It'
+
+  based = Rexx ''
+
+/*
+  loop line over anon
+    if line = 0 then iterate line
+    say line.right(3)':' anon[line]
+  end line
+ */
+  say '.'.copies(60)
+
+  pipe (odeEncode debug 0 )
+    stem anon |
+    console |
+    64encode |
+    stem based ?
+
+  -- show results stem
+  say
+  say '.'.copies(60)
+  loop line over based
+    if line = 0 then iterate line
+    say based[line]
+    say
+  end line
+  say '.'.copies(60)
+  say
+
+  unbase = Rexx ''
+
+  pipe (odeDecode debug 0 )
+    stem based |
+    64decode |
+    stem unbase ?
+    query version |
+    a: fanin |
+    console ?
+    query level |
+    a: ?
+
+  -- show results stem
+  say
+  say '.'.copies(60)
+  loop line over unbase
+    if line = 0 then iterate line
+    say unbase[line]
+  end line
+  say '.'.copies(60)
+  say
+
+  return
+

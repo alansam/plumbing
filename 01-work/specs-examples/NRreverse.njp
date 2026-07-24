@@ -1,0 +1,44 @@
+/* NetRexx Pipes */
+options replace format comments java nobinary
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
+  dlm = '....o....O....o....O....o....O....o....O....o....O....o....O' 
+
+  say dlm
+  say "pipe \-"
+  say -
+      "literal abc | spec 1-* NR /return data.reverse/ 1 | cons"
+  Address pipe -
+      "literal abc | spec 1-* NR /return data.reverse/ 1 | cons"
+  say RC
+  say
+
+  say dlm
+  say "pipe \-"
+  say -
+      "literal abc | spec 1-* NR @rev = data.reverse; return rev@ 1 | cons"
+  Address pipe -
+      "literal abc | spec 1-* NR @rev = data.reverse; return rev@ 1 | cons"
+  say RC
+  say
+
+  say dlm
+  say "pipe \-"
+  say -
+      "literal abc | spec 1-* NR %data = data.reverse% 1 | cons"
+  Address pipe -
+      "literal abc | spec 1-* NR %data = data.reverse% 1 | cons"
+  say RC
+  say
+
+  say dlm
+  say "pipe \-"
+  say -
+      "spec /abc/ NR /data = data.reverse/ 1 | cons"
+  Address pipe -
+      "spec /abc/ NR /data = data.reverse/ 1 | cons"
+  say RC
+  say
+
+  exit RC
+

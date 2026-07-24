@@ -1,0 +1,10 @@
+
+pipe (f286 )
+  comment : '/' followed by '*' is the start of a comment. Change delimiter from '/' to '!' |
+  literal First~record Second~record~longer | split | xlate /~/ / |
+  specs
+    word 1 1
+    word 3 10
+    !*!  next |
+  console
+

@@ -1,0 +1,46 @@
+/* NetRexx Pipes */
+--  © Copyright Alan Sampson 2026
+
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class tlookup extends stage public final
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method tlookup public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    /* Dictionary lookup */
+    pipe (tl end ? stall 1000 debug 170 )
+      < detail_records.a1 |
+      l: lookup 1.10 |
+      sort |
+      > matching_records.a3 ?
+      < master_records.a1 |
+      l: |
+      sort |
+      > unmatched_details.a3 ?
+      l: |
+      sort |
+      > unreferenced_masters.a3
+
+    exit
+
+/*
+  @see https://www.ibm.com/docs/en/SSB27U_7.1.0/com.ibm.zvm.v710.zvmappl/c2462521.pdf
+  page 479
+
+  /* Dictionary lookup */
+  'PIPE (end ?)',
+    '?< detail records',            /* Read details */
+    '|l: lookup 1.10',              /* Look up first ten columns */
+    '|> matching records a',        /* Details followed by masters */
+    '?< master records',            /* Read master file */
+    '|l:',                          /* Secondary streams */
+    '|> unmatched details a',       /* Details that didn't match */
+    '?l:',                          /* Tertiary streams */
+    '|> unreferenced masters a'     /* Masters that were not referenced */
+*/
+

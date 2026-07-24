@@ -1,0 +1,42 @@
+/* NetRexx Pipes */
+--  © Copyright Alan Sampson 2026
+
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class pipe_helpmenu extends stage public final
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method pipe_helpmenu public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    pipe (menu stall 1000 debug 0 )
+      < pipe-stages.a | locate | not locate /#/ |
+      specs word 1 1 | sort | join 6 / / | pipe_helpmenu | cons
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method run() public
+
+    loop forever
+      line = Rexx peekTo()
+      newline = Rexx ''
+      loop wd = 1 to line.words
+        newline = newline || line.word(wd).left(11)
+      end wd
+      newline = newline.strip('t')
+      output(newline)
+      readTo()
+    catch StageError
+      rc = rc()
+    end
+
+    exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

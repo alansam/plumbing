@@ -1,0 +1,5 @@
+
+pipe (f269 )
+  literal Here.is...the..first...record Here.is.the.second.record | split | xlate /./ / |
+  specs word 2-4 5 | cons
+

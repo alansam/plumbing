@@ -1,0 +1,10 @@
+
+pipe (f296 )
+  literal 1~One 2~Two 3~Three | split | xlate /~/ / |
+  specs
+       1-*        1
+    a: word 1     .
+       set #0:=#0+a
+       print #0  10 |
+  console
+

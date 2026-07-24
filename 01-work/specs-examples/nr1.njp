@@ -1,0 +1,18 @@
+
+pipe (nr1 sep ! end ? )
+  literal 1 one~2 two~3 three !
+  split str /~/ !
+  specs
+      1-*
+      NR /
+          _y=data.length;
+          parse data _l _r;
+          data=(_r.right(6) || _l.right(6));
+          _x=data.length;
+          data=''''data''''
+               || ', original len:'_y.right(3)
+               || ', final len:'_x.right(3);
+          return data;
+         / 2 !
+  console
+

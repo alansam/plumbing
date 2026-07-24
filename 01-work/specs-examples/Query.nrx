@@ -1,0 +1,35 @@
+/* NetRexx Pipes */
+options replace format comments java nobinary
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
+dlm = '....o....O'.copies(6)
+
+say dlm
+say "pipe \-"
+say -
+  "query version"
+address pipe -
+  "query version"
+say RC
+say
+
+say dlm
+say "pipe \-"
+say -
+  "query level"
+address pipe -
+  "query level"
+say RC
+say
+
+say dlm
+say "pipe \-"
+say -
+  "query source"
+address pipe -
+  "query source"
+say RC
+say
+
+exit RC
+

@@ -1,0 +1,33 @@
+/* NetRexx Pipes */
+--  © Copyright Alan Sampson 2026
+-- pipc options -gen (keep .nrx file) -keep (keep .java.keep file)
+
+pipe (cmsapar stall 1000 debug 170 )
+  command ./cp_query.rex |
+  drop 1 |
+  l: lookup 1.7 |
+  sort unique 1-7 |
+  > applied-apars.a1 ?
+  < required-apars.a1 |
+  split |
+  l: |
+  hole ?
+  l: |
+  > missing-apars.a1
+    
+  exit
+
+/*
+p-i-p-e (cmsapar stall 1000 debug 170 ) 
+  | command ./cp_query.rex| drop 1
+  | l: lookup 1.7
+  | sort unique 1-7
+  | > applied-apars.a
+  ? < required-apars.a
+  | split
+  | l:
+  | hole
+  ? l:
+  | > missing-apars.a
+*/
+

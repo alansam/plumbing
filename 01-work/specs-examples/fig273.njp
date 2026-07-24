@@ -1,0 +1,7 @@
+
+pipe (f273 )
+  literal First.record.is.long Second.record Third.one.even.more.words | split | xlate /./ / |
+  specs
+    word 2;-2 1 |
+    cons
+

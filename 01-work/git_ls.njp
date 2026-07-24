@@ -1,0 +1,21 @@
+/* NetRexx Pipes */
+options replace java comments format
+
+-- peepe "literal < > >> -- | split | a: fanin | console ? literal abc | a: "
+
+  gitpipedir = './netrexx-code/src/org/netrexx/njpipes/stages/'
+  extras = '< > >> -- 64encode 64decode'
+
+  pipe (ls stall 1000 debug 0 )
+    literal {extras} |
+    split |
+    a: fanin |
+    sort |
+    > git-stages.a1 ?
+    command ls {gitpipedir} |
+    xlate /./ / |
+    specs word 1 1 |
+    a:
+
+  exit
+

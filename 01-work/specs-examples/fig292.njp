@@ -1,0 +1,14 @@
+
+pipe (f292 end ? )
+  ?
+     < 292first_file.a1 |
+  s: spec
+     1-*     1
+     select  1
+     1-*    40 |
+    > 292output_file.a1 ?
+    < 292second_file.a1 |
+  s: ?
+    < 292output_file.a1 |
+    console
+

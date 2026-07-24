@@ -1,0 +1,7 @@
+
+pipe (f272 )
+  literal First.record.is.long Second.record | split | xlate /./ / |
+  specs
+    word -2 1 |
+    cons
+

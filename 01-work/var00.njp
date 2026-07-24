@@ -1,0 +1,33 @@
+/* NetRexx Pipes */
+--  © Copyright Alan Sampson 2026
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class var00 extends stage public final
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method var00 public
+
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method main(argc = String[]) public static
+  π = Math.PI
+
+  mval = 0
+
+  pipe (pi end ? stall 1000 debug 0 )
+    var_stage π |
+    stem mval |
+    console
+
+  say Rexx('π').right(4) '=' mval[1]
+  say
+
+  piperc = var00().rc()
+  say 'var00 RC='piperc
+
+  exit (piperc * (piperc <> 12)) -- Not sure why 12 is OK but I see this a lot in examples
+

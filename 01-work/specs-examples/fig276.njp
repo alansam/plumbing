@@ -1,0 +1,7 @@
+
+pipe (f275 )
+  literal ~~a~=~17 x.18=~23 | split | xlate /~/ / |
+  spec
+    substring fieldsep . field 1 of substr word 1 of fs = f 1 1 |
+    cons
+

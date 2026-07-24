@@ -1,0 +1,13 @@
+
+pipe (f294 end ? )
+  ?
+     < 294input_file.a1 |
+  s: spec
+        word 1  1
+        write
+        word 2  1
+        outstream 1 |
+     > 294first_words.a1 ?
+  s: |
+     > 294second_words.a1
+

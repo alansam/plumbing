@@ -1,0 +1,32 @@
+/* NetRexx Pipes */
+--  © Copyright Alan Sampson 2026
+
+pipe (callt1 debug 0 )
+  literal test |
+  calltest {} |
+  specs words 1 1-10 right |
+  console
+
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class calltest extends stage public final
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method run() public
+    do
+      a = arg()
+
+      callpipe (cp1 debug 0 ) gen {a} | *out:
+
+      loop forever
+        line = peekto()
+        output(line)
+        readto()
+      end
+    catch StageError
+      rc = rc()
+    end
+
+    exit(rc * (rc <> 12))
+
