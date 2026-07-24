@@ -1,0 +1,7 @@
+
+pipe (addtest01 stall 1000 debug 63 ) |
+  gen 10 |
+  specs 1-* 3 |
+  linktest |
+  console?
+

@@ -1,0 +1,5 @@
+
+pipe (rcapplych2nrx stall 1000 debug 63 )
+  < RCApplyCh.netrexx |
+  > RCApplyCh.nrx
+

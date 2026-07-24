@@ -1,0 +1,8 @@
+pipe (newfiles)
+  command ls -laFTl |
+  specs 42-47 1 58-* 8 |
+  specs 7-11 1 1-6 7 12-* 13 |
+  locate /2026 Jun 19/ |
+  sort |
+  console
+

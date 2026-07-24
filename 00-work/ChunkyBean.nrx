@@ -1,0 +1,108 @@
+/* NetRexx */
+options replace java comments format
+
+package org.netrexx
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class ChunkyBean public implements Serializable
+
+  properties private constant unused
+    serialVersionUID = long 1
+
+  properties private constant
+    true_  = boolean (1 == 1)
+    false_ = boolean (\true_)
+
+  properties private
+    name  = Rexx
+    size  = Rexx
+    id    = Rexx
+    valid = boolean
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method ChunkyBean(nm = '', sz = 0, i_ = 0) public
+  name  = nm
+  size  = sz
+  id    = i_
+  if (name = '' | size = 0 | id = 0) then
+    valid = false_
+  else
+    valid = true_
+
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method ChunkyBean(other = ChunkyBean) public
+  this(other.getName, other.getSize, other.getID)
+  valid = other.isValid
+
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method getName() public returns Rexx
+  return name
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method setName(nm = Rexx) public
+  name = nm
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method getSize() public returns Rexx
+  return size
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method setSize(sz = Rexx) public
+  size = sz
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method getID() public returns Rexx
+  return id
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method setID(i_ = Rexx) public
+  id = i_
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method isValid() public returns boolean
+  return valid
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method setValid(vld = boolean) public
+  valid = vld
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method toString() public returns String
+  if isValid then
+    val = 'T'
+  else
+    val = 'F'
+
+  beaninfo = '<' || getID.right(6) || ':' ||-
+                    getSize.right(5) || ':' ||-
+                    val || ':' ||-
+                    getName ||'>'
+
+  return String(beaninfo)
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method equals(o_ = Object) public returns boolean
+  if (o_ == this) then
+    return true_
+  if o_.toString == toString then
+    return true_
+  else
+    return false_
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method hashCode() public returns int
+  hash = int 7
+  hash = 31 * hash + id.hashCode
+  hash = 31 * hash + size.hashCode
+  hash = 31 * hash + name.hashCode
+
+  return hash
+

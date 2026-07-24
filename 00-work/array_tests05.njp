@@ -1,0 +1,72 @@
+/* array test
+*/
+
+/*
+  20/ 7/19 From vectort1.njp. Jeff Hennick
+  2026-06-25  From vectort1.njp. Alan Sampson
+*/
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+class array_tests05 public
+--trace results
+  method arrayList1() public static
+
+    F = ArrayList()
+    T = ArrayList()
+
+    F.add(rexx 5)
+    F.add(rexx 4)
+    F.add(rexx 3)
+    F.add(rexx 2)
+    F.add(rexx 1)
+
+    Fs = Rexx ''
+    Ts = Rexx ''
+
+    loop ix = 0 to F.size - 1
+      say 'F: ' F.get(ix)
+      Fs[ix + 1] = Rexx F.get(ix)
+    end ix
+    Fs[0] = F.size
+
+    say
+    say '.'.copies(60)
+
+    pipe (arraylist stall 1000 -gen debug 63 )
+          stem Fs | console | stem Ts
+
+    say
+    say '.'.copies(60)
+
+    loop ix = 1 to Ts[0]
+      say ix':' Ts[ix]
+      T.add(Ts[ix])
+    end ix
+
+    say F.toString
+    say T.toString
+    say
+
+    --  say T
+    if T.toString = "[5, 4, 3, 2, 1]" then
+      say "#1 array *OK*"
+    else
+      say "#1 array **FAIL**"
+
+    /*
+       e = T.elements()
+       loop while e.hasMoreElements()
+          say e.nextElement()
+       end
+    */
+
+    return
+
+  method main(args = String[]) public static
+
+    arrayList1()
+
+    exit
+

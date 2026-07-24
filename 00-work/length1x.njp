@@ -1,0 +1,26 @@
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Takes the length of each line it receives.
+-- Inserts the length in decimal and hex at the front of the line.
+-- Returns the edited line back to the pipe.
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class length1x extends stage final
+
+  method run()
+    do
+      loop forever
+      line = Rexx peekto()
+      ln = line.length
+      output(' 'ln.right(2, 0) -
+             '0x' || ln.d2x.right(2, 0) line)
+      readto()
+    end
+    catch StageError
+      rc = rc()
+    end
+
+    exit(rc * (rc <> 12))
+

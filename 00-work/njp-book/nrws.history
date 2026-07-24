@@ -1,0 +1,35 @@
+1781884286303:literal Pipeline processor loaded. | console
+1781884351391:pipe literal Pipeline processor loaded. | console
+1781884529875:pipe literal a man a plan a canal paname | reverse | console
+1781884546976:pipe literal a man a plan a canal panama | reverse | console
+1781884731102:quit
+1781884735096:exit
+1781889255836:pipe command ls -laFTl | console
+1781889544084:pipe command ls -laFTl | specs 42-47 1 58-∗ 8 | console
+1781889595336:pipe command ls -laFTl | specs 42-47 1 | console
+1781889665321:pipe command ls -laFTl | specs 42-47 1 58-∗ 4 | console
+1781889690309:pipe command ls -laFTl | specs 42-47 1 57-∗ 8 | console
+1781889698979:pipe command ls -laFTl | specs 42-47 1 52-∗ 8 | console
+1781889730653:pipe command ls -laFTl | specs 42-47 1 52-61 8 | console
+1781889769667:pipe command ls -laFTl | specs 42-47 1 52-61 8 * | console
+1781889777593:pipe command ls -laFTl | specs 42-47 1 52-61 8 - | console
+1781889935245:pipe command ls -laFTl | specs 42-47 1 58-* 8 | console
+1781889962175:pipe command ls -laFTl | specs 42-47 1 58-* 8 | sort | console
+1781890019818:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7\n12-* 12 | sort | console
+1781890084170:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 12 | sort | console
+1781890213339:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 12 | locate /2026 Jun 18/ | sort | console
+1781890235560:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 12 | locate /2026 Jun/ | sort | console
+1781890270595:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 12 | locate /2026 Jun 19/ | sort | console
+1781890276024:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 12 | locate /2026 Jun 1/ | sort | console
+1781890430437:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-7 7 12-* 12 | locate /2026 Jun 19/ | sort | console
+1781890456514:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 6 12-* 12 | locate /2026 Jun 19/ | sort | console
+1781890467411:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 12 | locate /2026 Jun 19/ | sort | console
+1781890486855:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 12 | locate /2026 Jun 1/ | sort | console
+1781890503368:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 8 12-* 12 | locate /2026 Jun 1/ | sort | console
+1781890525770:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-7 7 12-* 12 | locate /2026 Jun 1/ | sort | console
+1781890570718:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 1-6 7 12-* 12 | locate /2026 Jun 1/ | sort | console
+1781890593467:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 1-6 7 7-11 1 12-* 12 | locate /2026 Jun 1/ | sort | console
+1781890618050:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 12 | locate /2026 Jun 1/ | sort | console
+1781890692495:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 13 | locate /2026 Jun 1/ | sort | console
+1781890700072:pipe command ls -laFTl | specs 42-47 1 58-* 8 | specs 7-11 1 1-6 7 12-* 13 | locate /2026 Jun 19/ | sort | console
+1781890816577:exit

@@ -1,0 +1,52 @@
+/* NetRexx */
+options replace java comments format
+
+package org.netrexx
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method main(args = String[]) public static
+  arg = Rexx(args)
+
+  parse version ver
+  parse source src
+
+  say 'callers args:' ''''arg''''
+  say '     version:' ''''ver''''
+  say '      source:' ''''src''''
+  say
+
+  bean = [ ChunkyBean -
+    ChunkyBean('I am an kween bean', 10, 1000), -
+    ChunkyBean('I am but an ''umble bumble bean', 5, 1005), -
+    ChunkyBean('I am an superior bean', 20, 2500), -
+    ChunkyBean('I am an buzzy worker bean', 15, 1010), -
+    ChunkyBean('I am an baked bean, dude', 11, 1020), -
+    ChunkyBean(), -
+    ChunkyBean() -
+  ]
+  bean[5] = ChunkyBean(bean[1])
+  bean[5].setID(bean[1].getID + 1)
+  bean[5].setSize(bean[1].getSize - 1)
+
+  say '.'.copies(60)
+  loop bn over bean
+    if bn.isValid then
+      status = 'true'
+    else
+      status = 'false'
+
+    say ' bean:' bn.getID.right(5)', \-'
+    say ' size:' bn.getSize.right(3)', \-'
+    say 'valid:' status.right(5)', \-'
+    say ' name:' bn.getName
+  end bn
+  say
+
+  say '.'.copies(60)
+  loop bn over bean
+    say bn.toString
+  end bn
+  say
+
+  return
+

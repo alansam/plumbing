@@ -1,0 +1,27 @@
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- As shown on Wikipedia entry for CMS Pipes
+-- @see https://en.wikipedia.org/wiki/CMS_Pipelines
+--   PIPE (end ?) 
+--       < input txt 
+--     | a: locate /Hello/ 
+--     | insert / World!/ after
+--     | i: faninany
+--     | > newfile txt a
+--     ? a:
+--     | xlate upper
+--     | i:
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
+pipe (wikicms stall 1000 )
+    < detail.data |
+    a: locate /Hello/ |
+    insert / World!/ after |
+    i: faninany |
+    > detailNew.data ?
+    a: |
+    xlate upper |
+    i: ?
+    < detailNew.data |
+    spec 1-* 8 |
+    console
+

@@ -1,0 +1,139 @@
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class RCApply
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method doIt(arg) public static
+
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+
+    ash1 = Hashtable()
+    ash2 = Hashtable()
+    ash3 = Hashtable()
+    ash_ = Hashtable()
+
+    ash1.put(Rexx 'owner', Rexx 'Bobby')
+    ash1.put(Rexx 'user',  Rexx 'Tommy')
+    ash1.put(Rexx 'item1', Rexx 'toolbox')
+
+    ash2.put(Rexx 'owner', Rexx 'Betty')
+    ash2.put(Rexx 'user',  Rexx 'Timmy')
+    ash2.put(Rexx 'item1', Rexx 'toolbox')
+
+    ash3.put(Rexx 'owner', Rexx 'Billy')
+    ash3.put(Rexx 'user',  Rexx 'Tammy')
+    ash3.put(Rexx 'item1', Rexx 'toolbox')
+
+    ash_.put(Rexx 'owner', Rexx 'Betty')
+
+--  ashes = [ ash1, ash2, ash3 ]
+
+    trashes = [ Rexx 6, 'O,', 'for', 'a', 'muse', 'of', 'fire' ]
+    trashed = [ Rexx 7, 10, 44, 79, 17, 1, 37, 42 ]
+    trashy  = Rexx[8]
+    /*
+    trashes = 0
+    trashes[0] = 0;
+    ct = trashes[0] + 1; trashes[0] = ct; trashes[ct] = 10
+    ct = trashes[0] + 1; trashes[0] = ct; trashes[ct] = 44
+    ct = trashes[0] + 1; trashes[0] = ct; trashes[ct] = 79
+    ct = trashes[0] + 1; trashes[0] = ct; trashes[ct] = 101
+    ct = trashes[0] + 1; trashes[0] = ct; trashes[ct] = 37
+    ct = trashes[0] + 1; trashes[0] = ct; trashes[ct] = 42
+    */
+
+    say
+    say '.'.copies(60)
+    say 'doIt1:'
+    say
+
+    pipe (doIt1 stall 1000 )
+      literal {arg} |
+      insert /~~~ {gullymet[0]}/ before |
+      insert /{gullymet[1]} ~~~/ after |
+      specs 1-* 10 |
+      console
+
+    say
+    say '.'.copies(60)
+    say 'doIt2:'
+    say
+
+    pipe (doIt2 stall 1000 )
+      dict {ash1} |
+      console |
+      dict {ash_}
+
+    say
+    say ' ~'.copies(30)
+    say 'doIt2_ash_:'
+    say
+
+    pipe (doIt2_ash_ stall 1000 )
+      dict {ash_} |
+      specs 1-* 10 |
+      console
+
+    say
+    say '.'.copies(60)
+    say 'doIt3:'
+    say
+
+    pipe (doIt3 stall 1000 )
+      array {trashed} |
+      sort |
+      arrayw {trashy}
+
+    say
+    say ' ~'.copies(30)
+    say 'doIt3_trashy:'
+    say
+
+    pipe (doIt3_trashy stall 1000 )
+      array {trashy} |
+      specs 1-* 10 |
+      console
+
+    say
+    say '.'.copies(60)
+    say 'doIt4:'
+    say
+    nr = trashes[0] - 1
+
+    pipe (doIt4 stall 1000 )
+      arrayr {trashes} |
+      join {nr} / / |
+      specs 1-* 10 |
+      console
+
+    say
+    say ' ~'.copies(30)
+    say 'ash_:'
+    say
+
+    loop key over ash_
+      say (Rexx key).left(6)':' ash_.get(key)
+    end key
+
+    say
+    say ' ~'.copies(30)
+    say 'trashy:'
+    say
+
+    loop tr over trashy
+      say tr
+    end
+    
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+  
+    arg = Rexx(args)
+
+    doIt(arg)
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

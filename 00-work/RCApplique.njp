@@ -1,0 +1,38 @@
+-- CApplique pipe
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class RCApplique
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method RCApplique1() public static
+
+    Front = Hashtable()
+    Tail  = Hashtable()
+
+    Front.put(rexx 'A', rexx 5)
+    Front.put(rexx 'B', rexx 4)
+    Front.put(rexx 'C', rexx 3)
+    Front.put(rexx 'D', rexx 2)
+    Front.put(rexx 'E', rexx 1)
+
+    Tail.put(rexx 'Z', rexx 99)
+
+    pipe (RCApplique1 stall 1000 -gen)
+      hash {Front} | console | hash {Tail}
+
+    say
+    say '.'.copies(60)
+
+    loop i_ over Tail
+      say i_ Tail.get(i_)
+    end
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) static
+
+    RCApplique1()
+
+    exit
+

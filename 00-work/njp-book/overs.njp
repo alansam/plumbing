@@ -1,0 +1,23 @@
+
+pipe (overall) literal 'o, for muse of fire' | overs 10 11 | console
+--pipe (overall) < output.lst | overs 10 11 | console
+
+-- over.nrx
+import org.netrexx.njpipes.pipes.
+
+class overs extends stage final
+
+  method run() public
+--/trace results;nop
+--a = getRexx(arg())
+  a = arg()
+--loop i over a
+--  output(a[i])
+  loop i_ = 1 to a.words()
+    val = a.word(i_)
+    output(val)
+  catch StageError
+    rc = rc()
+  end
+  exit(rc * (rc <> 12))
+

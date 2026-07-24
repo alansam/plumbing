@@ -1,0 +1,22 @@
+-- examples\calltest.njp
+pipe (callt1) literal test | calltest {} | console
+
+import org.netrexx.njpipes.pipes.
+
+class calltest extends stage final
+
+  method run() public
+    do
+      a = arg()
+      callpipe (cp1) gen {a} | *out0:
+      loop forever
+        line = peekto()
+        output(line)
+        readto()
+      end
+    catch StageError
+      rc = rc()
+    end
+
+    exit(rc * (rc <> 12))
+

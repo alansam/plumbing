@@ -1,0 +1,17 @@
+-- similar to examples\addtest.njp
+
+  a = 100
+  b = 'some text for literal'
+
+  addpipe (linktest debug 63 ) literal {b} | dup {a} | *in0:
+
+  do
+    loop forever
+      line = Rexx readto()
+    end
+  catch StageError
+    rc = rc()
+  end
+
+  exit(rc * (rc <> 12))
+

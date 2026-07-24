@@ -1,0 +1,36 @@
+/* NetRexx */
+options replace java comments format
+
+class testpipe uses RexxTime
+
+  method testpipe(avar = Rexx)
+    say 'elapsed time t1:' time('E')
+    F = Rexx 'abase'
+    T = Rexx 1
+    F[0]=5
+    F[1]=222
+    F[2]=3333
+    F[3]=1111
+    F[4]=55
+    F[5]=444
+
+    say 'F[0]='F[0]
+    say 'elapsed time t2:' time('E')
+    pipe (apipe stall 1000 )
+      stem F | sort | prefix literal {avar} | console | stem T
+    say 'elapsed time t3:' time('E')
+
+    loop i=1 to T[0]
+      say 'T['i']='T[i]
+    end
+    say 'elapsed time t4:' time('E')
+
+    return
+
+  method main(args = String[]) static
+    say 'elapsed time 1:' time('R')
+    testpipe(Rexx(args))
+    say 'elapsed time 2:' time('E')
+
+    return
+
