@@ -1,5 +1,6 @@
 # plumbing
-NetRexx Pipelines experiments and tests.
+NetRexx Pipelines (an implementation in NetRexx of IBM's CMS/Hartmann Pipelines).
+This repository contains a collection of experiments and tests.
 
 ## Introduction
 Taken from the preamble of the *NetRexx Pipelines Guide and Reference*
