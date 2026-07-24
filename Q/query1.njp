@@ -1,0 +1,31 @@
+/* NetRexx Pipe */
+/* Show what a server is running */
+
+-- renamed to query1 to avoid collision with internal method query()
+class query1 public
+
+  method query1 public
+
+    a = rexx ''
+
+    useip = "www.netrexx.org"
+    port = 80
+
+    /* TODO: find out why putting the pipe connector character `|'
+     *       in front causes the comilation to fail
+     */
+    PIPE (what end ? debug 127)
+      literal GET /index.nsp\r\r\n |
+      tcpclient {useip} {port} linger 100 timeout 4000 |
+      rexx to stem a
+
+    say '.'.copies(60)a
+    say '  output records:' a[0]
+    say '  ' a[1]
+
+  method main(args = String[]) public static
+
+    query1()
+
+    exit
+

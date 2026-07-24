@@ -1,0 +1,24 @@
+1782083310760:pipe literal o, for a muse of fire | console
+1782083328983:pipe literal o, for a muse of fire | 64encode | console
+1782083337577:pipe literal o, for a muse of fire | 64encode basic | console
+1782083347826:pipe literal o, for a muse of fire | 64encode url | console
+1782083373625:pipe literal o, for a muse of fire | 64encode mime | console
+1782083408442:pipe literal o, for a muse of fire | 64encode mime | console | 64decode | console
+1782083454828:pipe literal o, for a muse of fire | 64encode mime |a: console ? a: fanin |  64decode | console
+1782083473328:pipe literal o, for a muse of fire | 64encode mime a: | console ? a: fanin |  64decode | console
+1782083508839:exit
+1782083612304:pipe literal o, for a muse of fire | 64encode mime | a: fanin | console ? 64decode | a:
+1782083652716:pipe literal o, for a muse of fire | 64encode mime | a: fanin | console ? 64decode a:
+1782083665339:pipe literal o, for a muse of fire | 64encode mime | a: fanin | console ? 64decode | a: ?
+1782083674314:pipe literal o, for a muse of fire | 64encode mime | a: fanin | console ? 64decode | console
+1782083696799:pipe literal o, for a muse of fire | 64encode mime | a: fanin | console ? literal ---- | console
+1782083711745:pipe literal o, for a muse of fire | 64encode mime | a: fanin | console ? literal ---- | a:
+1782083745751:pipe literal o, for a muse of fire | 64encode mime | a: fanin | console ? literal ---- | a: 64decode
+1782083756086:pipe literal o, for a muse of fire | 64encode mime | a: fanin | console ? literal ---- | 64decode | a:
+1782083765197:pipe literal o, for a muse of fire | 64encode mime | a: fanin | console ? | 64decode | a:
+1782083828460:pipe literal o, for a muse of fire | 64encode mime | fanout | a: fanin | console ? | 64decode | a:
+1782083859203:pipe literal o, for a muse of fire | 64encode mime | 64decode url | console
+1782083866964:pipe literal o, for a muse of fire | 64encode mime | 64decode mime | console
+1782083876456:pipe literal o, for a muse of fire | 64encode | 64decode | console
+1782083883398:pipe literal o, for a muse of fire | 64encode | console
+1782083898025:exit

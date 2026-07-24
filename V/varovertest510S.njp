@@ -1,0 +1,86 @@
+/* NetRexx Pipes */
+-- © Copyright The Rexx Language Association, 2011-2026
+/*
+ * As with the original var_test01 this fails to compile because there's a problem with
+ * the compiler not correctly adding all the Rexx variables to the setContext() API.
+ *
+ * Compiling with -gen I was able to edit the NRX to add both variables to setContext.
+ * Compiled with the NetRexxC compiler the generated source files create valid class files.
+ *
+ * 2026-06-25 - Alan Sampson
+ */
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class varovertest510S public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method varovertest510S public
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+    a = Rexx 10
+    b = Rexx 15
+
+    b[0] = 3
+    b[1] = 'value 1'
+    b[2] = 'value 2'
+    b[3] = 'value 3'
+
+    say 'a: ' a
+    say 'b: ' b
+
+    loop bi = 0 to b[0]
+      say 'b['bi'] =' b[bi]
+    end bi
+
+    say
+
+    pipe (varoverpipe5 end ?)
+      var a |
+      a: varover b |
+      b: faninany |
+      console ?
+      a: |
+      b:
+
+    say
+    say 'a: ' a
+    say 'b: ' b
+
+    loop bi = 0 to b[0]
+      say 'b['bi'] =' b[bi]
+    end bi
+
+    exit
+
+/** var -- Read a NetRexx Variable Value
+
+ >>--+--VAR--------+--variable_name---><
+      +--VAR_STAGE--+
+
+ Note:
+ NetRexx Pipelines is read variable only; must be first stage in the pipe.
+ Must be the first stage in the pipe.  This can not set a NetRexx value.
+ /
+ VAR_STAGE is the internal class name, VAR is the generally used alias./
+ This is avoid conflict with a Java name./
+ */
+
+/** varover -- Extract all the indexes of a rexx variable.
+
+  >>--VAROVER--var_name---><
+
+  Note: NetRexx Pipelines only; not CMS
+        If the secondary output stream is connected, the root is passed on it.
+ */
+
+/** faninany -- Copy Records from Whichever Input Stream Has One
+
+ >>--FANINANY-+------------+-----><
+              +-STRICT-(1)-+
+
+  (1) CMS only
+
+ */
+

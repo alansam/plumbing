@@ -1,0 +1,13 @@
+/** ptimer -- Time Pipeline Operation
+ 
+ >>---PTIMER--+-----+---><
+              +--R--+
+ 
+ Notes:
+  R option: Reset the Timer
+  NetRexx Pipelines only.
+ */
+
+pipe (speed)
+   literal 123 | dup 99999 | ptimer | hole
+

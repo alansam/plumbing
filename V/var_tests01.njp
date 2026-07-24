@@ -1,0 +1,72 @@
+-- var_tests01
+
+/** var -- Read a NetRexx Variable Value
+
+>>--+--VAR--------+--variable_name---><
+    +--VAR_STAGE--+
+
+Note:
+NetRexx Pipelines only.
+Must be the first stage in the pipe.  This can not set a NetRexx value.
+
+VAR_STAGE is the internal class name, VAR is the generally used alias.
+This is avoid conflict with a Java name.
+
+**/
+
+/*
+ 24/12/04 New. Jeff Hennick
+*/
+
+/*
+  As written the pipe compiler throws this error:
+18 +++ p$njp1.setContext(res)
+    +++        ^^^^^^^^^^
+    +++ Error: The method 'setContext(netrexx.lang.Rexx)' cannot be found in class 'var_tests01_var_test01' or a superclass
+
+  It can be overcome bu -gen creating the NRX intermediate files and editing var_test01.nrx to add avar to the
+  setContext() call: p$njp1.setContext(avar, res).
+
+  A better solution is to treat "res" as the input variable as well as the stem, which is perfectly valid NetRexx.
+  2026-06-25 Alan Sampson
+*/
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+class var_tests01 public
+  method main(args = String[]) public static
+
+    res = Rexx ''
+
+    avar = "Test of VAR stage"
+    avar = avar -- so NetRexx does not think it is not being used and give a warning
+
+    res = avar -- 2026-06-25 AS
+    res[0] = 0 -- make sure these elements are set - AS 2026-06-25
+    res[1] = 0
+
+    -- 2026-06-25 - proof of concept:
+    say 'Before invoking the pipe:'
+    say '  avar:' avar
+    say '  res: ' res
+    say '  res[0]' res[0]
+    say '  res[1]' res[1]
+    say
+
+    -- 2026-06-25 AS -    avar <- changed to res
+    pipe (var_test01) var res | stem res
+
+    if avar = res[1] then say "1 var *OK*"
+    else say "1 var **FAIL** actual" res[1] "expected" avar
+
+    -- 2026-06-25 - proof of concept:
+    say
+    say 'On return from pipe:'
+    say '  avar:' avar
+    say '  res: ' res
+    say '  res[0]' res[0]
+    say '  res[1]' res[1]
+
+    exit
+

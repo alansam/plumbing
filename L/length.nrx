@@ -1,0 +1,21 @@
+/* NetRexx */
+options replace java comments format
+
+import org.netrexx.njpipes.pipes.
+
+class length extends stage
+  
+  method run()
+    do
+      loop forever
+        line = rexx peekto()
+        l = line.length
+        output(l.right(2, 0) l.d2x.right(2, 0) line)
+        readto()
+      end
+    catch StageError
+      rc = rc()
+    end
+
+    exit(rc * (rc <> 12))  
+

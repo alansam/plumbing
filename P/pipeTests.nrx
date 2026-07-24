@@ -1,0 +1,10 @@
+/* NetRexx */
+options replace java comments format
+
+/* a set of tests for the Pipelines component of NetRexx */
+
+address system -- command
+'ls -laF' -- 'll'
+
+if RC <> 0 then say  'failed RC=' RC 
+

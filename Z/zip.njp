@@ -1,0 +1,3 @@
+
+pipe (zippy stall 1000 ) command ls lib/*.class | a: fanout ? a: | zip Zclasses.zip | console
+

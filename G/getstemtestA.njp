@@ -1,0 +1,69 @@
+/* NetRexx Pipes */
+/** getstems
+ 
+ >>--GETSTEMS--><
+ 
+ Input stream 0 should contain rexx objects containing stems.  The getstems stage
+ will output the contents of the stem on stream 0.  If output stream 1 is
+ connected, the root is placed there.  Any severed streams will cause the
+ stage to exit.  Passing a non rexx stem object will cause the stage to exit
+ with return code 13
+ 
+ */
+
+class getstemtestA extends Object
+
+  method getstemtestA()
+
+    a = Rexx 'abase'
+    b = Rexx 1
+
+    b[0] = 1
+    b[1] = 'some data'
+
+    a[0]=5
+    a[1]=11
+    a[2]=222
+    a[3]=3333
+    a[4]=444
+    a[5]=55
+
+    say 'before pipe:'
+    say 'a:' a
+    loop ax = 0 to a[0]
+      say 'a['ax']:' a[ax]
+    end ax
+    say 'b;' b
+    loop bx = 0 to b[0]
+      say 'b['bx']:' b[bx]
+    end bx
+
+    say '.'.copies(60)
+
+    pipe (testpipe) var a | append var b | getstems | console
+
+                                                  -- wait for stdout...
+    say '.'.copies(60)
+
+    say 'after pipe:'
+    say 'a:' a
+    loop ax = 0 to a[0]
+      say 'a['ax']:' a[ax]
+    end ax
+    say 'b;' b
+    loop bx = 0 to b[0]
+      say 'b['bx']:' b[bx]
+    end bx
+
+    do
+      java.lang.Thread.currentThread().sleep(2000)
+    catch InterruptedException
+    end
+
+  method main(a=String[]) static
+
+    getstemtestA()
+
+    exit
+
+

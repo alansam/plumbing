@@ -1,0 +1,22 @@
+/* addpipe tests
+*/
+
+/*
+  21/ 2/16 Updated test pipe names.  Jeff Hennick
+*/
+
+pipe (add_tests02)
+
+ o: faninany |
+    sort singleok |
+    specs 2-* 1 |
+    cons ?
+
+-- addpipetest1 ?
+   gen 20 |
+   addpipetest1 |
+   c1: compare any ~2# 1 addpipetest1~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal a 10;a 20 |
+   split ; |
+   c1: ?

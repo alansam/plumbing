@@ -1,0 +1,1 @@
+(record.pos(' G')>0)& \ (record.pos('oo')>0)
