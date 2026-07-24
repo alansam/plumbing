@@ -36,3 +36,6 @@ tmp/
 rosettacode
 netrexx-code
 nrws-examples
+
+# NetRexx & Pipelines work files
+nrws.history
