@@ -1,0 +1,6 @@
+
+pipe (nr000xd )
+    specs
+      /012/ NR /data = data.reverse/ 1 |
+    console ?
+

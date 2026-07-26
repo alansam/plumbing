@@ -1,0 +1,7 @@
+pipe (nr000xb )
+    literal ghi~jkl~uvw |
+    split str /~/ |
+    specs
+        1-* NR @rev = data.reverse; return rev@ 1 |
+    console ?
+

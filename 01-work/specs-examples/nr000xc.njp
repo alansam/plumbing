@@ -1,0 +1,9 @@
+
+pipe (nr000xc )
+    literal mno~pqr~st |
+    split str /~/ |
+    comment : As a convenience, if the last statement is not RETURN, the statement "return data" is automatically added. |
+    specs
+        1-* NR %data = data.reverse% 1 |
+    console ?
+

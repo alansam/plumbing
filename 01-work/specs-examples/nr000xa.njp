@@ -1,0 +1,8 @@
+
+pipe (nr000xa )
+    literal abc~def~xyz |
+    split str /~/ |
+    specs
+        1-* NR /return data.reverse()/ 1 |
+    console ?
+

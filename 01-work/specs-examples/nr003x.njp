@@ -1,0 +1,9 @@
+
+  pipe (nr003x )
+    literal abc~def~xyz |
+    split str /~/ |
+    comment : Using comma to separate groups: |
+    specs
+        T:1-* 10-16, 1.2 NR @rev = field['T'].reverse; return rev@ 1 |
+    console ?
+

@@ -1,0 +1,10 @@
+
+  pipe (nr002xb )
+    literal abc~def~xyz |
+    split str /~/ |
+    comment : Using Field Ids (and "." for output position). |
+    specs
+        T:1-* .
+        t:1 NR @rev = field['T'].reverse; return rev@ 1 |
+    console ?
+

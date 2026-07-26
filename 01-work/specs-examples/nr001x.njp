@@ -1,0 +1,9 @@
+
+  pipe (nr001x )
+    literal abc~def~xyz |
+    split str /~/ |
+    comment : Using COUNTERS: |
+    specs
+        1-* NR /counter[7]=counter[7]+1;ret=data.reverse counter[7];return ret/ 1 |
+    console ?
+
