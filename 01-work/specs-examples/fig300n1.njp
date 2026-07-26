@@ -1,0 +1,9 @@
+
+pipe (f300)
+  literal 1~One 2~Two 3~Three | split | xlate /~/ / |
+  specs
+      1-* 1
+   T: word 1
+      NR @counter[1]=counter[1]+field['T'];return counter[1]@ 10 |
+  console
+
