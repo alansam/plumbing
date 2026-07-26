@@ -1,0 +1,10 @@
+
+pipe (f298 )
+  literal 1~One 2~Two 3~Three | split | xlate /~/ / |
+  specs
+      qualify input str 1
+      print bin  1
+      set #0:=#0+bin
+      print #0 n |
+  console
+
