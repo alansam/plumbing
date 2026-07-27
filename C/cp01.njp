@@ -1,0 +1,10 @@
+
+pipe (cp01 )
+  o: faninany |
+     cons ?
+
+     literal a1a a3c e5e g7c |
+     split |
+     changeparse from / 2 $1 +1/ to /The second letter is '$1'. $$1 won't be changed./ |
+  o: ?
+

@@ -30,8 +30,8 @@ And a final record added.
  Any keyword phrases must, in any order, follow any non-keyworded FROM & TO phrases.
 
  Examples:
-   changeparse  / 2 $1 +1/ /The second letter is "$1". $$1 won't be changed./
-   changeparse from / 2 $1 +1/ to /The second letter is "$1". $$1 won't be changed./
+   changeparse  / 2 $1 +1/ /The second letter is '$1'. $$1 won't be changed./
+   changeparse from / 2 $1 +1/ to /The second letter is '$1'. $$1 won't be changed./
    changeparse from / . $2 . 50 $5 +5 / to /The product is $1/ by /$1 = $2 * $5/
    changeparse from / . $2 . 50 $5 +5 / ,
                to /The product is $1/ ,
@@ -43,6 +43,7 @@ And a final record added.
 
 /*
  20/10/ 6  Jeff Hennick
+ 2026-07-26 Alan Sampson - Replace double quotes with single quotes in strings
 */
 
 pipe (changeparse_tests01)
@@ -56,20 +57,20 @@ pipe (changeparse_tests01)
 -- changeparse dstring dstring ?
    literal a1a a3c e5e g7c |
    split |
-   p1: changeparse  / 2 $1 +1/ /The second letter is "$1". $$1 won't be changed./ |
+   p1: changeparse  / 2 $1 +1/ /The second letter is '$1'. $$1 won't be changed./ |
    c1: compare any ~2#1 changeparse dstring dstring ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
    o: ?
-   literal The second letter is "1". $1 won't be changed.;The second letter is "3". $1 won't be changed.;The second letter is "5". $1 won't be changed.;The second letter is "7". $1 won't be changed.; |
+   literal The second letter is '1'. $1 won't be changed.;The second letter is '3'. $1 won't be changed.;The second letter is '5'. $1 won't be changed.;The second letter is '7'. $1 won't be changed.; |
    split ; |
    c1: ?
 
 -- changeparse FROM dstring TO dstring ?
    literal a1a a3c e5e g7c |
    split |
-   p2: changeparse from / 2 $1 +1/ to /The second letter is "$1". $$1 won't be changed./|
+   p2: changeparse from / 2 $1 +1/ to /The second letter is '$1'. $$1 won't be changed./|
    c2: compare any ~2#2 changeparse FROM dstring TO dstring ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
    o: ?
-   literal The second letter is "1". $1 won't be changed.;The second letter is "3". $1 won't be changed.;The second letter is "5". $1 won't be changed.;The second letter is "7". $1 won't be changed.; |
+   literal The second letter is '1'. $1 won't be changed.;The second letter is '3'. $1 won't be changed.;The second letter is '5'. $1 won't be changed.;The second letter is '7'. $1 won't be changed.; |
    split ; |
    c2: ?
 
@@ -86,39 +87,39 @@ pipe (changeparse_tests01)
 -- changepars dstring dstring ?
    literal a1a a3c e5e g7c |
    split |
-   p4: changepars  / 2 $1 +1/ /The second letter is "$1". $$1 won't be changed./ |
+   p4: changepars  / 2 $1 +1/ /The second letter is '$1'. $$1 won't be changed./ |
    c4: compare any ~2#4 changepars dstring dstring ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
    o: ?
-   literal The second letter is "1". $1 won't be changed.;The second letter is "3". $1 won't be changed.;The second letter is "5". $1 won't be changed.;The second letter is "7". $1 won't be changed.; |
+   literal The second letter is '1'. $1 won't be changed.;The second letter is '3'. $1 won't be changed.;The second letter is '5'. $1 won't be changed.;The second letter is '7'. $1 won't be changed.; |
    split ; |
    c4: ?
 
 -- changepar dstring dstring ?
    literal a1a a3c e5e g7c |
    split |
-   p5: changepar  / 2 $1 +1/ /The second letter is "$1". $$1 won't be changed./ |
+   p5: changepar  / 2 $1 +1/ /The second letter is '$1'. $$1 won't be changed./ |
    c5: compare any ~2#5 changepar dstring dstring ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
    o: ?
-   literal The second letter is "1". $1 won't be changed.;The second letter is "3". $1 won't be changed.;The second letter is "5". $1 won't be changed.;The second letter is "7". $1 won't be changed.; |
+   literal The second letter is '1'. $1 won't be changed.;The second letter is '3'. $1 won't be changed.;The second letter is '5'. $1 won't be changed.;The second letter is '7'. $1 won't be changed.; |
    split ; |
    c5: ?
 
 -- changepa dstring dstring ?
    literal a1a a3c e5e g7c |
    split |
-   p6: changepa  / 2 $1 +1/ /The second letter is "$1". $$1 won't be changed./ |
+   p6: changepa  / 2 $1 +1/ /The second letter is '$1'. $$1 won't be changed./ |
    c6: compare any ~2#6 changepa dstring dstring ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
    o: ?
-   literal The second letter is "1". $1 won't be changed.;The second letter is "3". $1 won't be changed.;The second letter is "5". $1 won't be changed.;The second letter is "7". $1 won't be changed.; |
+   literal The second letter is '1'. $1 won't be changed.;The second letter is '3'. $1 won't be changed.;The second letter is '5'. $1 won't be changed.;The second letter is '7'. $1 won't be changed.; |
    split ; |
    c6: ?
 
 -- changep dstring dstring ?
    literal a1a a3c e5e g7c |
    split |
-   p7: changep  / 2 $1 +1/ /The second letter is "$1". $$1 won't be changed./ |
+   p7: changep  / 2 $1 +1/ /The second letter is '$1'. $$1 won't be changed./ |
    c7: compare any ~2#7 changep dstring dstring ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
    o: ?
-   literal The second letter is "1". $1 won't be changed.;The second letter is "3". $1 won't be changed.;The second letter is "5". $1 won't be changed.;The second letter is "7". $1 won't be changed.; |
+   literal The second letter is '1'. $1 won't be changed.;The second letter is '3'. $1 won't be changed.;The second letter is '5'. $1 won't be changed.;The second letter is '7'. $1 won't be changed.; |
    split ; |
    c7: ?

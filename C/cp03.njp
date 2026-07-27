@@ -1,0 +1,16 @@
+
+pipe (cp03 )
+  o: faninany |
+     cons ?
+
+     --      ....o....O. ....o....O.  |
+     literal one 2     3;two 3     4; |
+     split ; |
+     changeparse from / . $2 . 10 $5 +5 /
+                      to /The product is $1/
+                      by /$1 = $2 * $5;$3 = $3 + $1/
+                      first /$3 = 0/
+                      finally /$3 is the total/
+     |
+  o: ?
+
