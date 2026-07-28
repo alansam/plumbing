@@ -1,0 +1,8 @@
+
+pipe (sx16 end ~ )
+    literal Why |
+    specs
+        pad ? 1-* 1-10 |
+    console ~
+-- Why??????? ~
+

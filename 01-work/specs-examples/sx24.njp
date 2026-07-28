@@ -1,0 +1,8 @@
+
+pipe (sx24 )
+    literal The rain |
+    specs
+        1-* 5 /in Spain/ nextword |
+    console ?
+--     The rain in Spain ?
+

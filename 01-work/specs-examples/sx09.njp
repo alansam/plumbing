@@ -1,0 +1,8 @@
+
+pipe (sx09 )
+    literal Princeton |
+    specs 
+        1-* 1 /University/ nextword |
+    console ?
+-- Princeton University
+

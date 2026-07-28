@@ -1,0 +1,8 @@
+
+pipe (sx23 )
+    literal The rain |
+    specs
+        1-* 5 /in Spain/ next |
+    console ?
+--     The rainin Spain ?
+

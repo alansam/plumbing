@@ -1,0 +1,14 @@
+:nick.JOHN     :userid.JOHNH    :node.NYVM3           :notebook.PIPE
+         :name.John Heart                       :phone.2156
+
+:nick.CATHY    :userid.CATHYP   :node.NYVM1           :notebook.TOOLS
+         :name.Cathy Peterson                   :phone.2533
+
+:nick.CE       :userid.SMITHC   :node.NYVM1
+         :name.Cecilia Smith                    :phone.2589
+
+:nick.NICK     :userid.NICKJ    :node.NYVM2
+         :name.Nick Johnson                     :phone.2789
+
+:nick.DONNA    :userid.DJ       :node.NYVM2           :notebook.PIPE
+         :name.Donna Jones                      :phone.2475

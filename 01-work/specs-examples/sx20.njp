@@ -1,0 +1,8 @@
+
+pipe (sx20 )
+    literal record1 record2 |
+    specs
+        words1-5 1 |
+    console ?
+-- record1 record2 ?
+

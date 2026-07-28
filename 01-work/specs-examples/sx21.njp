@@ -1,0 +1,11 @@
+
+pipe (sx21 )
+    -- literal does not allow hex strings.
+    -- use the following two stages of a pipeline to write a |
+    -- hexadecimal string of characters to the pipeline |
+    literal |
+    specs x00c4 1 |
+    specs
+        words1 c2x 1 |
+    console ?
+

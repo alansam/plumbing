@@ -1,0 +1,9 @@
+
+pipe (sx25 )
+    -- Note substitute ASCII x2a for EBCDIC x5c for '*' |
+    literal The rain |
+    specs
+        1-* 5 /in Spain/ nextword x2a 25 |
+    console ?
+--     The rain in Spain   * ?
+

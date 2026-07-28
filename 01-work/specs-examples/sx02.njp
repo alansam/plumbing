@@ -1,0 +1,8 @@
+
+pipe (sx02 end ~ )
+    literal ?ab?cd??ef? |
+    specs
+        fs ? f1 1 f2 4 f3 7 f4 11 f5 14 |
+    console ~
+    --   ab cd     ef
+

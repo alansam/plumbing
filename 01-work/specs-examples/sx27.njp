@@ -1,0 +1,12 @@
+
+pipe (endchar ?)
+    < sx27BANKACCT_FILE.a1 |
+  s:  specs
+          select 1 1.9 1.9 right
+          /transferred to/ nextword
+          select 0
+          words1.2 nextword |
+    > sx27TRANSACT_FILE.a1 ?
+    < sx27AMOUNT_FILE.a1 |
+  s:
+

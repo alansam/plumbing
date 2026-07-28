@@ -1,0 +1,8 @@
+
+pipe (sx05 end ~ )
+    literal ab?cd?ef?gh?ij |
+    specs
+        fs ? fields -3;-2 1 |
+    console ~
+    -- ef?gh
+

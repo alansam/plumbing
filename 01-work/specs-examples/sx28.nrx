@@ -1,0 +1,131 @@
+#!/usr/bin/env nr
+/* NetRexx ADDNAME EXEC - sx28.nrx */
+
+-- ... ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method main(args = String[]) public static
+
+  arg = Rexx(args)
+
+  parse arg nickname .                  /* get input nickname */
+  -- 'namefind :nick' nickname ':name :phone :userid :node (stack fifo'
+  nstack = ''
+  RC = namefind(nickname.upper, nstack)
+
+  loopower(nstack)
+
+  if (RC = 0) then do                         /* if nickname exists */
+    /*
+     + NOTE: A stand-alone NetRexx pipeline program compiled with `nrc'
+     +       cannot take data from local NetRexx objects such as stems,
+     +       variables etc. It looks like `address pipe' sets up a
+     +       separate environment with it's own variable pool etc..
+     +       Building the data into strings and passing them via the
+     +       'literal', 'append', etc. stages doesn't work either.
+     +
+     +       This solution writes the data to a temporary file for
+     +       the 'diskr' (<) stage to process
+     */
+    tfile = './tmp/sx28_TEMP.A3'
+    stream(tfile, 'C', 'OPEN WRITE')
+    loop _r = 1 to nstack[0]
+      lineout(tfile, nstack[_r])
+    end _r
+    stream(tfile, 'C', 'CLOSE')
+
+    address pipe
+      "<" tfile "|"-
+      "specs "-
+          "1-30 1 "-
+          "read "-
+          "1-30 32 "-
+          "write "-
+          "read 1-8 1 "-
+          "/at/ nextword "-
+          "read 1-8 nextword "-
+          "write "-
+          "/ / 1 | "-
+      ">> sx28PIPE_CONTACTS.a1 ?"         /* write result to file */
+
+      RC = (RC * (RC <> 12))
+  end
+else                                   /* nickname does not exist */
+  do                                          /* so issue message */
+    say 'Nickname does not exist in your NAMES file.'
+    exit 4                                      /* exit with rc=4 */
+  end
+exit RC
+
+-- ... ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method namefind(nik = Rexx, nstack = Rexx) private static
+  nicks = 'JOHN CATHY CE NICK DONNA'
+
+say '>>>'nik
+
+  scd = 0
+  nms = 0
+  if nicks.wordpos(nik) = 0 then scd = 4
+
+  parse nicks JOHN CATHY CE NICK DONNA .
+-- 'namefind :nick' nickname ':name :phone :userid :node (stack fifo'
+  -- ... ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  nms[JOHN, 1]  = 'John Heart'
+  nms[JOHN, 2]  = '2156'
+  nms[JOHN, 3]  = 'JOHNH'
+  nms[JOHN, 4]  =  'NYVM3'
+
+  nms[CATHY, 1] = 'Cathy Peterson'
+  nms[CATHY, 2] = '2533'
+  nms[CATHY, 3] = 'CATHYP'
+  nms[CATHY, 4] = 'NYVM1'
+
+  nms[CE, 1]    = 'Cecilia Smith'
+  nms[CE, 2]    = '2589'
+  nms[CE, 3]    = 'SMITHC'
+  nms[CE, 4]    = 'NYVM1'
+
+  nms[NICK, 1]  = 'Nick Johnson'
+  nms[NICK, 2]  = '2789'
+  nms[NICK, 3]  = 'NICKJ'
+  nms[NICK, 4]  = 'NYVM2'
+
+  nms[DONNA, 1] = 'Donna Jones'
+  nms[DONNA, 2] = '2475'
+  nms[DONNA, 3] = 'DJ'
+  nms[DONNA, 4] = 'NYVM2'
+
+  nstack[0] = 4
+  nstack[1] = nms[nik, 1]
+  nstack[2] = nms[nik, 2]
+  nstack[3] = nms[nik, 3]
+  nstack[4] = nms[nik, 4]
+
+  return scd
+
+/*
+ ... ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+:nick.JOHN     :userid.JOHNH    :node.NYVM3           :notebook.PIPE
+         :name.John Heart                       :phone.2156
+
+:nick.CATHY    :userid.CATHYP   :node.NYVM1           :notebook.TOOLS
+         :name.Cathy Peterson                   :phone.2533
+
+:nick.CE       :userid.SMITHC   :node.NYVM1
+         :name.Cecilia Smith                    :phone.2589
+
+:nick.NICK     :userid.NICKJ    :node.NYVM2
+         :name.Nick Johnson                     :phone.2789
+
+:nick.DONNA    :userid.DJ       :node.NYVM2           :notebook.PIPE
+         :name.Donna Jones                      :phone.2475
+*/
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method loopower(nstack = Rexx) private static
+  say '.'.copies(60)
+  loop _i = 0 to nstack[0]
+    say '['_i']:' nstack[_i]
+  end _i
+  say
+
+  return
+

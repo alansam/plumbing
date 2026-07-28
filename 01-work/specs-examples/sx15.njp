@@ -1,0 +1,8 @@
+
+pipe (sx15 )
+    literal 3.14159 |
+    specs
+        pad 0 1-* 5 |
+    console ?
+-- 00003.14159 ?
+

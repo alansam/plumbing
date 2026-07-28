@@ -1,0 +1,10 @@
+
+pipe (sx12 ) 
+    literal a |
+    dup 2 |
+    specs
+        1-* 1 readstop 1-* nw /**/ nw |
+    console ?
+-- a a ** ?
+-- a   ?
+

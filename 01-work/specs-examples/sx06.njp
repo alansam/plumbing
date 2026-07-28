@@ -1,0 +1,10 @@
+
+pipe (sx06 )
+    literal ABC |
+    literal XYZ |
+    specs
+        recno 1 1-* 12 |
+    console ?
+    --        1 XYZ ?
+    --        2 ABC ?
+

@@ -1,0 +1,8 @@
+
+pipe (sx19 )
+    literal XYZ |
+    specs
+        /Bob is a tennis player./ 1 |
+    console ?
+-- Bob is a tennis player. ?
+

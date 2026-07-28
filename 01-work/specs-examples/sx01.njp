@@ -1,0 +1,8 @@
+
+pipe (sx01 )
+    literal ab cd-ef gh |
+    specs
+       fs - field 1 1 field 2 10 |
+    console |
+    -- ab cd ef gh
+

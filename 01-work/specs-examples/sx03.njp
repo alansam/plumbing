@@ -1,0 +1,8 @@
+
+pipe (sx03 )
+    literal ABCDEFGHIJKLMN |
+    specs
+       -8;-1 1 |
+    console ?
+    -- GHIJKLMN
+

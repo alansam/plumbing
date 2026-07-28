@@ -1,0 +1,8 @@
+
+pipe (sx04 )
+    literal ABC DEF GHI JKL MNO |
+    specs
+        words -3;-2 1 |
+    console ?
+    -- GHI JKL
+

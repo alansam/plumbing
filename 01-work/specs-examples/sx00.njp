@@ -1,0 +1,8 @@
+
+pipe (sx00 end ~ ) 
+    literal ?abc?def??ghi?jkl |
+    specs
+       wordsep ? words 2-4 1 |
+    console |
+    comment def??ghi?jkl ?
+

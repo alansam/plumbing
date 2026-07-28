@@ -1,0 +1,8 @@
+
+pipe (sx07 )
+    strliteral x0100132f073000 |
+    strliteral x930630f |
+    specs
+        1-* c2i 1 |
+    console ?
+

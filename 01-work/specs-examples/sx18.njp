@@ -1,0 +1,8 @@
+
+pipe (sx18 end ~ )
+    literal a?b??c |
+    specs
+        fieldseparator ? f1 1 f2 5 f4 9 |
+    console ~
+-- a   b   c ~
+

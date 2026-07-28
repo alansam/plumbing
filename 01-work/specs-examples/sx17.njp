@@ -1,0 +1,8 @@
+
+pipe (sx17 )
+    literal a-b-c |
+    specs
+        wordsep - w1 1 w2 5 w3 9 |
+    console ?
+-- a   b   c ?
+

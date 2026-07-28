@@ -1,0 +1,8 @@
+
+pipe (sx22 )
+    literal The rain |
+    specs
+        1-* 5 |
+    console ?
+--     The rain ?
+

@@ -1,0 +1,10 @@
+
+pipe (sx13 ) 
+    literal a |
+    dup 2 |
+    specs
+        1-* 1 read 1-* nw /**/ nw |
+    console ?
+-- a a ** ?
+-- a ** ?
+

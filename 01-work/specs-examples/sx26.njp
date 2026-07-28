@@ -1,0 +1,6 @@
+
+pipe (sx26 )
+    < sx26CHAR_DATA.a1 |
+    specs 1-6 c2x 1 recno next |
+    > sx26HEX_DATA.a1
+
