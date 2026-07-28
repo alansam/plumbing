@@ -1,0 +1,9 @@
+
+pipe (f301 )
+    < 301walrus_carpenter.a1 |
+    specs
+      a: 1-*        1
+      b: word 3     .
+         print reverse(b) (max(1, wordindex(a, 3))) |
+    console ?
+

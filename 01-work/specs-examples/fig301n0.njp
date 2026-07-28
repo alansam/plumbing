@@ -1,0 +1,13 @@
+
+pipe (f301 )
+    < 301walrus_carpenter.a1 |
+    specs
+      a: 1-*        1
+      /!/          35
+      b: word 3
+      NR @ln=field['a'];
+          rev=field['b'].reverse;
+          rix=1.max(ln.wordindex(3));
+          data=ln.overlay(rev,rix)@ 40 |
+    console ?
+

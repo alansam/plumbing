@@ -1,0 +1,14 @@
+
+pipe (f302 sep ! end ? debug 0 )
+  literal 1 One~2 Two~3 Three !
+  split str /~/ !
+  specs
+    a: w1 .
+    b: w2
+       NR @counter[0]=counter[0]||field['a'];
+           counter[1]=counter[1]||field['b'];
+           counter[0]=counter[0].strip('l',0);
+           counter[1]=counter[1].strip('l',0);
+           data=counter[0]||" and "||counter[1];@ 1 !
+  console ?
+

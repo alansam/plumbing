@@ -1,0 +1,11 @@
+
+pipe (f302 )
+  literal 1~One 2~Two 3~Three | split | xlate /~/ / |
+  specs
+    a: w1 .
+    b: w2 .
+       set #0||||=a
+       set #1||||=b
+       print #0||||" and "||||#1 1 |
+  console ?
+
