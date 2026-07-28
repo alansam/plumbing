@@ -1,0 +1,7 @@
+
+pipe (deblockt10 debug 0 )
+   fileslow d.log |
+   deblock string /RN/ |
+   console |
+   diskw d.out
+

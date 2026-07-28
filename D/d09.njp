@@ -1,0 +1,9 @@
+
+pipe (deblockt09 debug 0 )
+   file ../T/tasktest.njp |
+   comment rexx to change ,\r\n,RN, |
+   specs 1-* 1 /RN/ next |
+   fblock 60 |
+   console |
+   fileslow d.log
+
