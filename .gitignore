@@ -4,6 +4,9 @@
 # Log file
 *.log
 
+# Program outpup files
+*.out
+
 # BlueJ files
 *.ctxt
 
@@ -40,3 +43,4 @@ data
 
 # NetRexx & Pipelines work files
 nrws.history
+*.[Aa]3
