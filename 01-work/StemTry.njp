@@ -1,0 +1,48 @@
+/* NetRexx Pipes */
+options format comments java replace decimal
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method main(args = String[]) public static
+
+  arg = Rexx(args)
+  parse arg .
+
+  nstack = ''
+  nstack[0] = 4
+  nstack[1] = 'Donna Jones'
+  nstack[2] = '2475'
+  nstack[3] = 'DJ'
+  nstack[4] = 'NYVM2'
+
+  say '.'.copies(60)
+  say 'Iterate:'
+  loop _x = 0 to nstack[0]
+    say '['_x'] =' nstack[_x]
+  end _x
+  say
+
+  say '.'.copies(60)
+  say 'varover:'
+  pipe (stry0 stall 1000 debug 0 )
+    varover nstack |
+    console
+  say
+
+  say '.'.copies(60)
+  say 'stemr:'
+  pipe (stry1 stall 1000 debug 0 )
+    stemr nstack |
+    console 
+  say
+
+  say '.'.copies(60)
+  say 'stemr & specs:'
+  pipe (stry2 stall 1000 debug 0 )
+    stem nstack |
+    specs 1-30 4 read 1-30 35 write read 1-8 4 /at/ nextword read 1-8 nextword write / / 1 |
+    console 
+  say
+  --specs 1-30 4 read 1-30 35 write read 1-8 4 /at/ nextword read 1-8 nextword write / / 1 |
+
+  exit 0
+

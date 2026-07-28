@@ -14,7 +14,7 @@ method main(args = String[]) public static
   arg = Rexx(args)
   parse version ver
   parse source src
-  say 'progrem args:' ''''arg''''
+  say 'program args:' ''''arg''''
   say 'version:' ver
   say 'source:' src
 

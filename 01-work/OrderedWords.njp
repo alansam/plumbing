@@ -38,9 +38,14 @@ class OrderedWords extends stage public final
   method pipeDriver() public
 
     -- process input stream and use OrderedWords custom stage to filter
-    -- out wirds that don't conform to requirements
+    -- out words that don't conform to requirements
+    --
+    --< ../../data/unixdict.txt |
+    --< /usr.share/dict/words |
+    --< ~/usr/src/target/Contrib-support/data/unixdict.txt |
+    --
     pipe (owords stall 1000 debug 0 ) 
-      < ../../data/unixdict.txt |
+      < ./data/unixdict.txt |
       OrderedWords |
       stem wds
 
@@ -54,7 +59,7 @@ class OrderedWords extends stage public final
 --  say 'ct[0]:' ct[0]
 --  say '  [1]:' ct[1]
 
-    -- loop over contforming words and filter out any that are shorter than max
+    -- loop over conforming words and filter out any that are shorter than max
     maxlen = ct[1]
     ordered = ''
     loop pw = 0 to wds[0]
