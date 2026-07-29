@@ -28,6 +28,7 @@ replay_pid*
 
 # NetRexx Pipres generated files
 *.keep
+keep
 
 # work directories
 lib/
