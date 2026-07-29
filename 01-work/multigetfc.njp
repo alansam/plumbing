@@ -1,0 +1,37 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class multigetfc public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    RC = 0
+    arg = Rexx(args)
+    parse arg .
+
+    do
+      pipe (mg stall 1000 debug 0 )
+       o: faninany |
+          console ?
+       a: command ls |
+          casei locate /.a3/ |
+          getfiles |
+          specs recno from 10000 by 1000 1 /!/ 11 1-* 12 /!/ 92 |
+          specs /000/ 1 6-*   4 |
+          o:
+
+    catch ex = Exception
+      say ex.getMessage()
+      RC = (RC * (RC <> 12))
+    end
+
+    exit (RC * (RC <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8

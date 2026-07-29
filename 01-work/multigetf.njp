@@ -1,0 +1,17 @@
+
+pipe (multigetf stall 1000 debug 0 )
+ o: faninany |
+    console ?
+ a: command ls |
+    casei locate /.a0/ |
+    getfiles |
+    specs
+        recno from 10000 by 1000 1
+        /!/ 11
+        1-* 12
+        /!/ 92 |
+    specs
+        /000/ 1
+        6-*   4 |
+    o: ?
+

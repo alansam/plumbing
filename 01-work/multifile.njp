@@ -1,0 +1,12 @@
+
+pipe (multifile stall 1000 debug 0 )
+    o: faninany |
+       sort |
+       console ?
+    a: diskr ./specs-examples/sx25.njp |
+       spec recno from 10 1 1-* 12 |
+       o: ?
+    b: diskr ./specs-examples/sx26.njp |
+       spec recno from 50 1 1-* 12 |
+       o: ?
+
