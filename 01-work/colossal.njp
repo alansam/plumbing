@@ -1,0 +1,91 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class colossal public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    RC = 0
+
+    arg = Rexx(args)
+    parse arg .
+
+    maze = 0
+    msg  = 0
+    pwds = 0
+    do
+
+      pipe (cc stall 1000 debug 00 )
+          diskr ./colossal_data.a1 |
+          nlocate /--/ |
+       m: nfind m |
+       p: nfind p |
+          specs 4-* 1 |
+          stem maze ?
+          m: |
+          specs 4-* 1 |
+          stem msg ?
+          p: |
+          specs 4-* 1 |
+          stem pwds ?
+          -- sufficient!
+
+    catch ex = Exception
+      say ex.getMessage
+      RC = 8
+    end
+
+    say 'maze:'
+    loop _m = 1 to msg[0]
+      parse msg[_m] before 'NN' after
+      loop _t = 1 to maze[0]
+        say '['_m.right(2, 0)','_t.right(2, 0)']' before.strip maze[_t].strip after.strip
+      end _t
+      say
+    end _m
+
+    say 'passwords:'
+    loop _p = 1 to pwds[0]
+      say '['_p.right(2, 0)']:' pwds[_p].strip
+    end _p
+    say
+
+
+    exit RC
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
+-- you are in a NN all alike
+-- you are in a NN all different
+-- 01. maze of twisty little passages
+-- 02. maze of little twisty passages
+-- 03. twisting little maze of passages
+-- 04. maze of twisting little passages
+-- 05. maze of little twisting passages
+-- 06. twisty little maze of passages
+-- 07. twisty maze of little passages
+-- 08. little maze of twisting passages
+-- 09. little maze of twisty passages
+-- 10. twisting maze of little passages
+-- 11. little twisty maze of passages
+
+-- a hollow voice says 'plugh'
+-- plover
+-- xyzzy
+--   https://rickadams.org/adventure/c_xyzzy.html
+--   There is a 'simple' formula for the cross product.
+--   If A = B x C, where A, B, and C are the vectors
+--     (Ax, Ay, Az), (Bx, By, Bz), and (Cx, Cy, Cz), then:
+--   Ax = By Cz - Bz Cy
+--   Ay = Bz Cx - Bx Cz
+--   Az = Bx Cy - By Cx
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

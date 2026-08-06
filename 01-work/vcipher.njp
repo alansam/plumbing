@@ -1,0 +1,186 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class vcipher public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg key
+
+    if key.length = 0 | key.space(0).datatype('M') = 0 then key = 'LEMON'
+    key = key.space(0).upper()
+
+--  pipe (vcipher stall 1000 debug 0 )
+--       literal abc | specs 1-* 4 | console
+
+    antic_disposition = omlette()
+
+    txts    = ''
+    txts[0] = 0
+    _t = txts[0] + 1; txts[0] = _t; txts[_t] = 'attack at dawn'
+    _t = txts[0] + 1; txts[0] = _t; txts[_t] = antic_disposition
+
+    say 'key:' key
+    loop _x = 1 to txts[0]
+      plaintext = txts[_x]
+      ciphertext = vigenere_encipher(key, plaintext)
+      deciphertext = vigenere_decipher(key, ciphertext)
+
+      lines    = ''
+      say plaintext
+      say ciphertext
+      say deciphertext
+      say
+
+      say '~'.copies(80)
+      lines[0] = 0
+      get_lines(ciphertext, lines)
+      loop _k = 1 to lines[0]
+        say lines[_k]
+      end _k
+
+      say '~'.copies(80)
+      lines[0] = 0
+      get_lines(deciphertext, lines)
+      loop _k = 1 to lines[0]
+        say lines[_k]
+      end _k
+      say
+    end _x
+
+    exit
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  method vigenere(meth = Rexx, key = Rexx, text = Rexx) public static returns Rexx
+
+    select
+      when 'encipher'.abbrev(meth.lower, 1) then df =  1
+      when 'decipher'.abbrev(meth.lower, 1) then df = -1
+      otherwise signal IllegalArgumentException(meth 'must be "encipher" or "decipher"')
+    end
+
+    alpha = Rexx Rexx.Uppers
+
+    text = stringscrubber(text)
+    key  = stringscrubber(key)
+    code = ''
+    loop _l = 1 to text.length()
+      _M = alpha.pos(text.substr(_l, 1)) - 1
+      _k = (_l - 1) // key.length()
+      _K = alpha.pos(key.substr(_k + 1, 1)) - 1
+      _C = mod((_M + _K * df), alpha.length())
+      _C = alpha.substr(_C + 1, 1)
+      code = code || _C
+    end _l
+
+    return code
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  method vigenere_encipher(key, plaintext) public static returns Rexx
+    return vigenere('encipher', key, plaintext)
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  method vigenere_decipher(key, ciphertext) public static returns Rexx
+    return vigenere('decipher', key, ciphertext)
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  method mod(_N = int, _D = int) private static returns Rexx
+    return (_D + (_N // _D)) // _D
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  method stringscrubber(cleanup) private static returns Rexx
+
+    alpha = Rexx.Uppers
+
+    cleanup = cleanup.upper.space(0)
+    loop label _f forever
+      _x = cleanup.verify(alpha)
+      if _x = 0 then leave _f
+      cleanup = cleanup.changestr(cleanup.substr(_x, 1), '')
+    end _f
+
+    return cleanup
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  method get_lines(text = Rexx, lines = Rexx) public static returns Rexx
+    ct = lines[0]
+
+    line = ''
+    _o = 0
+    loop _c = 1 to text.length()
+      _b = _o // 5
+      _o = _o + 1
+      if _b = 0 then line = line' '
+      line = line || text.substr(_c, 1)
+    end _c
+
+    loop label _l forever
+      parse line w1 w2 w3 w4 w5 w6 W7 w8 w9 w10 w11 w12 line
+      pline = w1 w2 w3 w4 w5 w6 w7 w8 w9 w10 w11 w12
+      ct = lines[0] + 1; lines[0] = ct; lines[ct] = pline.strip()
+      if line.strip().length() = 0 then leave _l
+    end _l
+
+    return lines
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  method omlette() private static returns Rexx
+
+    NL = char('\n')
+    antic_disposition = Rexx[]
+
+    antic_disposition = [                                         -
+      Rexx("To be, or not to be--that is the question:"        ), -
+      Rexx("Whether 'tis nobler in the mind to suffer"         ), -
+      Rexx("The slings and arrows of outrageous fortune"       ), -
+      Rexx("Or to take arms against a sea of troubles"         ), -
+      Rexx("And by opposing end them. To die, to sleep--"      ), -
+      Rexx("No more--and by a sleep to say we end"             ), -
+      Rexx("The heartache, and the thousand natural shocks"    ), -
+      Rexx("That flesh is heir to. 'Tis a consummation"        ), -
+      Rexx("Devoutly to be wished. To die, to sleep--"         ), -
+      Rexx("To sleep--perchance to dream: ay, there's the rub,"), -
+      Rexx("For in that sleep of death what dreams may come"   ), -
+      Rexx("When we have shuffled off this mortal coil,"       ), -
+      Rexx("Must give us pause. There's the respect"           ), -
+      Rexx("That makes calamity of so long life."              ), -
+      Rexx("For who would bear the whips and scorns of time,"  ), -
+      Rexx("Th' oppressor's wrong, the proud man's contumely"  ), -
+      Rexx("The pangs of despised love, the law's delay,"      ), -
+      Rexx("The insolence of office, and the spurns"           ), -
+      Rexx("That patient merit of th' unworthy takes,"         ), -
+      Rexx("When he himself might his quietus make"            ), -
+      Rexx("With a bare bodkin? Who would fardels bear,"       ), -
+      Rexx("To grunt and sweat under a weary life,"            ), -
+      Rexx("But that the dread of something after death,"      ), -
+      Rexx("The undiscovered country, from whose bourn"        ), -
+      Rexx("No traveller returns, puzzles the will,"           ), -
+      Rexx("And makes us rather bear those ills we have"       ), -
+      Rexx("Than fly to others that we know not of?"           ), -
+      Rexx("Thus conscience does make cowards of us all,"      ), -
+      Rexx("And thus the native hue of resolution"             ), -
+      Rexx("Is sicklied o'er with the pale cast of thought,"   ), -
+      Rexx("And enterprise of great pith and moment"           ), -
+      Rexx("With this regard their currents turn awry"         ), -
+      Rexx("And lose the name of action. -- Soft you now,"     ), -
+      Rexx("The fair Ophelia! -- Nymph, in thy orisons"        ), -
+      Rexx("Be all my sins remembered."                        )  -
+    ]
+
+    melancholy_dane = Rexx('')
+      loop _l = 0 for antic_disposition.length
+      melancholy_dane = melancholy_dane || antic_disposition[_l] || NL
+    end _l
+
+    return melancholy_dane
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

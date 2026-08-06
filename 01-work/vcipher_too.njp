@@ -1,0 +1,64 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class vcipher_too public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg key
+
+    if key.length = 0 | key.space(0).datatype('M') = 0 then key = 'LEMON'
+    key = key.space(0).upper()
+
+    pt = ''
+    pt[0] = 0
+    pipe (vc2 stall 1000 debug 0 )
+      < vcipher.data |
+      specs 1-* 1 / / next |
+      join 50 |
+      stem pt
+
+    antic_disposition = ''
+    loop _p = 1 to pt[0]
+      antic_disposition = pt[_p]
+
+      say '~'.copies(80)
+      say 'key:' key
+      say 'antic_disposition:'
+      say antic_disposition
+      say
+
+      plaintext = antic_disposition
+      ciphertext = vcipher.vigenere_encipher(key, plaintext)
+      deciphertext = vcipher.vigenere_decipher(key, ciphertext)
+
+      lines = ''
+      say '~'.copies(80)
+--    say ciphertext
+      lines[0] = 0
+      vcipher.get_lines(ciphertext, lines)
+      pipe (vc2a stall 1000 debug 0 )
+        stem lines | console
+      say
+
+      say '~'.copies(80)
+--    say deciphertext
+      lines[0] = 0
+      vcipher.get_lines(deciphertext, lines)
+      pipe (vc2b stall 1000 debug 0 )
+        stem lines | console
+      say
+    end _p
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

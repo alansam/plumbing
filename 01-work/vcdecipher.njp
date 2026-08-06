@@ -1,0 +1,28 @@
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class vcdecipher extends stage public final
+
+  properties constant
+    key = 'LEMON'
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method run() public
+    loop forever
+      ciphertext = Rexx peekto()
+      deciphertext = vcipher.vigenere_decipher(key, ciphertext)
+      output(deciphertext)
+      readto()
+    catch StageError
+      rc = rc()
+    end
+
+    exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

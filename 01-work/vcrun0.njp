@@ -1,0 +1,68 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class vcrun0 public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg job dataset sjnr .
+
+    if job.length = 0  | job = '.' then job = 'e'
+    job = job.lower()
+
+    if sjnr.length = 0  | sjnr = '.' then sjnr = 50
+
+    outset = dataset'.out'
+
+    select case job
+      when 'e' then do
+
+        pipe (vcr0e stall 1000 debug 0 )
+          diskr {dataset} |
+          specs 1-* 1 / / next |
+          join {sjnr} |
+          vcencipher |
+          vcfmt |
+          diskw {outset}
+
+        say 'output:' outset
+
+        pipe (vcr0er stall 1000 debug 0 )
+          diskr {outset} |
+          console
+
+      end
+      when 'd' then do
+
+        pipe (vcr0d stall 1000 debug 0 )
+          diskr {dataset} |
+          specs 1-* 1 / / next |
+          join {sjnr} |
+          vcdecipher |
+          vcfmt |
+          diskw {outset}
+
+        say 'output:' outset
+
+        pipe (vcr0dr stall 1000 debug 0 )
+          diskr {outset} |
+          console
+
+      end
+      otherwise do
+        say 'job '''job''' unknown; nothing to do'
+      end
+    end
+
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
