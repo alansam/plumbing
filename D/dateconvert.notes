@@ -1,0 +1,40 @@
+NetRexx 5.10 njpipes
+
+Dateconvert stage fails with errors.
+Code correction in:
+  /Users/alansampson/usr/local/NetRexx/src/org/netrexx/njpipes/stages
+
+temp fix in:
+  /Users/alansampson/usr/local/NetRexx/lib/NetRexxFixups.jar
+
+line 284:
+  n=n+1;o[n]= '    say "Could not convert date:"" "aobj""" to" inF"."'
+changed to
+  n=n+1;o[n]= '    say "Could not convert date:'' "aobj"'' to" inF"."'
+
+
+added support for 'NORMAL' output format:
+line 537
+
+
+diff output:
+
+225a226,229
+>   if typeo = 'RN' then do
+>     n=n+1;o[n]= "  mname = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.word(month)"
+>   end
+>
+290c294
+<   n=n+1;o[n]= '    say "Could not convert date:"" "aobj""" to" inF"."'
+---
+>   n=n+1;o[n]= '    say "Could not convert date:'' "aobj"'' to" inF"."'
+531a536,543
+>       end
+>     when 'NORMAL', 'REXX_DATE_N', 'REXXN', 'RN', 'REXX_DATE_N_SHORT', 'REXXN_SHORT', 'RN_SHORT'
+>       then do
+>         if timeout then
+>           p = "day mname year hour':'min':'sec" -- dd mmm yy hh:mm:ss.uuuuuu
+>         else
+>           p = "day mname year" -- dd mmm yy
+>         type = 'RN'
+

@@ -1,0 +1,11 @@
+
+  pipe (xlate0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < count1.njp |
+      xlate *-* 21-2F 5F 3A-3F 5F 5B-60 5F 7B-7E 5F |
+      xlate *-* 5F 20 |
+      o:
+
