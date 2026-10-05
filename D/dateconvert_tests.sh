@@ -33,7 +33,7 @@ compile() {
 run() {
   # -- run with runnrex script
   for i in {1..13}; do
-    local st=(printf "dateconvert_tests%02d" "$i")
+    local st=$(printf "dateconvert_tests%02d" "$i")
     echo "$st"
     runnrex "$st" 2>&1
   done

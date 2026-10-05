@@ -70,7 +70,8 @@ pipe (dateconvert_tests13)
 -- WINDOW ?
    literal 01/01/00 04:55:22.123000; 07/31/00 04:55:22.999888; 07/31/44 04:55:22.999888; 07/31/1944 04:55:22.999888 |
    split ; |
-   dateconvert shortdate window -80 |
+-- dateconvert shortdate window -80 |
+   dateconvert shortdate window -100 |
    c5: compare any ~2# 5 WINDOW~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
    o: ?
    literal 2000-01-01;2000-07-31;1944-07-31;1944-07-31 |
