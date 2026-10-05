@@ -1,0 +1,61 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class chparse1 public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+    _jdflt = 'classes.jar'
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method chparse1() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg jarfile .
+
+    if jarfile.length = 0 | jarfile = '.' then
+      jarfile = _jdflt
+
+    pipe (cp1 stall 1000 debug 0 )
+     o: faninany |
+        specs 1-* 4 |
+        console ?
+
+        command jar tvf {jarfile} |
+        nlocate /META-INF/ |
+        changepars /. . $1 $2 $3 $4 $5 $6/ /$5-$1-$2 $3 $4 $6/ |
+        change /Jan/ /01/ |
+        change /Feb/ /02/ |
+        change /Mar/ /03/ |
+        change /Apr/ /04/ |
+        change /May/ /05/ |
+        change /Jun/ /06/ |
+        change /Jul/ /07/ |
+        change /Aug/ /08/ |
+        change /Sep/ /09/ |
+        change /Oct/ /10/ |
+        change /Nov/ /11/ |
+        change /Dec/ /12/ |
+        sort |
+        o:
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

@@ -1,0 +1,6 @@
+
+  pipe (xyzzy stall 1000 debug 0 )
+      cmd xyzzy |
+      spec 1-* 4 |
+      console
+

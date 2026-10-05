@@ -1,0 +1,48 @@
+
+  pipe (chregex0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal a1a a2b a3c d4d e5e f6f g7c|
+      split |
+      strip both blank |
+      changeregex /a/ /z/ all |
+      spec ~/a/ /z/ all         >~ 1 1-* nextword |
+      o: ?
+
+      literal a1a a2b a3c d4d e5e f6f g7c|
+      split |
+      strip both blank |
+      changeregex /a/ /z/ one |
+      spec ~/a/ /z/ one         >~ 1 1-* nextword |
+      o: ?
+
+      literal a1a a2b a3c d4d e5e f6f g7c|
+      split |
+      strip both blank |
+      changeregex /^a/ /z/ all |
+      spec ~/^a/ /z/ all        >~ 1 1-* nextword |
+      o: ?
+
+      literal a1a a2b a3c d4d e5e f6f g7c|
+      split |
+      strip both blank |
+      changeregex /^a/ /z/ one |
+      spec ~/^a/ /z/ one        >~ 1 1-* nextword |
+      o: ?
+
+      literal a1a a2b a3c d4d e5e f6f g7c|
+      split |
+      strip both blank |
+      changeregex from /a/ to /z/ all |
+      spec ~from /a/ to /z/ all >~ 1 1-* nextword |
+      o: ?
+
+      literal a1a a2b a3c d4d e5e f6f g7c|
+      split |
+      strip both blank |
+      changeregex from /a/ to /z/ all |
+      spec ~from /a/ to /z/ one >~ 1 1-* nextword |
+      o: ?
+

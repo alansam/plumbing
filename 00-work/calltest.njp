@@ -1,0 +1,35 @@
+pipe (callt ) literal test | calltest {} | specs 1-* 1-8 right | console
+
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- NetRexx Pipelines Reference:
+-- 5.4 How to use a pipe in a NetRexx program
+
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class calltest public extends stage final
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method run() public 
+
+    do label _do
+      _a = arg()
+
+      callpipe (cp) | gen {_a} | *out0:
+
+      loop label _fv forever
+        line = peekto()
+        output(line)
+        readto()
+      end _fv
+    catch StageError
+      rc = rc()
+    end _do
+
+    exit (rc = (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

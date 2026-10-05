@@ -1,0 +1,15 @@
+/* */
+
+  pipe (cons0 stall 1000 debug 0 )
+      console eof ^.*^ pr /whut/ |
+      buffer |
+   q: fanout |
+      count lines |
+   o: faninany |
+      spec 1-* 4 |
+      cons ?
+
+      q: |
+      copy |
+      o: ?
+

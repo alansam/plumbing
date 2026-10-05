@@ -1,0 +1,165 @@
+
+  pipe (combine_tests01)
+
+   o: faninany |
+      sort singleok |
+      specs 2-* 4 |
+      cons ?
+
+  -- combine 1 first  ?
+      literal a1a a2b a3c d4d e5e f6f g7c h1h |
+      split |
+      combine 1 first |
+      o: ?
+
+  -- combine 1 last  ?
+      literal a1a a2b a3c d4d e5e f6f g7c h1h |
+      split |
+      combine 1 last |
+      o: ?
+      strliteral /a2b d4d f6f h1h/ |
+      split |
+      o: ?
+
+  -- combine 1 or  ?
+      literal a1a a2b a3c d4d e5e f6f g7c h1h |
+      split |
+      combine 1 or |
+      o: ?
+      strliteral /a3c e7g g7g o7k/ |
+      split |
+      o: ?
+
+  -- combine 1 and  ?
+      literal a1a a2b a3c d4d e5e f6f g7c h1h |
+      split |
+      combine 1 and |
+      o: ?
+      strliteral /a0` `0` d4d `1`/ |
+      split |
+      o: ?
+
+  -- combine 1 exclusiveor ?
+      literal a1a a2b a3c d4d e5e f6f g7c h1h |
+      split |
+      combine 1 exclusiveor |
+      o: ?
+      literal 000303  050707  030303  0F060B |
+      spec 1.2 x2c 1 3.2 x2c 2 5.2 x2c 3  9.2 x2c 5 11.2 x2c 6 13.2 x2c 7 17.2 x2c 9 19.2 x2c 10 21.2 x2c 11  25.2 x2c 13 27.2 x2c 14 29.2 x2c 15 |
+      split |
+      o: ?
+
+  -- combine 2 first  ?
+      literal a1a a2b a3c d4d e5e f6f g7c h1h |
+      split |
+      combine 2 first |
+      o: ?
+      strliteral /a1a d4d g7c/ |
+      split |
+      o: ?
+
+  -- combine 2 or  ?
+      literal a1a a2b a3c d4d e5e f6f g7c h1h |
+      split |
+      combine 2 or |
+      o: ?
+      strliteral /a3c e7g g7g o7k/ |
+      split |
+      o: ?
+
+  -- combine keylen n first  ?
+      literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
+      split |
+      combine keylen 2 first  |
+      o: ?
+      strliteral /xxa1a yya3c zzf6f/ |
+      split |
+      o: ?
+
+  -- combine keylen n last  ?
+      literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
+      split |
+      combine keylen 2 last  |
+      o: ?
+      strliteral /xxa2b yye5e zzh1h/ |
+      split |
+      o: ?
+
+  -- combine keylen n or  ?
+      literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
+      split |
+      combine keylen 2 or  |
+      o: ?
+      strliteral /xxa3c yye5e zzo7k/ |
+      split |
+      o: ?
+
+  -- combine keylen n and  ?
+      literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
+      split |
+      combine keylen 2 and  |
+      o: ?
+      strliteral /xxa0` yyd4d zz`1` / |
+      split |
+      o: ?
+
+  -- combine keylen n exclusiveor  ?
+      literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
+      split |
+      combine keylen 2 exclusiveor  |
+      o: ?
+      literal xx000303  yy010101  zz0F060B |
+      spec 1.2 1 3.6 x2c n  11.2 nw 13.6 x2c n   21.2 nw 23.6 x2c n |
+      split |
+      o: ?
+
+  -- combine stop or (secondary) ?
+      literal a1a a3c e5e g7c |
+      split |
+      s13: combine stop or |
+      o: ?
+      strliteral /a3c e7g g7g o7k/ |
+      split |
+      o: ?
+      literal a2b d4d f6f h1h |
+      split |
+      s13: ?
+
+  -- combine stop alleof and (secondary) ?
+      literal a1a a3c e5e g7c |
+      split |
+      s14: combine stop alleof and |
+      o: ?
+      strliteral /a0` `0` d4d `1`/ |
+      split |
+      o: ?
+      literal a2b d4d f6f h1h |
+      split |
+      s14: ?
+
+  -- combine stop alleof exclusiveor (secondary) ?
+      literal a1a a3c e5e g7c |
+      split |
+      s15: combine stop alleof exclusiveor |
+      o: ?
+      literal 000303  050707  030303  0F060B |
+      spec 1.6 x2c 1  9.6 x2c nw  17.6 x2c nw  25.6 x2c nw |
+      split |
+      o: ?
+      literal a2b d4d f6f h1h |
+      split |
+      s15: ?
+
+  -- combine stop anyeof exclusiveor (short primary) ?
+      literal a1a a3c e5e  |
+      split |
+      s17: combine stop anyeof exclusiveor |
+      o: ?
+      literal 000303  050707  030303 |
+      spec 1.6 x2c 1  9.6 x2c nw  17.6 x2c nw |
+      split |
+      o: ?
+      literal a2b d4d f6f h1h |
+      split |
+      s17: ?
+

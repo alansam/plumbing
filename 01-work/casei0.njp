@@ -1,0 +1,19 @@
+
+  pipe (casei0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal ABC;abc;CDE;cde |
+      split ; |
+      strip both blank |
+   r: fanout |
+      all [ /ABC/ ! /CDE/ ] |
+      spec /...  >:/ 1 1-* nw |
+      o: ?
+
+      r: |
+      casei all [ /ABC/ ! /CDE/ ] |
+      spec /... >>:/ 1 1-* nw |
+      o:
+

@@ -1,0 +1,39 @@
+
+  pipe (deal00 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8 ?
+      literal first one,second one,third one,fourth one,fifth one,,
+              sixth one,seventh one,eighth one,ninth one,,
+              tenth one,eleventh one,twelfth one,,
+              thirteenth one,fourteenth one,fifteenth one,,
+              sixteenth one,seventeenth one,eighteenth one,,
+              nineteenth one,twentieth one |
+      split , |
+      strip both blank |
+  d1: deal |
+      spec /    >/ 1 1-* nextword |
+      o: ?
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8 ?
+      d1: |
+      spec /   >>/ 1 1-* nextword |
+      o: ?
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8 ?
+      d1: |
+      spec /  >>>/ 1 1-* nextword |
+      o: ?
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8 ?
+      d1: |
+      spec / >>>>/ 1 1-* nextword |
+      o: ?
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8 ?
+      d1: |
+      spec />>>>>/ 1 1-* nextword |
+      o: ?
+

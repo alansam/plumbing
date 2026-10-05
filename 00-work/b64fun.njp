@@ -1,0 +1,152 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+import java.util.Base64
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class b64fun public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+    dlm = '....o....O'.copies(10)
+    b_sz = 1024 * 16
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private static
+    enc_basic = Base64.getEncoder()
+    dec_basic = Base64.getDecoder()
+    enc_mime  = Base64.getMimeEncoder()
+    dec_mime  = Base64.getMimeDecoder()
+    enc_url   = Base64.getUrlEncoder()
+    dec_url   = Base64.getUrlDecoder()
+
+    encs = [ enc_basic, enc_mime, enc_url ]
+    decs = [ dec_basic, dec_mime, dec_url ]
+    algs = [ 'BASIC', 'MIME', 'URL' ]
+
+    myfile    = ''
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method b64fun() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    myfile[0] = 0
+    _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = './data/az0054'
+    _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = './data/az1024'
+    _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = './data/az4096'
+--  _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = 'b64fun.X.txt'
+--  _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = 'b64fun.alpha'
+--  _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = 'b64fun.txt'
+--  _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = 'b64fun.njp.1.txt'
+--  _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = 'b64fun.rule'
+--  _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = 'b64fun.njp'
+    _f = myfile[0] + 1; myfile[0] = _f; myfile[_f] = 'b64fun.class'
+
+--  pipe (b64fun stall 1000 debug 0 )
+--       literal abc | specs 1-* 4 | console
+
+    say dlm
+    encode()
+    say
+
+    say dlm
+    decode()
+    say
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method encode() public static
+
+    loop _$ = 1 for myfile[0]
+      loop alg = 0 to algs.length - 1
+        say algs[alg]':'
+        efile_i = './'myfile[_$]
+        efile_o = './tmp/'myfile[_$]'.b64.'algs[alg]
+        say efile_i
+        say efile_o
+        buffer = byte[b_sz]
+        instream = BufferedInputStream(FileInputStream(efile_i))
+        outstream = BufferedOutputStream(FileOutputStream(efile_o))
+        bytes_in = instream.read(buffer, 0, buffer.length)
+        loop label buffy until bytes_in = -1
+          chew = byte[bytes_in]
+          loop _z = 0 to bytes_in - 1
+            chew[_z] = buffer[_z]
+          end _z
+          encod = Rexx encs[alg].encodeToString(chew)
+          say 'bytes read:' bytes_in
+--        say encod
+          obytes = (String encod).getBytes()
+          outstream.write(obytes, 0, obytes.length)
+--        cr = x2d('0d')
+--        nl = x2d('0a')
+--        outstream.write(int cr)
+--        outstream.write(int nl)
+          bytes_in = instream.read(buffer, 0, buffer.length)
+        end buffy
+        instream.close()
+        outstream.close()
+        say
+      catch ex = IOException
+        say ex.getMessage()
+        exit 8
+      end alg
+      say
+    end _$
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method decode() public static
+
+    loop _$ = 1 for myfile[0]
+      loop alg = 0 to algs.length - 1
+        say algs[alg]':'
+        dfile_i = './tmp/'myfile[_$]'.b64.'algs[alg]
+        dfile_o = './tmp/'myfile[_$]'.b64.'algs[alg]'.out'
+        say dfile_i
+        say dfile_o
+        buffer = byte[b_sz]
+        instream = BufferedInputStream(FileInputStream(dfile_i))
+        outstream = BufferedOutputStream(FileOutputStream(dfile_o))
+        bytes_in = instream.read(buffer, 0, buffer.length)
+        loop label buffy until bytes_in = -1
+          chew = byte[bytes_in]
+          loop _z = 0 to bytes_in - 1
+            chew[_z] = buffer[_z]
+          end _z
+          decod = decs[alg].decode(chew)
+          say 'bytes read:' bytes_in
+          outstream.write(decod)
+          bytes_in = instream.read(buffer, 0, buffer.length)
+        end buffy
+        instream.close()
+        outstream.close()
+        say
+      catch ex = IOException
+        say ex.getMessage()
+        exit 8
+      end alg
+      say
+    end _$
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

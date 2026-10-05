@@ -1,0 +1,50 @@
+#!/usr/bin/env nr
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- NetRexx Pipelines Reference:
+-- 5.4 How to use a pipe in a NetRexx program
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class testpipe public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method testpipe(avar = Rexx) public
+    
+    _F = Rexx 'abase'
+    _T = Rexx 1
+
+    _F[0] = 5
+    _F[1] = 222
+    _F[2] = 3333
+    _F[3] = 1111
+    _F[4] = 55
+    _F[5] = 444
+
+    say '_F[1]='_F[1]'\-'
+    loop _i = 2 to _F[0]
+      say ', _F['_i']='_F[_i]'\-'
+    end _i
+    say '\n'
+
+    pipe (apipe stall 1000 )
+        stem _F | sort | prefix literal {avar} | console | stem _T
+
+    say
+
+    loop _i = 1 to _T[0]
+      say '_T['_i'] =' _T[_i]
+    end _i
+    say
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    testpipe('this is prefixed')
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8

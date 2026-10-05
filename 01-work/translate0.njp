@@ -1,0 +1,17 @@
+
+  pipe (translate0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      cons ?
+
+      literal abcdefg |
+      xlate upper |
+   g: fanout |
+      spec /in:/ 1.4 right w1 6 |
+      o: ?
+
+      g: |
+      xlate 2-* F Y B Z |
+      spec /out:/ 1.4 right w1 6 |
+      o:
+

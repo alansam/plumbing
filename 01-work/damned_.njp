@@ -1,0 +1,9 @@
+
+  pipe (damned stall 1000 debug 0 )
+      < /usr/share/dict/words |
+      drop first 100450 |
+      take first 100 |
+      damn joy |
+      spec 1-* 4 |
+      cons
+

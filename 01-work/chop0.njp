@@ -1,0 +1,9 @@
+
+  pipe (chop0 stall 1000 debug 0 )
+      literal sample line |
+      chop blank |
+      console
+      ?
+  -- ►sample |
+  -- ►Ready;
+

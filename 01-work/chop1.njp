@@ -1,0 +1,21 @@
+
+  pipe (chop1 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < ./data/muse_henryv.a1 |
+      join 4 / / |
+      chop |
+      o: ?
+
+      < ./data/muse_henryv.a1 |
+      join 4 / / |
+      chop 120 |
+      o: ?
+
+      < ./data/muse_henryv.a1 |
+      join 4 / / |
+      chop anycase str / the / |
+      o: ?
+

@@ -1,0 +1,12 @@
+
+pipe (f305 )
+  literal 1~One 2~Two 3~Three | split | xlate /~/ / |
+  specs
+        printonly eof
+        a: word 1 .
+        set #0+=a
+        eof
+        /Total:/ 1
+        print #0 next |
+  console ?
+

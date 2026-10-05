@@ -1,0 +1,7 @@
+
+pipe (f311 )
+  literal First~record Second~record | split | xlate /~/ / |
+  specs
+        print #0+=1 picture 99999 1 |
+  console ?
+

@@ -1,0 +1,16 @@
+
+  pipe (dammit stall 1000 debug 0 )
+-- o: faninany |
+--    spec 1-* 4 |
+--    cons ?
+
+      literal trappy;troopy;trippy;truppy |
+      split ; |
+-- q: fanout |
+      locate trippy |
+   d: dam |
+--    q: |
+      elastic |
+--    d: |
+      cons
+

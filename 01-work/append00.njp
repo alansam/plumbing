@@ -1,0 +1,12 @@
+
+  pipe (append00 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal c d e;f g h |
+      split ; |
+      append literal a b ||
+      spec /   >/ 1 1-* nw |
+      o: ?
+

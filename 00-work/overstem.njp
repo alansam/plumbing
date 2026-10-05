@@ -1,0 +1,28 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- NetRexx Pipelines Reference:
+-- 5.4 How to use a pipe in a NetRexx program
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class overstem public extends stage final
+
+  method run() public
+
+    _a = getRexx(arg())
+
+    loop _i over _a
+      output(_a[_i])
+    catch StageError
+      rc = rc()
+    end _i
+
+    exit (rc = (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

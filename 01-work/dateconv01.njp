@@ -1,0 +1,45 @@
+
+  pipe (dateconv0 stall 1000 debug 0 )
+   o: faninany |
+      sort |
+      spec 1-* 4 |
+      console ?
+
+      literal 03/09/46 |
+      dateconvert |
+      spec /# 1:/ 1 1-* 6 |
+      o: ?
+      -- ►2046-03-09 ?
+
+      literal 04/09/46 |
+      dateconvert window -99 |
+      spec /# 2:/ 1 1-* 6 |
+      o: ?
+      -- ►1946-04-09 ?
+
+      literal 05/09/46 |
+      dateconvert baseyear 1925 |
+      spec /# 3:/ 1 1-* 6 |
+      o: ?
+      -- ►1946-05-09 ?
+
+      literal 06/09/46 |
+      dateconvert baseyear 1130 |
+      spec /# 4:/ 1 1-* 6 |
+      o: ?
+      -- ►1146-06-09 ?
+
+      literal 02/29/46 |
+      dateconvert |
+      spec /# 5:/ 1 1-* 6 |
+      o: ?
+      -- ►FPLRIC1183E Date cannot be converted; input date 02/29/46 is not valid ?
+      -- ►FPLMSG003I ... Issued from stage 2 of pipeline 1 ?
+      -- ►FPLMSG001I ... Running "dateconvert" ?
+
+      literal 07/09/46 |
+      dateconvert short eur window -60 |
+      spec /# 6:/ 1 1-* 6 |
+      o: ?
+      -- ►09.07.2046 ? -- 9 Jul 2046 ?
+

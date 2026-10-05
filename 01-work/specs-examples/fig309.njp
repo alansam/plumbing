@@ -1,0 +1,18 @@
+
+pipe (f309 )
+  literal 1~one 2~two 3~three 4~four | split | xlate /~/ / |
+  specs
+        printonly eof
+        a: word 1 .
+        set (#0+=a; #1+=1)
+        eof
+        print #1 1
+        /observations./ nextword
+        write
+        print #0 1
+        /total./ nextword
+        write
+        print #0/#1+.005 picture -------9.99 1
+        /average./ nextword |
+  console ?
+

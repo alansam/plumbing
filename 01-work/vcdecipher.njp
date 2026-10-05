@@ -9,10 +9,16 @@ import org.netrexx.njpipes.stages.
 class vcdecipher extends stage public final
 
   properties constant
-    key = 'LEMON'
+    kkey = 'LEMON'
+
+  properties private
+    key = kkey
 
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method run() public
+    gkey = arg()
+    if gkey.length() > 0 then key = vcipher.stringscrubber(gkey)
+    say '>>>>'key
     loop forever
       ciphertext = Rexx peekto()
       deciphertext = vcipher.vigenere_decipher(key, ciphertext)

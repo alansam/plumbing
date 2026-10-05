@@ -1,0 +1,9 @@
+
+  pipe (pi_var stall 1000 debug 0 )
+   o: faninany |
+      specs w1 4 |
+      console ?
+
+      < pi-var.a0 |
+      o:
+

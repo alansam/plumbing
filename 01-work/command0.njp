@@ -1,0 +1,14 @@
+
+  pipe (command0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      command echo Hello, sweetie! |
+      spec / >$/ 1 1-* nw |
+      o: ?
+
+      cmd echo Allons-y, Alonso. |
+      spec />>$/ 1 1-* nw |
+      o:
+

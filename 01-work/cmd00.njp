@@ -1,0 +1,15 @@
+
+  pipe (cmd00 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal ls -aF |
+   e: command |
+      strfind anycase /r/ |
+      o: ?
+
+      e: |
+      spec /RC=/ 1 1-* n |
+      o:
+

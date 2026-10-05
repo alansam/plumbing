@@ -1,0 +1,16 @@
+
+  pipe (between0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ? 
+
+      literal rrraaa 1;qqqrrr 1 |
+      literal aaabbb 1;bbbccc 1;aaabbb 2;cccddd 1;dddeee 1;eeefff 1;fffggg 1 |
+      split ; |
+   q: between any X424242 H444444 | -- /AAA/ /DDD/ |
+      o: ?
+
+      q: |
+      spec 1-* 10 |
+      o:
+

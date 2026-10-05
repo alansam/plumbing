@@ -96,7 +96,7 @@ class vcipher public
     return (_D + (_N // _D)) // _D
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  method stringscrubber(cleanup) private static returns Rexx
+  method stringscrubber(cleanup) public static returns Rexx
 
     alpha = Rexx.Uppers
 

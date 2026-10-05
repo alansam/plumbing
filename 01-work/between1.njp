@@ -1,0 +1,11 @@
+
+  pipe (between1 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < deal01.njp |
+      strip leading blank |
+      between any /do/ /end/ |
+      o:
+

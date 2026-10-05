@@ -1,0 +1,55 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class jarlist public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+    _defaultjar   = 'classes.jar'
+    _defaultflags = 'tf'
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method jarlist() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg jarfile flags .
+
+    if jarfile.length = 0 | jarfile = '.' then
+      jarfile = _defaultjar
+    if flags.length = 0   | flags   = '.' then
+      flags   = _defaultflags
+
+    pipe (jarlist stall 1000 debug 0 )
+     o: faninany |
+        console ?
+
+        literal {jarfile} |
+        specs /JAR:/ 1 1-* nw |
+        o: ?
+
+        command jar -{flags} {jarfile} |
+        nlocate /META/ |
+        sort |
+        specs 1-* 4 |
+        o:
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

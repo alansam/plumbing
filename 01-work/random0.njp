@@ -1,0 +1,8 @@
+
+  pipe (random0 stall 1000 debug 0 )
+      random * |
+      take 1000 |
+      spec w1 1.10 right |
+      sort |
+      console
+

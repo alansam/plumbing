@@ -1,34 +1,34 @@
+pipe (addt1 debug 0 ) gen 40 | addtest | console
+
 /* NetRexx Pipes */
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
 options format java comments replace symbols decimal
 
+-- NetRexx Pipelines Reference:
+-- 5.4 How to use a pipe in a NetRexx program
+
 import org.netrexx.njpipes.pipes.
-import org.netrexx.njpipes.stages.
 
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
-class vcencipher extends stage public final
-
-  properties constant
-    kkey = 'LEMON'
-
-  properties private
-    key = kkey
+class addtest public extends stage final
 
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method run() public
-    gkey = arg()
-    if gkey.length() > 0 then key = vcipher.stringscrubber(gkey)
-    say '>>>>'key
-    loop forever
-      plaintext = Rexx peekto()
-      ciphertext = vcipher.vigenere_encipher(key, plaintext)
-      output(ciphertext)
-      readto()
+
+    do label _dooper
+
+      addpipe (locate1 debug 0 ) *out0: | locate /0/ | *out0:
+
+      loop label _sooper forever
+        line = peekto()
+        output('a 'line)
+        readto()
+      end _sooper
     catch StageError
       rc = rc()
-    end
+    end _dooper
 
-    exit(rc * (rc <> 12))
+    exit (rc = (rc <> 12))
 
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
 

@@ -1,0 +1,110 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class magic public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties public static
+  -- @see https://en.wikipedia.org/wiki/Hexspeak
+    magics = [ -
+      '\x00\x00\x00\x0F\xF1\xCE',           /* office */ -
+      '\x00\xBA\xB1\x0C',                   /* oobablock */ -
+      '\x1B\xAD\xB0\x02',                   /* one bad boot */ -
+      '\x4B\x1D',                           /* forbid */ -
+      '\x50\xFF\xC0\x01',                   /* soff[t] cool */ -
+      '\x50\xF7\xC0\x01',                   /* soft cool */ -
+      '\x8B\xAD\xF0\x0D',                   /* ate bad food */ -
+      '\xAB\xAD\xBA\xBE',                   /* a bad babe */ -
+      '\xAC\xE0\xFB\xA5\xE0',               /* ace of base */ -
+      '\xB1\x05\xF0\x0D',                   /* BIOS food */ -
+      '\xB1\x6B\x00\xB5',                   /* big boobs */ -
+      '\x0B\x00\xB1\x35',                   /* boobies */ -
+      '\xBA\xAA\xAA\xAD',                   /* baaaaaad */ -
+      '\xBA\xAD\xF0\x0D',                   /* bad food */ -
+      '\xBA\xC0',                           /* bac 0 */ -
+      '\xBA\xD2\x22\x22',                   /* bad repeatedly */ -
+      '\xBA\xDD\xCA\xFE',                   /* bad cafe */ -
+      '\xBE\xEF\xBA\xBE',                   /* beef babe */ -
+      '\xB0\x00\xDE\xAD',                   /* boo dead : 0xB000 0xDEAD */ -
+      '\xC0\x00\x10\xFF',                   /* cool off */ -
+      '\xC1\x5C\x0D\x06\xF0\x0D',           /* cisco dog food : C15C:0D06:F00D */ -
+      '\xCA\xFE\xBA\xBE',                   /* cafe babe */ -
+      '\xCA\xFE\xDE\xAD',                   /* cafe dead */ -
+      '\xCA\xFE\xD0\x0D',                   /* cafe dude */ -
+      '\xCE\xFA\xED\xFE',                   /* face feed */ -
+      '\x0D\x15\xEA\x5E',                   /* zero disease */ -
+      '\xDA\xBB\xAD\x00',                   /* dabba-doo */ -
+      '\xDE\xAD\x2B\xAD',                   /* dead too bad */ -
+      '\xDE\xAD\xBA\xAD',                   /* dead bad */ -
+      '\xDE\xAD\xBA\xBE',                   /* dead babe */ -
+      '\xDE\xAD\xBE\xAF',                   /* dead beaf */ -
+      '\xDE\xAD\xBE\xEF',                   /* dead beef */ -
+      '\xDE\xAD\xC0\xDE',                   /* dead code */ -
+      '\xDE\xAD\xDE\xAD',                   /* dead dead */ -
+      '\xDE\xAD\xD0\x0D',                   /* dead dude */ -
+      '\xDE\xAD\xFA\x11',                   /* dead fall : dead fail */ -
+      '\xDE\xAD\x10\xCC',                   /* deadlock */ -
+      '\xDE\xAD\xFE\xED',                   /* dead feed */ -
+      '\xDE\xCA\xFB\xAD',                   /* decaf bad */ -
+      '\xDE\xFE\xC8\xED',                   /* defecated */ -
+      '\xD0\xCF\x11\xE0',                   /* docfile 0 : 0xE011CFD0 */ -
+      '\xE0\x11\xCF\xD0',                   /* docfile 0 : 0xD0CF11E0 */ -
+      '\xF0\xCA\xCC\x1A',                   /* focaccia */ -
+      '\xF1\xAC',                           /* flac */ -
+      '\xFA\xCE\xB0\x0C',                   /* facebook  : face:book */ -
+      '\xFA\xCE\xFE\xED',                   /* face feed : 0xCEFAEDFE */ -
+      '\xFB\xAD\xBE\xEF',                   /* bad beef */ -
+      '\xFE\xE1\xDE\xAD',                   /* feel dead */ -
+      '\xFE\xED\xBA\xBE',                   /* feed babe */ -
+      '\xFE\xED\xC0\xDE',                   /* feed code */ -
+      '\xFE\xED\xFA\xCE',                   /* feed face */ -
+      '\xFE\xED\xFA\xCE\xCA\xFE\xBE\xEF',   /* feed face cafe beef */ -
+      '\xFF\xBA\xDD\x11',                   /* bad DLL */ -
+      '\xDE\xAD\xBE\xEF\xBA\xAD\xF0\x0D',   /* dead beef bad food */ -
+      '\xF0\x0D\xBA\xBE'                    /* food babe */ -
+    ]
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method magic() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    wand = ''
+    wand[0] = 0
+    loop label _m mc over magic.magics
+      abracadabra = mc.length().right(4)': '
+      loop _q = 1 to mc.length()
+        abracadabra = abracadabra || mc.substr(_q, 1).c2x().right(2, 0)
+      end _q
+      _v = wand[0] + 1
+      wand[0] = _v
+      wand[_v] = abracadabra
+    end _m
+
+    pipe (magic stall 1000 debug 0 )
+         stem wand |
+         console
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

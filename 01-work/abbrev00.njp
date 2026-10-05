@@ -1,0 +1,8 @@
+
+  pipe (abbrev00 stall 1000 debug 0 )
+      literal st str string strings |
+      split |
+      abbrev string 3 |
+      spec 1-* 4 |
+      console
+

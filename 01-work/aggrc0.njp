@@ -1,0 +1,9 @@
+
+  pipe (aggrc0 debug 0 )
+   o: faninany |
+      spec /:-:/ 4 w1 nw |
+      console ?
+      literal 6 |
+      aggrc |
+      o:
+

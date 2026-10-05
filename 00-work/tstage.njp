@@ -1,0 +1,54 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class tstage public extends stage final
+
+  properties constant
+    kkey   = 'LEMON'
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private
+    used = _false
+    key  = Rexx
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method tstage() public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
+  method run() public
+
+    do label _doodle
+      lkey = arg()
+      if \used then do
+        key = lkey
+        used = _true
+
+        selectOutput(1)
+        output(key)
+--      addpipe (tcp ) *out1: | literal {key} | *out1: 
+
+      end
+
+      selectOutput(0)
+
+      loop label _loopy forever
+        line = peekto()
+        output(line)
+        readto()
+      end _loopy
+    catch StageError
+      rc = rc()
+    end _doodle
+
+    exit (rc = (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

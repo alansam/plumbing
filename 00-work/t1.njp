@@ -1,0 +1,15 @@
+pipe (t1 debug 63 )
+    gen 20 |
+ k: tstage where_the_streets_have_no_names |   
+    specs 1-* 4-8 right |
+ c: count lines |
+    >> t1.out |
+    nop ?
+    c: |
+    insert /Lines: / |
+    >> t1.out |
+    nop ?
+    k: |
+    specs 1-* 8 |
+    console ?
+

@@ -1,0 +1,79 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class deal01 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method deal01() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method run() public
+
+    rc = 0
+
+    do label _runny
+      target = arg()
+
+      parse target .
+
+      callpipe (dl01 stall 1000 debug 0 )
+          *in:       |
+       d: deal       |
+          *out:      ?
+
+          d:         |
+          hole
+
+    catch StageError
+      rc = rc()
+    end _runny
+
+    exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    say 'pipe command:'
+    say '  pipe \-'
+    say 'literal abc;def;... | \-'
+    say 'split ; | \-'
+    say 'deal01 | \-'
+    say '...\n'
+    say 'deal01 runs a deal stage to discard every second record.\n'
+
+    do label _plumbing
+
+      pipe (d01 stall 1000 debug 0 )
+          literal abc;def;ghi;jkl;mno;pqr;stu;vwx;yz |
+          split ;     |
+          deal01      |
+          specs 1-* 4 |
+          console
+
+    end _plumbing
+
+    say
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

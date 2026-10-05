@@ -1,0 +1,93 @@
+#!/usr/bin/env nr
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class futhorc public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method futhorc() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    futhork = [ -
+      '\u16A0', '\u16A2', '\u16A6', '\u16A9', '\u16B1', '\u16B3', '\u16B7', '\u16B9', '\u16BB', '\u16BE', -
+      '\u16C1', '\u16E1', '\u16C7', '\u16C8', '\u16C9', '\u16CB', '\u16CF', '\u16D2', '\u16D6', '\u16D7', -
+      '\u16DA', '\u16DD', '\u16DE', '\u16DF', '\u16AA', '\u16AB', '\u16A3', '\u16E0', '\u16E3', '\u16B8'  -
+    ]
+    nameork = [ -
+      'FEOH F ', 'UR  U ',  'THORN TH', 'OS     O ', 'RAD  R ', 'CEN   C ', 'GYFU G ', 'WYNN  W ', 'HAEGL H ', 'NAUD N ', -
+      'IS   I ', 'IOR IO',  'EOH   EO', 'PEORTH P ', 'EOLH X ', 'SIGEL S ', 'TYR  T ', 'BEORC B ', 'EH    E ', 'MAN  M ', -
+      'LAGU L ', 'ING NG',  'DAEG  D ', 'ETHEL  DH', 'AC   A ', 'AESC  AE', 'YR   Y ', 'EAR   EA', 'CALC  K ', 'GAR  G '  -
+    ]
+    
+    futhark = [ -
+      '\u16A0', '\u16A2', '\u16A6', '\u16A8', '\u16B1', '\u16B2', '\u16B7', '\u16B9', -
+      '\u16BA', '\u16BE', '\u16C1', '\u16C3', '\u16C7', '\u16C8', '\u16C9', '\u16CA', -
+      '\u16CF', '\u16D2', '\u16D6', '\u16D7', '\u16DA', '\u16DC', '\u16DF', '\u16DE'  -
+    ]
+    nameark = [ -
+      'FEOH F   ', 'UR  U   ', 'THORN TH', 'ANSUZ  A ', 'RAD  R ', 'KAUNA K  ', 'GYFU  G ', 'WYNN   W ', -
+      'HAGLAZ H ', 'NAUD N  ', 'IS    I ', 'JERAN  J ', 'EOH  EO', 'PEORTH P ', 'EOLHX X ', 'SOWILO S ', -
+      'TYR  T   ', 'BEORC B ', 'EH    E ', 'MAN    M ', 'LAGU L ', 'INGWAZ I ', 'ETHEL DH', 'DAEG   D '  -
+    ]
+
+    nl = [ '', '\-' ]
+
+    say '-'.copies(120)
+    ix = 0
+    count = 1
+    loop fu over futhork
+      if count // 5 = 0 then do
+        cc = nl[0]
+        count = 0
+      end
+      else do
+        cc = nl[1]
+      end
+      count = count + 1
+      say ' 'nameork[ix].left(10) fu.left(3)'    'cc
+      ix = ix + 1
+    end fu
+    say
+
+    say '-'.copies(120)
+    ix = 0
+    count = 1
+    loop fa over futhark
+      if count // 4 = 0 then do
+        cc = nl[0]
+        count = 0
+      end
+      else do
+        cc = nl[1]
+      end
+      count = count + 1
+      say ' 'nameark[ix].left(10) fa.left(3)'    'cc
+      ix = ix + 1
+    end fa
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

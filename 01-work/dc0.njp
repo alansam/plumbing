@@ -1,0 +1,63 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class dc0 public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method dc0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    pipe (dc0 )
+     o: faninany |
+        spec 1-* 4 |
+        cons ?
+
+--      literal 03/09/46 |
+--      dateconvert |
+--      o: ?
+
+--      literal 03/09/46 |
+--      dateconvert window -99 |
+--      o: ?
+
+--      literal 03/09/46 |
+--      dateconvert baseyear 1925 |
+--      o: ?
+
+--      literal 03/09/46 |
+--      dateconvert baseyear 1130 |
+--      o: ?
+
+--      literal 02/29/46 |
+--      dateconvert |
+--      o: ?
+
+        literal 03/09/46 |
+        dateconvert short rexxd window -60 |
+        o:
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

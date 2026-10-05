@@ -1,0 +1,16 @@
+
+pipe (f306 )
+  literal 1~One 2~Two 3~Three | split | xlate /~/ / |
+  specs
+        printonly eof
+        a: word 1 .
+        set #0+=a
+        set #1+=1
+        eof
+        /Total:/ 1
+        print #0 strip nextword
+        /in/ nextword
+        print #1 strip nextword
+        /records./ nextword |
+  console ?
+

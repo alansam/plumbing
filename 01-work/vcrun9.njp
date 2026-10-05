@@ -1,0 +1,17 @@
+
+  pipe (vcrun9 stall 1000 debug 0 )
+   o: faninany |
+      vcfmt |
+      console ?
+
+      < vcipher/vcipher.data |
+      space 0 |
+      join 50 |
+      vcencipher melancholydane |
+   q: fanout |
+      o: ?
+
+      q: |
+      vcdecipher melancholydane |
+      o:
+

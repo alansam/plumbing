@@ -1,0 +1,208 @@
+/* NetRexx */
+--  © Copyright Alan Sampson 2026
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+/*
+ *  examples from cms pipelines User's Guide and Reference
+ */
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class changes public
+
+  properties constant
+    _dline = '-'.copies(80)
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    do label _runny
+
+      simple()
+      caseless()
+      hex_bin()
+      anycase_ex()
+
+    catch ex = Throwable
+
+      say ex.toString()
+
+    end _runny
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method simple() private static signals ThreadQ
+    say _dline
+    say 'Simple samples:'
+    say
+
+    say _dline.overlay(' sc00 ', 3)
+    do label _sc00
+      pipe (sc00 )
+          literal abc |
+          change //msg / |
+          console
+        -- ►msg abc
+        -- ►Ready;
+    end _sc00
+    say
+
+    say _dline.overlay(' sc01 ', 3)
+    do label _sc01
+      pipe (sc01 )
+          literal xabab |
+          literal abab |
+          change /ab/cd/ |
+          console
+      -- ►cdcd
+      -- ►xcdcd
+      -- ►Ready;
+    end _sc01
+    say
+
+    say _dline.overlay(' sc02 ', 3)
+    do label _sc02
+      pipe (sc02 )
+          literal xabab |
+          literal abab |
+          change (1.2 3-*) /ab/cd/ |
+          console
+      -- ►cdcd
+      -- ►xabcd
+      -- ►Ready;
+    end _sc02
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method caseless() private static signals ThreadQ
+    say _dline
+    say 'Caseless replacement:'
+    say
+
+    say _dline.overlay(' cr00 ', 3)
+    do label _cr00
+      pipe (cr00 )
+          literal pipe |
+          change anycase /pipe/line/ |
+          console
+      -- ►line
+      -- ►Ready;
+    end _cr00
+    say
+
+    say _dline.overlay(' cr01 ', 3)
+    do label _cr01
+      pipe (cr01 )
+          literal Pipe |
+          change anycase /pipe/line/ |
+          console
+      -- ►Line
+      -- ►Ready;
+    end _cr01
+    say
+
+    say _dline.overlay(' cr02 ', 3)
+    do label _cr02
+      pipe (cr02 )
+          literal PiPe |
+          change anycase /pipe/line/ |
+          console
+      -- ►Line
+      -- ►Ready;
+    end _cr02
+    say
+
+    say _dline.overlay(' cr03 ', 3)
+    do label _cr03
+      pipe (cr03 )
+          literal PIpe |
+          change anycase /pipe/line/ |
+          console
+      -- ►LINE
+      -- ►Ready;
+    end _cr03
+    say
+
+    say _dline.overlay(' cr04 ', 3)
+    do label _cr04
+      pipe (cr04 )
+          literal PiPe |
+          change anycase /Pipe/line/ |
+          console
+      -- ►line
+      -- ►Ready;
+    end _cr04
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method hex_bin() private static signals ThreadQ
+    say _dline
+    say 'Hex & bin literals:'
+    say
+
+    say _dline.overlay(' hb00 ', 3)
+    do label _hb00
+      pipe (hb00 )
+          literal 1234 |
+          change /2/ b01000010 | -- change /2/ b11000010 | -- x'C2' c'B' | -- x'42' |
+          console
+      -- ►1B34
+      -- ►Ready;
+    end _hb00
+    say
+
+    say _dline.overlay(' hb01 ', 3)
+    do label _hb01
+      pipe (hb01 )
+          literal 1234 |
+          change x32 /second/ | -- change xf2 /second/ | -- c'2' |
+          console
+      -- ►1second34
+      -- ►Ready;
+    end _hb01
+    say
+
+    say _dline.overlay(' hb02 ', 3)
+    do label _hb02
+      pipe (hb02 )
+          literal 1234 |
+          change x32 x62 | -- change xf2 x82 | -- c'2' c'b' |
+          console
+      -- ►1b34
+      -- ►Ready;
+    end _hb02
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method anycase_ex() private static signals ThreadQ
+    say _dline
+    say 'Change irrespective of its case:'
+    say
+
+    say _dline.overlay(' ic00 ', 3)
+    do label _ic00
+      pipe (ic00 ) 
+          literal abcdefghi ghi |
+          literal hx ghi qh |
+          change w2 ^h^*^ |
+          console
+      -- ►hx g*i qh
+      -- ►abcdefghi g*i
+      --►Ready;
+    end _ic00
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

@@ -1,0 +1,25 @@
+
+pipe (change_tests01)
+
+ o:   faninany |
+      sort singleok |
+      specs 2-* 1 |
+      cons ?
+
+
+-- change range /old/new/ ?
+      literal line 1.1;line 1.2 last;_;line 2.1;line 2;Line 2.2;LIne 2.3 LAST;_;LINE 3.1 last |
+      split ; |
+      change /_// |     -- generate a null record |
+      change 3-6 /1/9/ |  -- real test |
+ c1:  compare any ~2# 1 change range /old/new/~ ,
+              equal ~*OK*~ ,
+              notequal ~**FAIL**  at rec \\c col \\b.~ ,
+              less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+      o: ?
+
+      literal line 9.1;line 9.2 last;_;line 2.1;line 2;Line 2.2;LIne 2.3 LAST;_;LINE 3.1 last |
+      split ; |
+      change /_// |
+      c1: ?
+

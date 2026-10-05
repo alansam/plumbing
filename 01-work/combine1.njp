@@ -1,0 +1,21 @@
+
+  pipe (combine_tests01)
+
+   o: faninany |
+      sort singleok |
+      specs 2-* 4 |
+      cons ?
+
+  -- combine 1 first  ?
+      literal a1a a2b a3c d4d e5e f6f g7c h1h |
+      split |
+   x: fanout |
+      combine 1 first |
+      insert / 000: / before |
+      o: ?
+
+      x: |
+      combine 1 last |
+      insert / 001: / before |
+      o: ?
+

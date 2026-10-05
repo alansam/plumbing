@@ -1,0 +1,44 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+import java.time.
+
+-- a hollow voice says 'plugh'
+-- plover
+-- xyzzy
+--   https://rickadams.org/adventure/c_xyzzy.html
+--   There is a 'simple' formula for the cross product.
+--   If A = B x C, where A, B, and C are the vectors
+--     (Ax, Ay, Az), (Bx, By, Bz), and (Cx, Cy, Cz), then:
+--   Ax = By Cz - Bz Cy
+--   Ay = Bz Cx - Bx Cz
+--   Az = Bx Cy - By Cx
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class xtstamp public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    eer   = Rexx 2026
+    dnr   = Rexx 101
+    datto = LocalDate.ofYearDay(eer, dnr)
+    tstst = Instant.now().toString
+    parse tstst . 'T' tail
+    tstst = datto || 'T' || tail
+    say 'day nr.:' dnr '- date:' datto '- time stamp:' tstst
+
+    pipe (xtstamp stall 1000 debug 0 )
+        gen 10 |
+        spec /2026./ 4 w1 NR @data=data.right(3,0)@ 9 |
+        console
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8

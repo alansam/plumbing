@@ -1,0 +1,28 @@
+
+  pipe (q0)
+   o: faninany |
+      sort |
+      split ; |
+      specs 1-* 4 |
+      console ?
+
+      query |
+      insert /0: query;/ before |
+      insert /\n/ after |
+      o: ?
+
+      query version |
+      insert /1: query version;/ before |
+      insert /\n/ after |
+      o: ?
+
+      query level |
+      insert /2: query level;/ before |
+      insert /\n/ after |
+      o: ?
+
+      query source |
+      insert /3: query source;/ before |
+      insert /\n/ after |
+      o: ?
+

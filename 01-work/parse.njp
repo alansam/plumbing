@@ -1,0 +1,93 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class parse public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method parse() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    dlm = '-'.copies(60)
+
+    do label _piping
+      do label p0
+        say dlm.overlay(' p0 ', 3)
+
+        pipe (p0 stall 1000 debug 0 )
+             literal abc;DEF;ghi |
+             split ; |
+             parse  / 2 _1 +1/ /The second letter is '_1'. __1 won't be changed./ |
+             specs 1-* 4 |
+             console
+
+      end p0
+
+      do label p1
+        say dlm.overlay(' p1 ', 3)
+
+        pipe (p1 stall 1000 debug 0 )
+             literal abc;DEF;ghi |
+             split ; |
+             parse  / _1 2 _2 +1 _3/ NR /_2 = _2.upper/ /_1_2_3/ |
+             specs 1-* 4 |
+             console
+
+      end p1
+
+      do label p2
+        say dlm.overlay(' p2 ', 3)
+
+        pipe (p2 stall 1000 debug 0 )
+             literal abc;DEF;ghi |
+             split ; |
+             parse  /_1 2 _2 +1 _3/ ,
+                    NR /if _2.datatype('l') then counter['c'] = counter['c'] + 1; _2 = _2.upper/ ,
+                    /-_1-_2-_3-/ ,
+                    FINALLY /return counter['c'] 'changed to upper'/ |
+             specs 1-* 4 |
+             console
+
+      end p2
+
+      do label p3
+        say dlm.overlay(' p3 ', 3)
+
+        pipe (p3 stall 1000 debug 0 )
+             literal abc;DEF;ghi |
+             split ; |
+             parse /2 _1 +1/ ,
+                   NR /counter[1] = counter[1] + 1; _1 = _1.upper.right(8)/ ,
+                   FINALLY /return "Count:" counter[1]/ ,
+                   /_1/ |
+             specs 1-* 4 |
+             console
+
+      end p3
+    end _piping
+    say dlm
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

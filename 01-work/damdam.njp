@@ -1,0 +1,25 @@
+
+      pipe (d0 debug 0 )
+       q: faninany |
+          spec /~~/ 1 1-* 4 |
+          console ?
+
+          literal bibby;billy;belly;bubby;bobby bobby bobby;baggy |
+          split ; |
+--                                  | -- /* Input from caller.          */ |
+--     o: fanout                    | -- /* Divert copy for output.     */ |
+       o: locate anycase /bobby/    | -- /* Select target record(s).    */ |
+          spec /##/ 1 1-* 4 |
+       d: dam                       | -- /* First one opens floodgate.  */ |
+          q: ?
+
+          o:                        | -- /* The input records           */ |
+          elastic                   | -- /* Hold until dam bursts.      */ |
+          d:                        | -- /* Possibly go over the dam.   */ |
+                                    | -- /* Output to caller.           */ |
+       p: count lines |
+          q: ?
+
+          p: |
+          q:
+

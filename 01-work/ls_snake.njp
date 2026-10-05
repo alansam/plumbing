@@ -1,0 +1,24 @@
+
+  pipe (ls_snake stall 1000 debug 0 )
+   o: faninany |
+      console ?
+
+      command ls -aF |
+      xlate *-* 20 a0 | -- convert SP to NBSP |
+   x: fanout |
+   q: fanin |
+      spec w1 1 / / n | -- force a space to end of word |
+      snake 5 |
+      spec w1 1 w2 24 w3 48 w4 72 w5 96 | -- inprove layout |
+   k: fanin |
+      o: ?
+
+      literal | -- push some empty lines to end of stream |
+      dup 5 |
+      q: ?
+
+      x: |
+      count lines | -- calculate file count |
+      spec /Count:/ 1 word1 nextword.6 right |
+      k:
+
