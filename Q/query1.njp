@@ -17,11 +17,16 @@ class query1 public
     PIPE (what end ? debug 127)
       literal GET /index.nsp\r\r\n |
       tcpclient {useip} {port} linger 100 timeout 4000 |
-      rexx to stem a
+      stemw a
 
-    say '.'.copies(60)a
-    say '  output records:' a[0]
-    say '  ' a[1]
+--    rexx to stem a
+
+    say
+    say '~'.copies(60)
+    say '.'.copies(60)"'"a"'"
+    say '  output records:' "'"a[0]"'"
+    say '  ' "'"a[1]"'"
+    say
 
   method main(args = String[]) public static
 

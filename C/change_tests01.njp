@@ -117,13 +117,13 @@ pipe (change_tests01)
    change /_// |
    c6: ?
 
--- change anycse x-char /new/ & /old/ /new/ ?
+-- change anycase x-char /new/ & /old/ /new/ ?
    literal line 1.1;line 1.2 last;_;line 2.1;line 2;Line 2.2;LIne 2.3 LAST;_;LINE 3.1 last |
    split ; |
    change /_// |                  -- generate a null record |
    change anycase  x6c /111/ * |  -- real test |
    change /t/ /777/ * |           -- real test |
-   c7: compare any ~2# 7 change anycse x-char /new/ & /old/ /new/ ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   c7: compare any ~2# 7 change anycase x-char /new/ & /old/ /new/ ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
    o: ?
    literal 111ine 1.1;111ine 1.2 111as777;_;111ine 2.1;111ine 2;111ine 2.2;111Ine 2.3 111AST;_;111INE 3.1 111as777 |
    split ; |
