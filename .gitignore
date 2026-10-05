@@ -3,6 +3,7 @@
 
 # Log file
 *.log
+ALL.DEBUG
 
 # Program outpup files
 *.out
