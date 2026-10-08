@@ -1,0 +1,96 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class hash0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+
+  properties private
+    hashie_ = Hashtable
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method hash0() public
+
+    hashie_ = Hashtable()
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    our = hash0()
+    ht  = our.hashie_
+    htk = ''
+    htk[0] = 0
+
+    do label _plumbing
+
+      pipe (h0 stall 1000 debug 0 -gen )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          literal Z 1000;B 2000;c 4444; q 90403;H 90404 |
+          split ; |
+          strip both blank |
+          dict0 |
+          sort |
+          split |
+       q: fanout |
+          hash {ht} ?
+
+          q: |
+          join 1 / / |
+       r: fanout |
+          spec w1 1 w2 nw.6 right |
+          o: ?
+
+          r: |
+          spec w1 1 |
+          sort |
+          stemw htk
+
+    end _plumbing
+
+    say
+    say 'Loop over output Hashmap'
+    loop _key over ht
+      say (Rexx _key).right(5)':' (Rexx ht.get(_key)).right(6)
+    end _key
+
+    say
+    say 'Loop through array of sorted keys for output Hashmap'
+    say ':'htk[0]
+    loop _k = 1 to htk[0]
+--    say '::'htk[_k]
+      say htk[_k].right(5)':' (Rexx ht.get(htk[_k])).right(6)
+    end _k
+    say
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

@@ -1,0 +1,23 @@
+
+  pipe (zone2dec0 stall 1000 debug 0 ) 
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal 12345 1234E 1234N 0000{ 1000} |
+      split |
+      spec 5 3 1-* 4 |
+      spec 3-* 1 |
+      xlate 1 7B + |
+      xlate 1 7D . |
+      xlate 1 A-I + |
+      xlate 1 J-R . |
+      xlate 6 7B 30 |
+      xlate 6 7D 30 |
+      xlate 6 A-I 1-9 |
+      xlate 6 J-R 1-9 |
+      xlate 1 0-9 _ |
+      change 1 /_/ / |
+      change 1 /./-/ |
+      o:
+

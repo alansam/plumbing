@@ -1,0 +1,8 @@
+
+  pipe (filer0 stall 1000 debug 0 )
+      filer ./data/_ruler |
+      console ?
+
+  -- disk/file handling stages:
+  --   < diskr filer, > diskw filew, >> diska filea, diskslow
+

@@ -1,0 +1,91 @@
+
+  pipe (digest0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      > ./data/digest0_out.a1 |
+      console ?
+
+      < ./data/_null |
+   d: fanout |
+   k: count bytes |
+      spec /Data :/ 1 1-* c2x nw |
+      o: ?
+
+      k: |
+      spec /Bytes:/ 1 w1 nw.6 right |
+      o: ?
+
+      d: |
+      digest |
+      spec /digest            :/ 1 1-* nw |
+      o: ?
+
+      d: |
+      digest sha  |
+      spec /digest sha        :/ 1 1-* nw |
+      o: ?
+
+      d: |
+      digest sha1 |
+      spec /digest sha1       :/ 1 1-* nw |
+      o: ?
+
+      d: |
+      digest sha224 |
+      spec /digest sha224     :/ 1 1-* nw |
+      o: ?
+
+      d: |
+      digest sha256 |
+      spec /digest sha256     :/ 1 1-* nw |
+      o: ?
+
+      d: |
+      digest sha384 |
+      spec /digest sha384     :/ 1 1-* nw |
+      o: ?
+
+      d: |
+      digest sha512 |
+      spec /digest sha512     :/ 1 1-* nw |
+      o: ?
+
+      d: |
+      digest sha512/224 |
+      spec ,digest sha512/224 :, 1 1-* nw |
+      o: ?
+
+      d: |
+      digest sha512/256 |
+      spec ,digest sha512/256 :, 1 1-* nw |
+      o: ?
+
+      d: |
+      digest md5 |
+      spec /digest md5        :/ 1 1-* nw |
+      o: ?
+
+      d: |
+      digest md2 |
+      spec /digest md2        :/ 1 1-* nw |
+      o: ?
+
+--/** digest -- Compute a Message Digest\n" -
+--
+--   >>--DIGEST--+-SHA1-----------+--+------------------------+--><
+--               +-SHA224---------+  +--APPEND-(1)------------+
+--               +-SHA256---------+  +--VERIFY-(1)-+----------+
+--               +-SHA384---------+                +--NOT-(1)-+
+--               +-SHA512---------+
+--               +-MD5------------+
+--               +-MD2-(2)--------+
+--               +-SHA512/224-(2)-+
+--               +-SHA512/256-(2)-+
+--
+--(1) CMS Pipelines only.
+--(2) NetRexx Pipelines only (dependent on the JVM implementation).
+--
+--   NetRexx Pipelines returns the bytearray as a HEX string
+--   CMS returns a char array into the pipeline
+-- */
+

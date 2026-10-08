@@ -1,0 +1,13 @@
+
+  pipe (diskr0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      diskr ./data/_ruler |
+      spec /[>/ 1 1-* next /<]/ next |
+      o: ?
+
+  -- disk/file handling stages:
+  --   < diskr filer, > diskw filew, >> diska filea, diskslow
+

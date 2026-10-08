@@ -1,0 +1,13 @@
+
+  pipe (xlate3 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal 12345 1234E 1234N 0000[ 1000] |
+      xlate *-* 5B 7B |
+      xlate *-* 5D 7D |
+      split |
+      zone2dec | -- use zone2dec module to convert zoned decimal |
+      o:
+

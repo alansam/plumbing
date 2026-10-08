@@ -1,0 +1,16 @@
+
+  pipe (diska0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal This record appended to end of file. |
+      diska ./tmp/diskw0_out.a3 ?
+
+      diskr ./tmp/diskw0_out.a3 |
+      take last 15 |
+      o: ?
+
+  -- disk/file handling stages:
+  --   < diskr filer, > diskw filew, >> diska filea, diskslow
+

@@ -1,0 +1,12 @@
+
+  pipe (diskw0 stall 1000 debug 0 )
+      random 1966 17 |
+      take first 9999 |
+      spec 1-* 1.10 right |
+      sort |
+      unique |
+      diskw ./tmp/diskw0_out.a3 ?
+
+  -- disk/file handling stages:
+  --   < diskr filer, > diskw filew, >> diska filea, diskslow
+
