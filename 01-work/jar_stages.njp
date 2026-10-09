@@ -18,7 +18,7 @@ class jar_stages extends stage public final
       -- command jar -tf /Users/alansampson/usr/local/NetRexx/lib/NetRexxF.jar |
       -- locate /stages/ | xlate 2f 20 | xlate 2e 20 | specs word 5-5 1 |
     pipe (js stall 1000 debug 0 )
-      diskr jar-stages.a |
+      diskr ./data/jar-stages.a1 |
       join 4 / / | menufmt | console
 
     exit

@@ -1,0 +1,19 @@
+
+  pipe (shagger )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      command ls ./data/shag/ |
+      casei locate /.a1/ |
+      spec ,./data/shag/, 1 1-* n |
+   f: fanout |
+      spec /File:/ 1 1-* nw |
+      o: ?
+
+      f: |
+      getfiles |
+      spec 1-* 4 |
+      o: ?
+      -- end of pipe
+

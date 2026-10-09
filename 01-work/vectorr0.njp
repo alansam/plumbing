@@ -1,0 +1,107 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class vectorr0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+
+  properties private static
+    _vikky = Vector()
+    _vokky = Vector()
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method vectorr0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method setup() private static
+
+    _vikky.addElement(rexx 5)
+    _vikky.addElement(rexx 4)
+    _vikky.addElement(rexx 3)
+    _vikky.addElement(rexx 2)
+    _vikky.addElement(rexx 1)
+
+    _vokky.addElement(rexx 99)
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    do label _plumbing
+      setup()
+
+      say '    \-'
+      say '~'.copies(60).overlay(' _vikky ', 3)
+      loop _i over _vikky
+        say '   _vikky:' (Rexx _i).right(6)
+      end _i
+      say
+
+      say '    \-'
+      say '~'.copies(60).overlay(' _vokky ', 3)
+      loop _o over _vokky
+        say '   _vokky:' (Rexx _o).right(6)
+      end _o
+      say
+
+
+      say '    \-'
+      say '~'.copies(60).overlay(' _plumbing ', 3)
+
+      pipe (v0 stall 1000 debug 0 -gen )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          vectorr {_vikky} |
+       f: fanout |
+          spec /_vikky:/ 1 1-* nw.6 right |
+          o: ?
+
+          f: |
+          vector {_vokky} ?
+          -- end of pipe
+
+      say
+      say '    \-'
+      say '~'.copies(60).overlay(' _vokky ', 3)
+      loop _v over _vokky
+        say '   _vokky:' (Rexx _v).right(6)
+      end _v
+      say
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

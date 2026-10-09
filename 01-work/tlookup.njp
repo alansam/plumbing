@@ -14,17 +14,19 @@ class tlookup extends stage public final
 
     /* Dictionary lookup */
     pipe (tl end ? stall 1000 debug 170 )
-      < detail_records.a1 |
-      l: lookup 1.10 |
-      sort |
-      > matching_records.a3 ?
-      < master_records.a1 |
-      l: |
-      sort |
-      > unmatched_details.a3 ?
-      l: |
-      sort |
-      > unreferenced_masters.a3
+        < ./data/detail_records.a1 |
+     l: lookup 1.10 |
+        sort |
+        > ./data/matching_records.a3 ?
+
+        < ./data/master_records.a1 |
+        l: |
+        sort |
+        > ./data/unmatched_details.a3 ?
+
+        l: |
+        sort |
+        > ./data/unreferenced_masters.a3
 
     exit
 

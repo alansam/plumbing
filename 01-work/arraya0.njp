@@ -1,0 +1,112 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class arraya0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private static
+    raf = Rexx[5]
+    sas = Rexx[20]
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method arraya0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method setup() private static
+
+    raf[1] = 'Per'
+    raf[2] = 'Ardua'
+    raf[3] = 'Ad'
+    raf[4] = 'Astra'
+    raf[0] = 4
+
+    sas[1] = 'Who'
+    sas[2] = 'Dares'
+    sas[3] = 'Wins'
+    sas[0] = 3
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    do label _plumbing
+      setup()
+
+      say '  raf, length:' raf.length
+      say '  raf[0]:' raf[0]
+      say
+      say '  sas, length:' sas.length
+      say '  sas[0]:' sas[0]
+      say
+
+      say '  \-'
+      say '~'.copies(60).overlay(' _plumbing ', 3)
+
+      pipe (arraya0 stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          arrayr {raf} |
+          spec /RAF/ 1 1-* nw.6 left /~~~/ nw |
+          o: ?
+
+          arrayr {sas} |
+          spec /SAS/ 1 1-* nw.6 left /~~~/ nw |
+          o: ?
+
+          arrayr {raf} |
+          arraya {sas} ?
+
+          -- end of pipe
+      say
+
+      say '  \-'
+      say '~'.copies(60).overlay(' raf, length: 'raf.length' ', 3)
+      loop _a = 0 to raf[0]
+        say '  '_a.right(3)':' raf[_a]
+      end _a
+      say
+
+      say '  \-'
+      say '~'.copies(60).overlay(' sas, length: 'sas.length' ', 3)
+      loop _a = 0 to sas[0]
+        say '  '_a.right(3)':' sas[_a]
+      end _a
+      say
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

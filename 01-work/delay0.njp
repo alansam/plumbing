@@ -1,0 +1,26 @@
+
+  pipe (delay0 stall 1000 debug 0 )
+      literal +02 |
+      duplicate 5 |
+      delay +03 |
+      timestamp 16 |
+      spec 1-4 1 /-/ n 5-6 n /-/ n 7-8 n / / n 9-10 n /%/ n 11-12 n /%/ n 13-14 n /./ n 15-* n |
+      spec /~0~/ 1 1-* nw /~0~/ nw |
+--    timestamp isodate |
+--    timestamp string /%Y-%m-%dT%H:%M:%S / |
+      xlate % 3A |
+      timestamp string ~1~ %T ~1~ |
+      timestamp string %Y-%m-%d %H!%M!%S.%t ~2~ |
+      xlate ! 3A |
+      timestamp string %F %T.%t ~3~ |
+      timestamp iso ~4~ |
+      take 3 |
+      spec 1-* 4 |
+      console ?
+
+-- literal +01 |
+-- delay | 
+-- timestamp string /%T / |
+-- take 3 |
+-- cons ?
+

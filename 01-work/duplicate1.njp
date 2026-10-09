@@ -1,0 +1,26 @@
+
+  pipe (duplicate1 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal CMS Pipelines |
+      split |
+      dup |
+      spec /~0~/ 1 1-* nw /~0~/ nw |
+      o: ?
+
+      literal CMS Pipelines |
+      split |
+      dup 2 |
+      spec /~1~/ 1 1-* nw /~1~/ nw |
+      o: ?
+
+      literal +1 |
+      dup * |
+      delay +1 |
+      timestamp string %T |
+      take 3 |
+      spec /~2~/ 1 1-* nw /~2~/ nw |
+      o: ?
+

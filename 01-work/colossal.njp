@@ -23,7 +23,7 @@ class colossal public
     do
 
       pipe (cc stall 1000 debug 00 )
-          diskr ./colossal_data.a1 |
+          diskr ./data/colossal_data.a1 |
           nlocate /--/ |
        m: nfind m |
        p: nfind p |

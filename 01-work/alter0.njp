@@ -1,0 +1,14 @@
+
+  pipe (alter0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal Per ardua ad astra |
+   c: fanout |
+      o: ?
+
+      c: |
+      alter from a to A , X20 X7E |
+      o:
+

@@ -1,0 +1,8 @@
+
+  pipe (drop0 stall 1000 debug 0 )
+      gen 200 |
+      drop first 150 |
+      drop last 10 |
+      spec 1-* 4.10 right |
+      console ?
+

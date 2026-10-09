@@ -1,10 +1,10 @@
 
-  pipe (count0 stall 1000 debug 0 )
+  pipe (count1 stall 1000 debug 0 )
    o: faninany |
       spec 1-* 4 |
       console ?
 
-      < ./data/toby_hamlet.a1 |
+      < ./data/shag/toby_hamlet.a1 |
    k: count words |
       -- remove punctuation |
       xlate *-* 7B-7E _ |

@@ -11,7 +11,7 @@ options replace java comments format
     split |
     a: fanin |
     sort |
-    > git-stages.a1 ?
+    > ./data/git-stages.a1 ?
     command ls {gitpipedir} |
     xlate /./ / |
     specs word 1 1 |

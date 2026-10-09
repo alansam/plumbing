@@ -1,0 +1,70 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class arrayr0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method arrayr0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    do label _plumbing
+
+      arry = Rexx[11]
+      arry = [ 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+      arry[0] = arry.length - 1
+
+      say '  \-'
+      say 'arry, length:' (Rexx arry.length).right(4)
+      loop _i = 0 to arry.length - 1
+        say '  ' || _i.right(4)':' (Rexx arry[_i]).right(6)
+      end _i
+      say
+
+      pipe (arrayr0 stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          arrayr {arry} |
+          spec /~~~/ 1 1-* nw.6 right /~~~/ nw |
+          o: ?
+
+--  catch ex = Exception /* perhaps */
+--    ...
+--    say ex.toString()
+
+    end _plumbing
+    say
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

@@ -1,0 +1,9 @@
+
+  pipe (duplicate0 stall 1000 debug 0 )
+      literal abc;def;ghi;jkl;mno;pqr;stu;vwx;yz |
+      split ; |
+      duplicate 2 |
+      join 2 / / term |
+      spec w1 4.3 left w2 nw.3 left w3 nw.3 left |
+      console ?
+

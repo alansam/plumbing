@@ -4,7 +4,8 @@
       spec 1-* 4 |
       console ?
 
-      < ./data/muse_henryv.a1 |
+      < ./data/shag/muse_henryv.a1 |
       count words |
+      spec /words:/ 1 1-* nw |
       o:
 

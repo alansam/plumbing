@@ -4,6 +4,6 @@
       specs w1 4 |
       console ?
 
-      < pi-var.a0 |
+      < ./data/pi-var.a0 |
       o:
 

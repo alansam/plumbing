@@ -16,21 +16,28 @@ class multigetfc public
     arg = Rexx(args)
     parse arg .
 
-    do
+    do label _plumbing
       pipe (mg stall 1000 debug 0 )
        o: faninany |
           console ?
-       a: command ls |
+
+       a: command ls ./data/ |
+          specs ,./data/, 1 1-* n |
           casei locate /.a3/ |
+       f: fanout |
+          o: ?
+
+          f: |
           getfiles |
           specs recno from 10000 by 1000 1 /!/ 11 1-* 12 /!/ 92 |
           specs /000/ 1 6-*   4 |
-          o:
+          o: ?
+          -- end of pipe
 
     catch ex = Exception
       say ex.getMessage()
       RC = (RC * (RC <> 12))
-    end
+    end _plumbing
 
     exit (RC * (RC <> 12))
 

@@ -21,7 +21,7 @@ class git_stages extends stage public final
       -- command jar -tf /Users/alansampson/usr/local/NetRexx/lib/NetRexxF.jar |
       -- locate /stages/ | xlate 2f 20 | xlate 2e 20 | specs word 5-5 1 |
     pipe (git stall 1000 debug 0 )
-      < git-stages.a1 |
+      < ./data/git-stages.a1 |
       change /.nrx// |
       join 4 / / |
       menufmt |

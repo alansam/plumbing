@@ -1,0 +1,120 @@
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- array_tests01.njp
+-- Tests for Array, ArrayW, and ArrayR
+
+/*
+  23/ 3/20 Prompts. Jeff Hennick
+  23/ 3/11 Add compare, etc.  Jeff Hennick
+  ? /  /
+*/
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class array0 extends Object
+
+  properties static
+    F = Rexx[6]   -- For reading
+    T = Rexx[4]   -- For writing
+    A = Rexx[9]   -- For adding
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method arrayt1() static
+
+    A[1] = 'First'
+    A[2] = 'Second'
+    A[0] = 2
+
+    F = [ 0, 505, 305, 405, 5505, 5405 ]
+    F[0] = F.length - 1
+
+    T[0] = 0
+
+    do label _plumbing
+      say '  \-'
+      say '~'.copies(60).overlay(' _plumbing: ', 3)
+
+      pipe (array0 stall 1000  -gen)
+       o: faninany |
+          sort singleok |
+          specs 1-* 4 |
+          console ?
+
+          arrayr {F} |
+          spec /.../ 1 1-* nw.8 right /.../ nw |
+          o: ?
+
+          arrayr {A} |
+          spec /~~~/ 1 1-* nw.8 left /~~~/ nw |
+          o: ?
+
+          array {F} |
+          arrayw {T} ?
+
+          array {F} |
+          arraya {A} ?
+
+      -- pipe ends here
+
+    end _plumbing
+    say
+
+    show_F()
+    show_T()
+    show_A()
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method show_F() private static
+
+    say '  \-'
+    say '~'.copies(60).overlay(' F, length: '(Rexx F.length).right(2)' ', 3)
+    loop _f = Rexx 0 to F.length - 1
+      fval = Rexx F[_f]
+      say '  '_f.right(4)':' fval.right(6)
+    end _f
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method show_T() private static
+
+    say '  \-'
+    say '~'.copies(60).overlay(' T, length: '(Rexx T.length).right(2)' ', 3)
+    loop _t = Rexx 0 to T.length - 1
+      tval = Rexx T[_t]
+      say '  '_t.right(4)':' tval.right(6)
+    end _t
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method show_A() private static
+
+    say '  \-'
+    say '~'.copies(60).overlay(' A, length: '(Rexx A.length).right(2)' ', 3)
+    loop _a = Rexx 0 to A[0]
+      aval = Rexx A[_a]
+      say '  '_a.right(4)':' aval.right(6)
+    end _a
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) static
+
+    arg = Rexx(args)
+    parse arg .
+
+    arrayt1()
+
+    exit
+

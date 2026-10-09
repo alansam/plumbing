@@ -12,12 +12,12 @@
       spec 1-* 4 |
       console ?
 
-      < ./data/muse_henryv.a1 |
+      < ./data/shag/muse_henryv.a1 |
    c: chop before blank |
       xlate upper |
       copy |
    s: spec 1-* 1 select 1 1-* next |
-      > ./data/muse-HI_henryv.a1 |
+      > ./data/shag/muse-HI_henryv.a1 |
       o: ?
 
       c: |

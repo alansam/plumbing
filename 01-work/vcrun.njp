@@ -2,10 +2,10 @@
   pipe (vcrun stall 1000 debug 0 )
    o: faninany |
       vcfmt |
-      > vcrun_out.a0 |
+      > ./data/vcrun_out.a0 |
       console ?
 
-      < vcipher/vcipher.data |
+      < ./vcipher/vcipher.data |
       specs 1-* 1 / / next |
       join 50 |
       vcencipher melancholy_dane |

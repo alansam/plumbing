@@ -1,0 +1,121 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class arrayw0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private static
+    vals = Rexx ''
+    arry = Rexx[10]
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method arrayw0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method setup() private static
+
+    vals[0] = 0
+    _v = vals[0]
+    _v = _v + 1; vals[_v] = 'abc'
+    _v = _v + 1; vals[_v] = 'def'
+    _v = _v + 1; vals[_v] = 'ghi'
+    _v = _v + 1; vals[_v] = 'jkl'
+    _v = _v + 1; vals[_v] = 'mno'
+    _v = _v + 1; vals[_v] = 'pqr'
+    _v = _v + 1; vals[_v] = 'stu'
+    _v = _v + 1; vals[_v] = 'vwx'
+    _v = _v + 1; vals[_v] = 'yz'
+    vals[0] = _v
+    say vals[0]
+
+    arry[0] = 0
+--  arry[0] = vals[0]
+--  loop _a = 1 to arry[0]
+--    arry[_a] = Rexx ''
+--  end _a
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    do label _plumbing
+      setup()
+
+      say 'vals, length:' vals.length
+      say 'vals[0]:' vals[0]
+      say 'arry, length:' arry.length
+      say 'arry[0]:' arry[0]
+      say
+
+      say '  \-'
+      say '~'.copies(60).overlay(' _plumbing ', 3)
+      pipe (arrayw0 stall 1000 debug 0 )
+       o:  faninany |
+           specs 1-* 4 |
+           console ?
+
+           stem vals |
+       k:  fanout |    
+           spec /~~~/ 1 1-* nw.3 left /~~~/ nw |
+           o: ?
+
+           k: |
+           arrayw {arry} ?
+
+     -- end of pipe
+
+      say
+      say '  \-'
+      say '~'.copies(60).overlay(' vals ', 3)
+      say '  vals, length:' vals[0]
+      say '  vals[0]:' vals[0]
+      loop _v = 0 to vals[0]
+        say '  '_v.right(3)':' vals[_v]
+      end _v
+
+      say
+      say '  \-'
+      say '~'.copies(60).overlay(' arry ', 3)
+      say '  arry, length:' arry.length
+      say '  arry[0]:' arry[0]
+      loop _a = 0 to arry[0]
+        say '  '_a.right(3)':' arry[_a]
+      end _a
+      say
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+
+    end _plumbing
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
