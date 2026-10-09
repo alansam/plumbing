@@ -1,0 +1,15 @@
+
+  pipe (cmsapar_report_too stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 | console ?
+
+      < ./tmp/cmsapar_results.a3 |
+   f: fanout |
+   spec /File:/ 1 1-* nw |
+   o: ?
+
+   f: |
+   getfiles |
+   o: ?
+   -- end of pipi
+

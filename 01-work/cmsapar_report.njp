@@ -2,7 +2,7 @@
 --  © Copyright Alan Sampson 2026
 
   pipe (cmsapar_report end ? stall 1000 debug 0 )
-      diskr ./data/applied-apars.a1 |
+      diskr ./tmp/applied-apars.a3 |
       specs 1-7 4 |
       sort |
       unique |
@@ -13,7 +13,7 @@
       specs 1-7 4 |
       a: ?
 
-      diskr ./data/missing-apars.a1 |
+      diskr ./tmp/missing-apars.a3 |
       sort |
       unique |
       specs 1-7 4 |
