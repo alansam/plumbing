@@ -1,0 +1,20 @@
+
+  pipe (elastic0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < ./tmp/shag_list.a0 |
+      nlocate /-HI_/ |
+      elastic |
+   f: fanout |
+      o: ?
+
+      f: |
+      getfiles |
+      elastic |
+      buffer|
+      spec /:/ 3 1-* nw |
+      o: ?
+      -- end of pipe
+

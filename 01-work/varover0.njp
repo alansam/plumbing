@@ -1,0 +1,159 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class varover0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method varover0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    -- Unicode: U+00AB U+00A0 - U+00A0 U+00BB
+    -- UTF-8 0xC2 0xAB 0xC2 0xA0 - 0xC2 0xA0 0xC2 0xBB 
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+
+    ZeroWing = ''
+    ZeroWing[0] = 0
+    _z = ZeroWing[0]
+    _z = _z + 1; ZeroWing[_z] = 'all'
+    _z = _z + 1; ZeroWing[_z] = 'your'
+    _z = _z + 1; ZeroWing[_z] = 'base'
+    _z = _z + 1; ZeroWing[_z] = 'are'
+    _z = _z + 1; ZeroWing[_z] = 'belong'
+    _z = _z + 1; ZeroWing[_z] = 'to'
+    _z = _z + 1; ZeroWing[_z] = 'us'
+    ZeroWing[0] = _z
+
+    parse 'BOMB SCREEN CHANCE JUSTICE' BOMB SCREEN CHANCE JUSTICE
+
+    ZeroWingIdx = ''
+    ZeroWingIdx[0] = 0
+    _z = ZeroWingIdx[0]
+    _z = _z + 1; ZeroWingIdx[_z] = BOMB
+    _z = _z + 1; ZeroWingIdx[_z] = SCREEN
+    _z = _z + 1; ZeroWingIdx[_z] = CHANCE
+    _z = _z + 1; ZeroWingIdx[_z] = JUSTICE
+    ZeroWingIdx[0] = _z
+
+    ZeroWing[BOMB]    = 'somebody set up us the bomb'
+    ZeroWing[SCREEN]  = 'main screen turn on'
+    ZeroWing[CHANCE]  = 'you have no chance to survive make your time'
+    ZeroWing[JUSTICE] = 'for great justice'
+
+    say '   \-'
+    say '~'.copies(60).overlay(' ZeroWing ', 3)
+    loop _z = 1 to ZeroWing[0]
+      say '    '_z.right(2)':' ZeroWing[_z]
+    end _z
+    say
+
+    say '   \-'
+    say '~'.copies(60).overlay(' ZeroWingIdx ', 3)
+    loop _z = 1 to ZeroWingIdx[0]
+      say '    '_z.right(2)':' ZeroWingIdx[_z].left(7) '- \-' 
+      say ZeroWing[ZeroWingIdx[_z]]
+    end _z
+    say
+
+    do label _plumbing
+
+      zix = ''
+      zix[0] = 0
+
+      say '   \-'
+      say '~'.copies(60).overlay(' _plumbing - stem ZeroWing ', 3)
+
+      pipe (zw0 stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          stem ZeroWing |
+          spec /~~~/ 1 1-* nw.6 /~~~/ nw |
+          o: ?
+          -- end of pipe
+
+      say
+
+      say '   \-'
+      say '~'.copies(60).overlay(' _plumbing - varover ZeroWing ', 3)
+      -- NOTE: inserting unicode characters into stream via spec stage
+
+      pipe (zwv0 stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          varover ZeroWing |
+--        spec /+++/ 1 1-* nw.44 /+++/ nw |
+          spec  /~/ 1 1-* NR @return '\U00AB\U00A0'data'\U00A0\U00BB'@ nw.48 left /~/ nw |
+          o: ?
+          -- end of pipe
+
+      say
+
+      say '   \-'
+      say '~'.copies(60).overlay(' _plumbing - stem ZeroWingIdx ', 3)
+
+      pipe (zwi0 stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          stem ZeroWingIdx |
+       z: fanout |
+          spec /###/ 1 1-* nw.7 /###/ nw |
+          o: ?
+
+          z: |
+          stem zix ?
+          -- end of pipe
+
+      say
+
+      say '   \-'
+      say '~'.copies(60).overlay(' _plumbing - ZeroWing[ZeroWingIdx[N]] ', 3)
+
+      loop _z = 1 to zix[0]
+        say '    '_z.right(2)':' zix[_z].left(7) '- \-'
+        say gullymet[0] || ZeroWing[zix[_z]] || gullymet[1]
+      end _z
+
+      say
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

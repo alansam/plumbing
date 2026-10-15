@@ -1,0 +1,107 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class gate0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method gate0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    do label _plumbing
+
+      say '~'.copies(60).overlay(' gate1 ', 3)
+      do label _gatet1
+
+        pipe (gatet1   end ? debug 0 )
+            gen 1000 |
+            locate /00/ |
+            specs /gated/ 1 1-* nextw |
+            console |
+            locate /900/ |
+         a: gate ?
+
+            gen 1000 |
+            a: |
+            locate /00/ |
+            console ?
+
+            gen 1000 |
+            a: |
+            locate /00/ |
+            console ?
+
+            gen 1000 |
+            a: |
+            locate /00/ |
+            console ?
+            -- end of pipe
+
+      end _gatet1
+      say
+
+      say '~'.copies(60).overlay(' gate2 ', 3)
+      do label _gatet2
+
+        pipe (gatet2   end ? debug 0 )
+            gen 500 |
+            locate /00/ |
+            specs /gated/ 1 1-* nextw |
+            console |
+            locate /300/ |
+         a: gate strict |
+            gen 1000 |
+            a: |
+            locate /00/ |
+            console ?
+
+            gen 1000 |
+            a: |
+            locate /00/ |
+            console ?
+
+            gen 1000 |
+            a: |
+            locate /00/ |
+            console ?
+            -- end of pipe
+
+      end _gatet2
+      say
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

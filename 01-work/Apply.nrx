@@ -1,0 +1,41 @@
+#!/usr/bin/env nr
+/* NetRexx */
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class Apply public extends Object
+
+  properties private constant
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method Apply()
+
+    ash1 = Hashtable()
+    ash1.put(rexx "owner", rexx "Bobby")
+    ash1.put(rexx "user",  rexx "Tommy")
+    ash1.put(rexx "item",  rexx "toolbox")
+
+    say '.'.copies(60)
+    loop key over ash1
+      say (rexx key).right(5)':' ash1.get(key)
+    end key
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+
+    say '.'.copies(60)
+    if args.length > 0 then
+      say (gullymet[0] || arg || gullymet[1]).centre(60)
+
+    say
+
+    Apply()
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

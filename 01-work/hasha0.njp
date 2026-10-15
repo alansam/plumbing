@@ -1,0 +1,101 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class hasha0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+    _dlm   = '='.copies(60)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private static
+    dwarves_ = Hashtable()
+    dwarfs_  = Hashtable()
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method hasha0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method prep() private static
+
+    dwarves_.put(Rexx 'A', Rexx 'Thorin Oakenshield')
+    dwarves_.put(Rexx 'B', Rexx 'Fíli')
+    dwarves_.put(Rexx 'C', Rexx 'Kíli')
+    dwarves_.put(Rexx 'D', Rexx 'Balin')
+    dwarves_.put(Rexx 'E', Rexx 'Dwalin')
+    dwarves_.put(Rexx 'F', Rexx 'Óin')
+    dwarves_.put(Rexx 'G', Rexx 'Glóin')
+
+    dwarfs_.put(Rexx 'H', Rexx 'Dori')
+    dwarfs_.put(Rexx 'I', Rexx 'Nori')
+    dwarfs_.put(Rexx 'J', Rexx 'Ori')
+    dwarfs_.put(Rexx 'K', Rexx 'Bifur')
+    dwarfs_.put(Rexx 'L', Rexx 'Bofur')
+    dwarfs_.put(Rexx 'M', Rexx 'Bombur')
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    prep()
+
+    say '   \-'
+    say _dlm
+    do label _plumbing
+
+      pipe (hasha0 stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          hashr {dwarfs_} |
+          hasha {dwarves_} ?
+
+          literal Append records to a Hashtable |
+          spec 1-* 1.60 centre |
+          o: |
+          -- end of pipe
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+    say
+
+    say '   \-'
+    say 'Thorin and Company:' (Rexx dwarves_.size()).right(6) 'members.'
+    if \dwarves_.isEmpty() then do
+      loop _v over dwarves_
+        say '   ' || (Rexx _v).right(3) || ':' dwarves_.get(_v)
+      end _v
+    end
+    say
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

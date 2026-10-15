@@ -1,0 +1,27 @@
+
+  pipe (hold0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal 1-abc;1-def;1-ghi;1-jkl;1-mno;1-pwr;1-stu;1-vwx;1-yz |
+      split ; |
+   w: hold |
+      o: ?
+
+      literal holding... |
+      o: ?
+
+      literal running...;2~~123;2~~456 |
+      split ; |
+      w: ?
+
+      w: |
+   q: fanin |
+      o: ?
+
+      literal more...;3~~~ABC;3~~~DEF;3~~~GHI |
+      split ; |
+      q: ?
+      -- .*
+

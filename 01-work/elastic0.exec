@@ -1,0 +1,10 @@
+/* See what files are imbedded (simplistic) */
+  'PIPE (name ELASTIC)',
+  '|< document script',               /* Prime with main document       */
+  '|find .im_',                       /* Look for these                 */
+  '|e: elastic',                      /* Maintain list of files to do   */
+  '|spec word 2 1 /script/ nextword', /* Generate file name             */
+  '|> document imbeds a',             /* Write result                   */
+  '|getfiles',                        /* Read the contents of the files */
+  '|find .im_',                       /* Look for these                 */
+  '|e:'                               /* Put on to-do list              */

@@ -1,0 +1,19 @@
+
+  pipe (faninany0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < ./data/shag/tomorrow_macbeth.a1 |
+      buffer |
+      xlate upper |
+      spec /tomorrow:/ 1 1-* nw |
+      o: ?
+
+      < ./data/shag/muse_henryv.a1 |
+      buffer |
+      xlate lower |
+      spec /muse:    / 1 1-* nw |
+      o: ?
+      -- end of pipe
+

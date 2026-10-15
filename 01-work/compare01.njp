@@ -1,0 +1,535 @@
+c08#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class compare01 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+    _dlm = '~'.copies(60)
+
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method compare01() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c01(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare (equal)'
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c01 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+      c1: compare |
+     c1a: compare any      ~2# 1 compare (equal) \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c1: ?
+
+          literal 0 |
+          c1a: ?
+          -- end of pipe
+      say
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c02(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare (greater)'
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c02 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+      c2: compare |
+     c2a: compare any      ~2# 2 compare (greater) \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c2: ?
+
+          literal 1 |
+          c2a: ?
+          -- end of pipe
+      say
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c03(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare (lesser)'
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c03 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+      c3: compare |
+     c3a: compare any      ~2# 3 compare (lesser) \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c3: ?
+
+          literal -1 |
+          c3a: ?
+          -- end of pipe
+
+      say
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c04(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare (fewer)'
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c04 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+      c4: compare |
+     c4a: compare any      ~2# 4 compare (fewer) \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c4: ?
+
+          literal -1 |
+          c4a: |
+          -- end of pipe
+
+      say
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c05(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare (more)'
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c05 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+      c5: compare |
+     c5a: compare any      ~2# 5 compare (more) \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c5: ?
+
+          literal 1 |
+          c5a: |
+          -- end of pipe
+
+      say
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c06(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare binary (more)'
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c06 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+      c6: compare binary |
+     c6a: compare any      ~2# 6 compare binary (more) \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+   o: ?
+
+          literal {tsb} |
+          split ; |
+          c6: ?
+
+          literal 1 |          -- expected out |
+          c6a: ?
+          -- end of pipe
+
+      say
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c07(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare binary (less)'
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c07 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+      c7: compare binary |
+     c7a: compare any ~2# 7 compare binary (less) \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c7: ?
+
+          literal 1 |          -- expected out |
+          c7a: ?
+          -- end of pipe
+
+      say
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c08(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare binary (equal)'
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c08 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+      c8: compare binary |
+     c8a: compare any ~2# 7 compare binary (equal) \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c8: ?
+
+          literal 0 |          -- expected out |
+          c8a: ?
+          -- end of pipe
+
+      say
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c09(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare equal /Same/ less /Less/ more /More/ (Same) '
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c09 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+      c9: compare equal /Same/ less /Less/ more /More/ |
+     c9a: compare any      ~2# 9 compare equal /Same/ less /Less/ more /More/ (Same)  \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c9: ?
+
+          literal Same |
+          c9a: ?
+          -- end of pipe
+
+      say
+
+    end _plumbing
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c10(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare equal /Same/ less /Less/ more /More/ (More) '
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c10 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+     c10: compare equal /Same/ less /Less/ more /More/ |
+    c10a: compare any      ~2#10 compare equal /Same/ less /Less/ more /More/ (More)  \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c10: ?
+
+          literal More |
+          c10a: ?
+          -- end of pipe
+
+      say
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_c11(tsa = Rexx, tsb = Rexx) private static
+
+    say '-- compare equal /Same/ less /Less/ more /More/ (Less) '
+    say '  Test strings:' gullymet[0] || tsa || gullymet[1]',' gullymet[0] || tsb || gullymet[1]
+    say
+
+    do label _plumbing
+
+      pipe (c11 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          literal {tsa} |
+          split ; |
+     c11: compare equal /Same/ less /Less/ more /More/ |
+    c11a: compare any      ~2#11 compare equal /Same/ less /Less/ more /More/ (Less)  \n\n~,
+                  equal    ~OK!~,
+                  notequal ~GRONK! at rec \\c col \\b.\n~,
+                  less     ~  Less:\n      Actual: \\p\n    Expected: \\s\n~,
+                  more     ~  More:\n      Actual: \\p\n    Expected: \\s\n~ |
+          o: ?
+
+          literal {tsb} |
+          split ; |
+          c11: ?
+
+          literal Less |
+          c11a: ?
+          -- end of pipe
+
+      say
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method plumb_nowt(tsa = Rexx, tsb = Rexx) private static
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    say _dlm
+    plumb_c01('1,2,3,4', '1,2,3,4')
+    plumb_c01('1,5,3,4', '1,2,3,4')
+    plumb_c01('1,2,3,4', '1,5,3,4')
+    say
+
+    say _dlm
+    plumb_c02('1,2,3,4', '1,2,3,4')
+    plumb_c02('1,5,3,4', '1,2,3,4')
+    plumb_c02('1,2,3,4', '1,5,3,4')
+    say
+
+    say _dlm
+    plumb_c03('1,2,3,4', '1,2,3,4')
+    plumb_c03('1,5,3,4', '1,2,3,4')
+    plumb_c03('1,2,3,4', '1,5,3,4')
+    say
+
+    say _dlm
+    plumb_c04('1,2,3,4', '1,2,3,4')
+    plumb_c04('1,2,3',   '1,2,3,4')
+    plumb_c04('1,2,3,4', '1,2,3')
+    say
+
+    say _dlm
+    plumb_c05('1,2,3,4', '1,2,3,4')
+    plumb_c05('1,2,3',   '1,2,3,4')
+    plumb_c05('1,2,3,4', '1,2,3')
+    say
+
+    say _dlm
+    plumb_c06('1,2,3,4', '1,2,3,4')
+    plumb_c06('1,2,3',   '1,2,3,4')
+    plumb_c06('1,2,3,4', '1,2,3')
+    say
+
+    say _dlm
+    plumb_c07('1,2,3,4', '1,2,3,4')
+    plumb_c07('1,2,3',   '1,2,3,4')
+    plumb_c07('1,2,3,4', '1,2,3')
+    say
+
+    say _dlm
+    plumb_c08('1,2,3,4', '1,2,3,4')
+    plumb_c08('1,2,3,4', '1,5,3,4')
+    plumb_c08('1,5,3,4', '1,2,3,4')
+    say
+
+    say _dlm
+    plumb_c09('1,2,3,4', '1,2,3,4')
+    plumb_c09('1,2,3,4', '1,5,3,4')
+    plumb_c09('1,5,3,4', '1,2,3,4')
+    say
+
+    say _dlm
+    plumb_c10('1,2,3,4', '1,2,3,4')
+    plumb_c10('1,2,3',   '1,2,3,4')
+    plumb_c10('1,2,3,4', '1,2,3')
+    say
+
+    say _dlm
+    plumb_c11('1,2,3,4', '1,2,3,4')
+    plumb_c11('1,2,3',   '1,2,3,4')
+    plumb_c11('1,2,3,4', '1,2,3')
+    say
+
+    plumb_nowt('1,2,3,4', '1,5,3,4')
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

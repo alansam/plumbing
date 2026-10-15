@@ -1,0 +1,17 @@
+
+  pipe (hole0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal abc def ghi jkl mno pqr stu vwx yz |
+      split |
+      hole |
+   x: fanin |
+      o: ?
+
+      literal 01 23 45 67 89 |
+      split |
+      x: ?
+      -- .*
+

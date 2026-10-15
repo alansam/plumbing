@@ -1,0 +1,21 @@
+
+  pipe (getfiles0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      strliteral ,ls ./data/shag/, |
+      command |
+      casei locate .a1 |
+      casei nlocate /-HI_/ |
+      spec ,./data/shag/, 1 1-* n |
+   f: fanout |
+      spec /### Filename:/ 1 1-* nw |
+      o: ?
+
+      f: |
+      getfiles |
+      spec 1-* 4 |
+      o: ?
+      -- end of pipe
+

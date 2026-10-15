@@ -1,0 +1,54 @@
+/* NetRexx Pipes */
+-- compile with pipc
+
+class dateconv90 public
+
+  properties constant
+    mnames = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'
+    dlm = '~'.copies(60)
+
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    loop _m = 1 to 12
+      ndate = '14' mnames.word(_m) '2026'
+      udate = _m.right(2, 0) || '/14/2026'
+      idate = '2026-' || _m.right(2, 0) || '-14'
+
+      do label _plumbing
+        say dlm.overlay(' Date normal:' ndate' ', 3)
+
+        pipe (n0 stall 1000 debug 0 )
+            literal {ndate} |
+            dateconvert normal iso |
+            spec 1-* 4 |
+            console ?
+            -- the end
+
+        say dlm.overlay(' Date usa:' udate' ', 3)
+
+        pipe (u0 stall 1000 debug 0 )
+            literal {udate} |
+            dateconvert usa iso |
+            spec 1-* 4 |
+            console ?
+            -- the end
+
+        say dlm.overlay(' Date iso:' idate' ', 3)
+
+        pipe (i0 stall 1000 debug 0 )
+            literal {idate} |
+            dateconvert iso normal |
+            spec 1-* 4 |
+            console ?
+            -- the end
+
+        say
+      end _plumbing
+      say
+    end _m
+
+    exit
+

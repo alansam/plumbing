@@ -1,0 +1,40 @@
+
+  pipe (frlabel0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal a1a b2b c3c d4d e5e f6f g7g|
+  f1: fanout |
+      spec /1~~/ 1 1-* nw |
+      o: ?
+
+      f1: |
+      split |
+      frlabel d |
+      spec /1../ 1 1-* nw |
+      o: ?
+
+      literal h1a i2b j3c k4d l5e m6f n7g|
+  f2: fanout |
+      spec /~2~~/ 1 1-* nw |
+      o: ?
+
+      f2: |
+      split |
+      frlabel |
+      spec /.2../ 1 1-* nw |
+      o: ?
+
+      literal o1a p2b q3c r4d s5e t6f u7g|
+  f3: fanout |
+      spec /~~3~~/ 1 1-* nw |
+      o: ?
+
+      f3: |
+      split |
+      fromlabel q |
+      spec /..3../ 1 1-* nw |
+      o: ?
+      -- end of pipe
+

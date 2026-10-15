@@ -1,0 +1,14 @@
+
+  pipe (comment0 stall 1000 debug 63 )
+      -- a dashy comment ?
+
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal abc |
+      comment a commenty comment |
+      reverse |
+      o: ?
+      -- end of pipe comment
+

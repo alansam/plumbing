@@ -1,0 +1,22 @@
+
+  pipe (fblock0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      diskslow ./data/shag/tomorrow_macbeth.a1 |
+      fblock 80 20 |
+      fileslow ./tmp/tomorrow_mabbethFB.a3 ?
+
+      literal ./data/shag/tomorrow_macbeth.a1;./tmp/tomorrow_macbethFB.a3 |
+      split ; |
+   f: fanout |
+      spec ,stat -x, 1 1-* 9 |
+      command |
+      spec 1-* 8 |
+      o: ?
+
+      f: |
+      spec /File:/ 1 1-* nw |
+      o: ?
+      -- end of pipe

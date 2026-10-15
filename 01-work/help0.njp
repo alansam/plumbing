@@ -1,0 +1,12 @@
+
+  pipe (help0 stall 10 debug 0 ) 
+   o: faninany |
+      console ?
+
+      help help |
+   f: fanout ?
+
+      f: |
+      o: ?
+      -- end of pipe
+

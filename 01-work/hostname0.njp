@@ -1,0 +1,15 @@
+
+  pipe (hostname0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      hostname |
+      spec /hostname:     / 1 1-* nw |
+      o: ?
+
+      hostname includeip |
+      spec /hostname + IP:/ 1 1-* nw |
+      o: ?
+      -- .* ?
+

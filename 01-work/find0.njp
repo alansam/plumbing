@@ -1,0 +1,31 @@
+
+  pipe (find0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal axc;abc |
+      split ; |
+      find a c|
+      spec /1...:/ 1 1-* nw |
+      o: ?
+
+      literal dxc;dbc|
+      split ; |
+      find d c |
+      spec /.2.../ 1 1-* nw |
+      o: ?
+
+      literal f c;fxc;f_c |
+      split ; |
+      find f c |
+      spec /..3.:/ 1 1-* nw |
+      o: ?
+
+      literal h c;hxc;t_c |
+      split ; |
+      find h_c |
+      spec /...4:/ 1 1-* nw |
+      o: ?
+      -- end of pope
+

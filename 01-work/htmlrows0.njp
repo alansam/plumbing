@@ -1,0 +1,49 @@
+
+  pipe (htmlrows0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort singleok |
+      spec 1-* 4 |
+      console ?
+
+      literal abc,def,ghi jkl,mno,pqr stu,vwx,yz 01234,56789 |
+      split |
+      htmlrows |
+      o: ?
+
+      literal abc,def,ghi jkl,mno,pqr stu,vwx,yz 01234,56789 |
+      split |
+      htmlrows row id="R00" |
+      o: ?
+
+      literal abc,def,ghi jkl,mno,pqr stu,vwx,yz 01234,56789 |
+      split |
+      htmlrows head id="H11" |
+      o: ?
+
+      literal abc,def,ghi jkl,mno,pqr stu,vwx,yz 01234,56789 |
+      split |
+      htmlrows head id="H11" data id="D11" |
+      o: ?
+
+      literal abc,def,ghi jkl,mno,pqr stu,vwx,yz 01234,56789 |
+      split |
+      htmlrows data id="D22" |
+      o: ?
+
+      literal abcXXdefXXghi jklXXmnoXXpqr stuXXvwxXXyz 01234XX56789 |
+      split |
+      htmlrows sep XX |
+      o: ?
+
+      literal abcX Y XdefX Y Xghi;jklX Y XmnoX Y Xpqr;stuX Y XvwxX Y Xyz;01234X Y X56789 |
+      split ; |
+      htmlrows sep 'X Y X' |
+      o: ?
+
+      literal abc*def*ghi jkl*mno*pqr stu*vwx*yz 01234*56789 |
+      split |
+      htmlrows row id="R03" head id="H04" data id="D05" sep * |
+      o: ?
+      -- endl
+

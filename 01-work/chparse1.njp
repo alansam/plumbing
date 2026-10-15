@@ -39,7 +39,7 @@ class chparse1 public
 
         command jar tvf {jarfile} |
         nlocate /META-INF/ |
-        changepars /. . $1 $2 $3 $4 $5 $6/ /$5-$1-$2 $3 $4 $6/ |
+        changeparse /. . $1 $2 $3 $4 $5 $6/ /$5-$1-$2 $3 $4 $6/ |
         change /Jan/ /01/ |
         change /Feb/ /02/ |
         change /Mar/ /03/ |

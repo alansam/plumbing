@@ -4,31 +4,58 @@
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
 class Applay public
 
+  properties private constant
+
+    dlm_ = '~'.copies(60)
+
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method Applay() public
 
     ash = [ Rexx 6, 'O,', 'for', 'a', 'muse', 'of', 'fire' ]
     ath = Rexx[7]
 
-    pipe (fit_the_first stall 1000 )
-      array {ash} | console | reverse | arrayw {ath}
+    do label _plumbing
+      say dlm_.overlay(' _plumbing ', 3)
+
+      pipe (fit_the_first stall 1000 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          array {ash} |
+       f: fanout |
+          o: ?
+
+          f: |
+       k: count lines |
+          reverse |
+          arrayw {ath} ?
+
+          k: |
+          spec /line count:/ 1 1-* nw.3 right |
+          o: ?
+          -- end of pipe
+
+      end _plumbing
 
     say
+    say dlm_.overlay(' Rexx stem "ath[]" ', 3)
     loop a_ over ath
-      say a_
+      say ' ' || gullymet[0] || a_ || gullymet[1]
     end a_
+    say
 
     return
 
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method main(args = String[]) public static
 
-    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
-
     arg = Rexx(args)
 
     if arg.length > 0 then
-      say gullymet[0] || arg || gullymet[1]
+      say ' ' || gullymet[0] || arg || gullymet[1]
 
     Applay()
 
