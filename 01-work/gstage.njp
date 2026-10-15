@@ -1,0 +1,21 @@
+
+  pipe (gstage stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < ./tmp/_commando |
+      parse /_1 ':' ./ /_1/ |
+      dup |
+      sort singleok |
+      unique |
+   k: fanout |
+      spec 1-* 4 |
+      o: ?
+
+      k: |
+      count lines |
+      spec /File count:/ 1 1-* nw |
+      o: ?
+      -- end of pipe
+
