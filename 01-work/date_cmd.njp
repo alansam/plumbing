@@ -1,0 +1,23 @@
+
+   pipe (date_cmd stall 1000 debug 0 )
+    o: faninany |
+       spec 1-* 4 |
+       console ?
+
+       command date |
+    d: fanout |
+       spec /-   unix:/ 1 1-* nw |
+       o: ?
+
+       d: |
+       spec 9-10 1 5-7 4 25-28 8 12-19 nw | 
+    n: fanout |
+       spec /- normal:/ 1 1-* nw |
+       o: ?
+
+       n: |
+       dateconv normal iso timeout |
+       spec /-    iso:/ 1 1-* nw |
+       o: ?
+       -- all done
+

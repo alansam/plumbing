@@ -1,0 +1,30 @@
+
+  pipe (date_nano stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      command date -Ins |
+   n: fanout |
+      spec /-   nano:/ 1 1-* nw |
+      o: ?
+
+      n: |
+      spec 1-10 1 12-19 12 /./ 20 21-26 21 |
+   d: fanout |
+      spec /-    iso:/ 1 1-* nw |
+      o: ?
+
+      d: |
+      dateconv iso eur timeout |
+      spec /-    eur:/ 1 1-* nw |
+      o: ?
+      -- job done
+
+--        ! ... ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8 ?
+--   unix: Fri Oct 16 09:45:12 PDT 2026                                                     ?
+-- normal: 16 Oct 2026 09:45:12                                                             ?
+--    iso: 2026-10-16 09:45:12                                                              ?
+--   nano: 2026-10-16T09:45:12,219074000-07:00                                              ?
+--        ! ... ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8 ?
+
