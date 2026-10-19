@@ -3,17 +3,22 @@
 
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8 ?
       literal ! ... ... ! ... ... ! ... ... ! ... ... ! ... ... ! |
-  d0: fanin 0 1 2 3 4 5 6 7 8 9 |
+  d0: fanin 0 1 2 3 4 5 6 7 8 9 10 |
       spec 1-* 4 |
       console ?
 
       literal 14 Oct 2026 13:10:03.012345 |
-      spec /normal    :/ 1 1-* nw |
+      spec / normal   :/ 1 1-* nw |
       d0: ?
 
       literal 14 Oct 2026 13:10:03.012345 |
       dateconvert normal iso timeout |
       spec / iso      :/ 1 1-* nw |
+      d0: ?
+
+      literal 14 Oct 2026 13:10:03.012345 |
+      dateconvert normal iso_short timeout |
+      spec / iso_short:/ 1 1-* nw |
       d0: ?
 
       literal 14 Oct 2026 13:10:03.012345 |
