@@ -1,0 +1,10 @@
+
+  pipe (listzip0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      rexx listzip ./tmp/a_disk.zip | -- listzip returns a Java String |
+      o: ?
+      -- fini
+

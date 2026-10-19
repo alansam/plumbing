@@ -1,0 +1,102 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class strid extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method strid() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method run() public
+
+    rc = 0
+
+    depth = 1
+
+    do label _running
+      istrnr = inStreamNumber()
+      ostrnr = outStreamNumber()
+      isline = '< depth' depth', istream number:' istrnr
+      osline = '> depth' depth', ostream number:' ostrnr
+      say 'DBG:' isline
+      say 'DBG:' osline
+      output(isline)
+      output(osline)
+
+      -- pipe read loop
+      depth = depth + 1
+      loop label _loopy forever
+        line = Rexx peekto()
+        istrnr = inStreamNumber()
+        ostrnr = outStreamNumber()
+        isline = '< depth' depth', istream number:' istrnr
+        osline = '> depth' depth', ostream number:' ostrnr
+        output(isline)
+        output(osline)
+        -- other stuff
+        -- ...
+        output(line)
+        readto()
+      catch se = StageError
+        signal se
+      end _loopy
+    catch ex = StageError
+      rc = rc()
+      say 'catch depth:' depth'.' ex.toString()
+    end _running
+
+    exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    do label _plumbing
+
+      pipe (strid stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          literal abc def ghi |
+          split |
+       q: fanout |
+          strid |
+          spec / top:/ 1 1-* nw |
+          o: |
+          hole |
+          strid ?
+
+          q: |
+          strid |
+          spec /at q:/ 1 1-* nw |
+          o: ?
+          -- ... ?
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

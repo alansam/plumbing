@@ -1,0 +1,14 @@
+
+  pipe (joincont0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < ./data/rfc822.txt |
+      xlate *-* 09 blank | -- change HT to SP |
+      change /.sp/./ |
+      joincont leading / / keep |
+      spec /~~~0 >/ 1 1-* nw |
+      o: ?
+      -- endes
+

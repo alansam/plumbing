@@ -1,0 +1,88 @@
+
+  pipe (pickparse0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort 1 singleok |
+      specs 2-* 4 |
+      console ?
+
+      -- pickparse dstring dstring ?
+      literal a1a a3c e5e g7c |
+   f: fanout |
+      spec ,0 input                                , 1 1-* nw |
+      o: ?
+
+      -- pickparse one dstring dstring ?
+      f: |
+      split |
+      pickparse /2 $1 +1/ /$1=1/ |
+      spec ,1 pickparse /2 $1 +1/ /$1=1/           , 1 1-* nw |
+      o: ?
+
+      -- pickparse dstring dstring (secondary) ?
+--    literal a1a a3c e5e g7c |
+      f: |
+      split |
+  p2: pickparse /2 $1 +1/ /$1=1/ |
+      hole ?
+
+      p2: |
+      spec ,2 pickparse /2 $1 +1/ /$1=1/           , 1 1-* nw |
+      o: ?
+
+      -- pickparse dstring dstring dstring ?
+--    literal a1a a3c e5e g7c |
+      f: |
+      split |
+  p3: pickparse /2 $1 +1/ /$1=1/ /5 = $1/ |
+      hole ?
+
+      p3: |
+      spec ,3 pickparse /2 $1 +1/ /$1=1/ /5 = $1/  , 1 1-* nw |
+      o: ?
+
+      -- pickparse dstring dstring dstring (ELSE) ?
+--    literal a1a a3c e5e g7c |
+      f: |
+      split |
+  p4: pickparse /2 $1 +1/ /$1=1/ /5 = $1/ |
+      hole ?
+
+      p4: |
+      hole ?
+
+      p4: |
+      spec ,4 pickparse /2 $1 +1/ /$1=1/ /5 = $1/  , 1 1-* nw |
+      o: ?
+
+      -- pickparse one dstring dstring ?
+--    literal a1a a3c e5e g7c |
+      f: |
+      split |
+      pickparse one /2 $1 +1/ /$1=1/ /$1=1/ |
+      spec ,5 pickparse one /2 $1 +1/ /$1=1/ /$1=1/, 1 1-* nw |
+      o: ?
+
+      -- pickparse all dstring dstring (second) ?
+--    literal a1a a3c e5e g7c |
+      f: |
+      split |
+  p6: pickparse all /2 $1 +1/ /$1=1/ /$1=1/ |
+      hole ?
+
+      p6: |
+      spec ,6 pickparse all /2 $1 +1/ /$1=1/ /$1=1/, 1 1-* nw |
+      o: ?
+
+      -- pickparse one dstring dstring (second) ?
+--    literal a1a a3c e5e g7c |
+      f: |
+      split |
+  p7: pickparse one /2 $1 +1/ /$1=1/ /$1=1/ |
+      hole ?
+
+      p7: |
+      spec ,7 pickparse one /2 $1 +1/ /$1=1/ /$1=1/, 1 1-* nw |
+      o: ?
+      -- fin
+

@@ -1,0 +1,7 @@
+
+  pipe (make_lib stall 1000 debug 0 )
+      gen 2500 |
+      spec / +/ 1 1-* n.4 right |
+      > ./data/pipparm_txtlib.a1 ?
+      -- fin
+

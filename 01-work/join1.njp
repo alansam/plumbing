@@ -1,0 +1,32 @@
+
+  pipe (join1 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < ./data/shag/tomorrow_macbeth.a1 |
+--    buffer |
+   f: fanout |
+      spec /~~2~/ 1 1-* nw |
+      o: ?
+
+      f: |
+      copy |
+      split after blank |
+      pick word1 ^= word2 |
+--    xlate 1 |
+   j: join * / / terminate 48 |
+-- j: join |
+      change /  / / |
+      strip trailing blank |
+      spec /~~~1/ 1 1-* nw |
+--    hole ?
+      o: ?
+
+--    q: |
+--    j: ?
+--    copy |
+--    spec /~~2~/ 1 1-* nw |
+--    o: ?
+      -- ende
+

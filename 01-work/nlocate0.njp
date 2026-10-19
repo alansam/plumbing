@@ -1,0 +1,28 @@
+
+  pipe (nlocate0 stall 1000 debug 00 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      diskr ./data/colossal_data.a1 |
+      nlocate /--/ |
+   m: nfind m |
+   p: nfind p |
+      specs 4-* 1 |
+      xlate 1 |
+      insert /.p0:.... / before |
+      o: ?
+
+      m: |
+      specs 4-* 1 |
+      xlate 1 |
+      insert /..m0:... / before |
+      o: ?
+
+      p: |
+      specs 4-* 1 |
+      xlate 1 |
+      insert /...p1:.. / before |
+      o: ?
+      -- sufficient!
+

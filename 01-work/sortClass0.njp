@@ -1,0 +1,13 @@
+
+  pipe (qsort0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < sortClass0.njp |
+      pick word1 ^= word2 | -- discard empty lines |
+      buffer |
+      sort ( Rexx ) singleok | -- use sortRexx |
+      o: ?
+      -- fin
+

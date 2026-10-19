@@ -1,0 +1,22 @@
+
+  pipe (nop0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < nop0.njp |
+      nop |
+      reverse |
+   k: count lines |
+      nop |
+      insert /0 / before |
+      o: ?
+
+      k: |
+      nop |
+      spec 1-* 1.6 right |
+      spec /lines:/ 1 1-* nw |
+      insert /1 / before |
+      o: ?
+      -- fin
+

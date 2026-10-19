@@ -1,0 +1,67 @@
+
+      pipe (select0X stall 1000 debug 0 )
+       o: faninany |
+          buffer |
+          sort 1 singleok |
+          specs 1-* 4 |
+          console ?
+
+          comment select dstring ?
+          literal aza;e2g;hij |
+          split ; |
+          select /return rec.pos('2') > 0/ |
+          spec /1/ 1 1-* nw |
+          o: ?
+
+          comment select dstring (secondary) ?
+          literal aza;e2g;hij |
+          split ; |
+          p2: select /return rec.pos('2') > 0/ ?
+
+          p2: |
+          spec /2/ 1 1-* nw |
+          o: ?
+
+          comment select dstring (prev) ?
+          literal aza;e2g;h2i |
+          split ; |
+          select /parse rec 2 r +1;parse prev 2 p +1; return r \= p/ |
+          spec /3/ 1 1-* nw |
+          o: ?
+
+          comment select tf dstring ?
+          literal aza;e2g;hij |
+          split ; |
+          select tf /return rec.pos('2') > 0/ |
+          spec /4/ 1 1-* nw |
+          o: ?
+
+          comment select true dstring ?
+          literal aza;e2g;hij |
+          split ; |
+          select true /return rec.pos('2') > 0/ |
+          spec /5/ 1 1-* nw |
+          o: ?
+
+          comment select truefalse dstring ?
+          literal aza;e2g;hij |
+          split ; |
+          select truefalse /return rec.pos('2') > 0/ |
+          spec /6/ 1 1-* nw |
+          o: ?
+
+          comment select not dstring ?
+          literal aza;e2g;hij |
+          split ; |
+          select not /return rec.pos('2') > 0/ |
+          spec /7/ 1 1-* nw |
+          o: ?
+
+          comment select dstring ~~ variable ?
+          literal aza;e2g;hij |
+          split ; |
+          select  properties /c=''/ /if c = '' then c = 0; c = c + 1; if c = 3 then r = 1; else r = 0; return r/ |
+          spec /8/ 1 1-* nw |
+          o: ?
+          -- fin
+

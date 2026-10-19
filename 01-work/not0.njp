@@ -1,0 +1,31 @@
+
+  pipe (not0 stall 1000 console 0 )
+   o: faninany |
+      buffer |
+      sort singleok |
+      spec 1-* 4 |
+      console ?
+
+      literal abc.def |
+      not chop . |
+      insert /1 +.... / before |
+      o: ?
+
+      literal abc.def |
+      chop . |
+      insert /3 .+... / before |
+      o: ?
+
+      literal x a b z b x y |
+      split |
+      not lookup autoadd |
+      insert /2 ..+.. / before |
+      o: ?
+
+      literal x a b z b x y |
+      split |
+      lookup autoadd |
+      insert /4 ...+. / before |
+      o: ?
+      -- fin
+

@@ -1,0 +1,29 @@
+
+  pipe (literal0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort singleok |
+      spec 1-* 4 |
+      console ?
+
+      literal {BHit Enter or any PF key |
+      dup 4 |
+   c: count lines |
+      spec /0~~~ '/ 1 1-* n /' ~~~/ n |
+      o: ?
+
+      literal |
+   k: count lines |
+      dup |
+      spec /~1~~ '/ 1 1-* n /' ~~~/ n |
+      o: ?
+
+      c: |
+      spec /~~2~/ 1 1-* nw |
+      o: ?
+
+      k: |
+      spec /~~~3/ 1 1-* nw |
+      o: ?
+      -- fini
+

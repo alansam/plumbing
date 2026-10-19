@@ -1,0 +1,19 @@
+
+  pipe (join0 stall 1000 debug 0 )
+   o: fanin 0 1 2 |
+      spec 1-* 4 |
+      console ?
+
+      literal a b c d e |
+      split |
+      join ~*~ |
+      spec /~~~1/ 1 1-* nw |
+      o: ?
+
+      literal This is a short sentence. |
+      split |
+      join * / / 10 |
+      spec /~~2~/ 1 1-* nw |
+      o: ?
+      -- ende
+

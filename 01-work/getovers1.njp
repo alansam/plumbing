@@ -1,0 +1,162 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class getovers1 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+    _dlm = '~'.copies(60)
+
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method getovers1() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    daffies = ''
+    daffies[0] = 0
+    _s = daffies[0]
+    _s = _s +1; daffies[_s] = -
+      'I wandered lonely as a cloud'
+    _s = _s +1; daffies[_s] = -
+      'That floats on high o''er vales and hills,'
+    _s = _s +1; daffies[_s] = -
+      'When all at once I saw a crowd,'
+    _s = _s +1; daffies[_s] = -
+      'A host, of golden daffodils;'
+    _s = _s +1; daffies[_s] = -
+      'Beside the lake, beneath the trees,'
+    _s = _s +1; daffies[_s] = -
+      'Fluttering and dancing in the breeze.'
+    _s = _s +1; daffies[_s] = -
+      ''
+    _s = _s +1; daffies[_s] = -
+      'Continuous as the stars that shine'
+    _s = _s +1; daffies[_s] = -
+      'And twinkle on the milky way,'
+    _s = _s +1; daffies[_s] = -
+      'They stretched in never-ending line'
+    _s = _s +1; daffies[_s] = -
+      'Along the margin of a bay:'
+    _s = _s +1; daffies[_s] = -
+      'Ten thousand saw I at a glance,'
+    _s = _s +1; daffies[_s] = -
+      'Tossing their heads in sprightly dance.'
+    _s = _s +1; daffies[_s] = -
+      ''
+    _s = _s +1; daffies[_s] = -
+      'The waves beside them danced; but they'
+    _s = _s +1; daffies[_s] = -
+      'Out-did the sparkling waves in glee:'
+    _s = _s +1; daffies[_s] = -
+      'A poet could not but be gay,'
+    _s = _s +1; daffies[_s] = -
+      'In such a jocund company:'
+    _s = _s +1; daffies[_s] = -
+      'I gazed—and gazed—but little thought'
+    _s = _s +1; daffies[_s] = -
+      'What wealth the show to me had brought:'
+    _s = _s +1; daffies[_s] = -
+      ''
+    _s = _s +1; daffies[_s] = -
+      'For oft, when on my couch I lie'
+    _s = _s +1; daffies[_s] = -
+      'In vacant or in pensive mood,'
+    _s = _s +1; daffies[_s] = -
+      'They flash upon that inward eye'
+    _s = _s +1; daffies[_s] = -
+      'Which is the bliss of solitude;'
+    _s = _s +1; daffies[_s] = -
+      'And then my heart with pleasure fills,'
+    _s = _s +1; daffies[_s] = -
+      'And dances with the daffodils.'
+    daffies[0] = _s
+
+    parse 'AUTHOR PUBLISHED' AUTHOR PUBLISHED
+    daffies[AUTHOR] = 'William Wordsworth'
+    daffies[PUBLISHED] = 1807
+
+    outy = ''
+    outy[AUTHOR]    = daffies[AUTHOR]
+    outy[PUBLISHED] = daffies[PUBLISHED]
+
+    do label _plumbing
+
+      say _dlm
+
+      pipe (gr stall 1000 debug 0 )
+          stem daffies |
+          getovers |
+       r: fanout |
+          spec  /~~~/ 1 1-* NR @return '\U00AB\U00A0'data'\U00A0\U00BB'@ nw /~~~/ nw |
+          console ?
+
+          r: |
+          count lines |
+          spec /line count:/ 1 1-* nw |
+          console ?
+          -- end of pipe
+
+      say
+      say _dlm
+
+      pipe (st stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          stem daffies |
+       s: fanout |
+          spec  /___/ 1 1-* NR @return '\U00AB\U00A0'data'\U00A0\U00BB'@ nw /___/ nw |
+          change /_/-/ |
+          o: ?
+
+          s: |
+          count lines |
+          spec /line count:/ 1 1-* nw |
+          o: ?
+          -- end of pipe
+
+      say
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    _i = 0
+    loop _o over outy
+      say _i.right(7)':' _o.left(9) '.'  gullymet[0] || outy[_o] || gullymet[1]
+      _i = _i + 1
+    end _o
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

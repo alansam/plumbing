@@ -1,0 +1,27 @@
+/* select -- choose Records using Rexx Parse  */
+
+/*
+  24/12/14 Split off multi tests to select_tests02.  Jeff Hennick
+  23/ 5/29 New.  Jeff Hennick
+*/
+
+pipe (select_tests01X)
+
+ o: faninany |
+    sort singleok |
+    specs 2-* 1 |
+    cons ?
+
+   literal aza;e2g;hij |
+   split ; |
+   select properties /c=''/ /if c = '' then c = 0; c = c + 1; if c = 3 then r = 1; else r = 0; return r/ |
+   c8: compare any ~2# 8 SELECT dstring __ variable ~,
+               equal ~*OK*~,
+               notequal ~**FAIL**  at rec \\c col \\b.~,
+               less /Less:\nActual:\n\\p\nExpected:\n\\s\n/,
+               more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal hij |
+   split ; |
+   c8: ?
+

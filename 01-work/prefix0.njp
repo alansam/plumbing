@@ -1,0 +1,15 @@
+
+  pipe (prefix0 stall 1000 debug 0 )
+
+   o: faninany |
+      sort singleok |
+      specs 1-* 4 |
+      console ?
+
+      gen 100  |
+      prefix gen 50 |
+      locate /0/ |
+      spec 1-* 1.8 right |
+      o: ?
+      -- fin
+

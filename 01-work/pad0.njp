@@ -1,0 +1,32 @@
+
+  pipe (pad0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort 1-1 singleok |
+      spec 2-* 4 |
+      console ?
+
+      < ./data/colossal_data.a1 |
+   f: fanout |
+      count min |
+      spec /1 before, min:/ 1 1-* nw.6 right |
+      o: ?
+
+      f: |
+      count max |
+      spec /2 before, max:/ 1 1-* nw.6 right |
+      o: ?
+
+      f: |
+      pad 80 |
+   p: fanout |
+      count min |
+      spec /3  after, min:/ 1 1-* nw.6 right |
+      o: ?
+
+      p: |
+      count max |
+      spec /4  after, max:/ 1 1-* nw.6 right |
+      o: ?
+      -- fin
+

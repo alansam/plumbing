@@ -1,0 +1,39 @@
+
+class snakey public
+
+  method main(args = String[]) public static
+
+  arg = Rexx(args)
+  parse arg search_term .
+  if search_term.length() > 0 then
+    search_term = '/^['search_term'].*njp$/'
+  else
+    search_term = '/^[Ss].*njp$/'
+
+  say 'search:' search_term
+
+  do label _snakey_jim
+
+    pipe (sj stall 1000 debug 0 )
+     o: faninany |
+        console ?
+        
+        cmd ls |
+        grep {search_term} |
+     k: count lines |
+        buffer |
+        sort |
+        spec 2-* 1.25 |
+        snake 4 |
+        o: ?
+
+        k: |
+        spec /count:/ 1 1-* nw.6 |
+        o: ?
+        -- end of pipe
+
+  end _snakey_jim
+  say
+
+  exit
+

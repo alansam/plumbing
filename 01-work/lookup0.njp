@@ -1,0 +1,116 @@
+/* NetRexx Pipes */
+--  © Copyright Alan Sampson 2026
+
+import org.netrexx.njpipes.pipes.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class lookup0 extends stage public final
+
+  properties private constant
+    _dlm = '~'.copies(60)
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method lookup0 public
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    do label _plumbing
+
+      /* Dictionary lookup */
+      pipe (tl end ? stall 1000 debug 0 )
+          < ./data/detail_records.a1 |
+       l: lookup 1.10 |
+          sort |
+          > ./data/matching_records.a3 ?
+
+          < ./data/master_records.a1 |
+          l: |
+          sort |
+          > ./data/unmatched_details.a3 ?
+
+          l: |
+          sort |
+          > ./data/unreferenced_masters.a3
+
+      say
+      say _dlm
+
+      pipe (dr stall 1000 debug 0 )
+       o: fanin 0 1 2 |
+          spec 1-* 4 |
+          console ?
+
+          literal ./data/detail_records.a1 |
+          o: ?
+
+          < ./data/detail_records.a1 |
+          o: ?
+          --fin
+
+      say
+      say _dlm
+
+      pipe (mr stall 1000 debug 0 )
+       o: fanin 0 1 2 |
+          spec 1-* 4 |
+          console ?
+
+          literal ./data/master_records.a1 |
+          o: ?
+
+          < ./data/master_records.a1 |
+          o: ?
+          --fin
+
+      say
+      say _dlm
+
+      pipe (ur stall 1000 debug 0 )
+       o: fanin 0 1 2 |
+          spec 1-* 4 |
+          console ?
+
+          literal ./data/unmatched_details.a3 |
+          o: ?
+
+          < ./data/unmatched_details.a3 |
+          o: ?
+          --fin
+
+      say
+      say _dlm
+
+      pipe (um stall 1000 debug 0 )
+       o: fanin 0 1 2 |
+          spec 1-* 4 |
+          console ?
+
+          literal ./data/unreferenced_masters.a3 |
+          o: ?
+
+          < ./data/unreferenced_masters.a3 |
+          o: ?
+          --fin
+
+      say
+    end _plumbing
+
+    exit
+
+/*
+  @see https://www.ibm.com/docs/en/SSB27U_7.1.0/com.ibm.zvm.v710.zvmappl/c2462521.pdf
+  page 479
+
+  /* Dictionary lookup */
+  'PIPE (end ?)',
+    '?< detail records',            /* Read details */
+    '|l: lookup 1.10',              /* Look up first ten columns */
+    '|> matching records a',        /* Details followed by masters */
+    '?< master records',            /* Read master file */
+    '|l:',                          /* Secondary streams */
+    '|> unmatched details a',       /* Details that didn't match */
+    '?l:',                          /* Tertiary streams */
+    '|> unreferenced masters a'     /* Masters that were not referenced */
+*/
+

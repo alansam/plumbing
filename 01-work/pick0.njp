@@ -1,0 +1,88 @@
+
+  pipe (pick0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal line 1.1;line 1.2 last;line 2.1;line 2;Line 2.2;LIne 2.3 LAST;LINE 3.1 last |
+      split ; |
+   d: fanout |
+      spec /~~~ input ~~~              / 1 1-* nw |
+      o: ?
+
+      -- pick range == range ?
+      d: |
+      pick 6.1 == 8.1 |
+      spec ,pick 6.1 == 8.1            , 1 1-* nw |
+      o: ?
+
+
+      -- pick range == dstring ?
+      d: |
+      pick 10.4 == /last/ |
+      spec ,pick 10.4 == /last/        , 1 1-* nw |
+      o: ?
+
+      -- pick anycase range == dstring ?
+      d: |
+      pick anycase 10.4 == /last/ |
+      spec ,pick anycase 10.4 == /last/, 1 1-* nw |
+      o: ?
+
+      -- pick not range == dstring ?
+      d: |
+      not pick 1.4 == /line/ |
+      spec ,not pick 1.4 == /line/     , 1 1-* nw |
+      o: ?
+
+      -- pick pad number range == range ?
+      d: |
+      pick pad 2 6.1 == 8.1 |
+      spec ,pick pad 2 6.1 == 8.1      , 1 1-* nw |
+      o: ?
+
+      -- pick range == dstring (secondary) ?
+      d: |
+  p6: pick 10.4 == /last/ |
+      hole ?
+
+      p6: |
+      spec ,pick 10.4 == /last/        , 1 1-* nw |
+      o: ?
+
+      -- pick range ^== dstring ?
+      d: |
+      pick 10.4 ^== /last/ |
+      spec ,pick 10.4 ^== /last/       , 1 1-* nw |
+      o: ?
+
+      -- pick range \\== dstring ?
+      d: |
+      pick 10.4 \\== /last/ |
+      spec ,pick 10.4 \\== /last/      , 1 1-* nw |
+      o: ?
+
+      -- pick range /== dstring ?
+      d: |
+      pick 10.4 /== /last/ |
+      spec ,pick 10.4 /== /last/       , 1 1-* nw |
+      o: ?
+
+      -- pick nopad range /== dstring ?
+      d: |
+      pick nopad 10.4 /== /last/ |
+      spec ,pick nopad 10.4 /== /last/ , 1 1-* nw |
+      o: ?
+
+      -- pick range /= dstring ?
+      d: |
+      pick 10.4 /= /last/ |
+      spec ,pick 10.4 /= /last/        , 1 1-* nw |
+      o: ?
+
+      -- pick range \\= dstring ?
+      d: |
+      pick 10.4 \\= /last/ |
+      spec ,pick 10.4 \\= /last/       , 1 1-* nw |
+      o: ?
+

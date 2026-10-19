@@ -1,0 +1,29 @@
+
+  pipe (locate1 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal sag oscar brit golden_globes emmys oscar bafta |
+      split |
+   x: locate /oscar/ |
+   y: fanout |
+      insert /o: / before |
+      o: ?
+
+      y: |
+      buffer |
+   l: lookup |
+      insert /y: / before |
+      o: ?
+
+      x: |
+   f: fanout |
+      insert /x: / before |
+      o: ?
+
+      f: |
+      insert /f: / before |
+      l: ?
+      -- fin
+

@@ -1,0 +1,90 @@
+
+      pipe (select1X stall 1000 debug 0 )
+       o: faninany |
+          buffer |
+          sort 1-2 singleok |
+          specs 1-* 4 |
+          console ?
+
+          comment select multi dstring (tertiary) ?
+          literal aza;e2g;hij |
+          split ; |
+      p1: select multi /return 2/ |
+          hole ?
+
+          p1: |
+          hole ?
+
+          p1: |
+          spec /1 / 1 1-* nw |
+          o: ?
+
+          comment select multi dstring (multiple) ?
+          literal 1a2;3b4;5c6;zzz;7c8;9b0;aab |
+          split ; |
+      p2: select multi ,
+           /parse rec 2 k +1; ,
+            select case k; ,
+              when 'a' then o = 1; ,
+              when 'b' then o = 2; ,
+              when 'c' then o = 3; ,
+              otherwise o = 0; ,
+            end; ,
+            return o/ |
+          spec /2a/ 1 1-* nw |
+          o: ?
+
+          p2: |
+          spec /2b/ 1 1-* nw |
+          o: ?
+
+          p2: |
+          spec /2c/ 1 1-* nw |
+          o: ?
+
+          p2: |
+          spec /2z/ 1 1-* nw |
+          o: ?
+
+          comment select not dstring ?
+          literal aza;e2g;hij |
+          split ; |
+          select not /return rec.pos('2') > 0/ |
+          spec /3 / 1 1-* nw |
+          o: ?
+
+          comment select multiple dstring (multiple) ?
+          literal 1a2;3b4;5c6;zzz;7c8;9b0;aab |
+          split ; |
+      p4: select multiple ,
+           /parse rec 2 k +1; ,
+            select case k; ,
+              when 'a' then o = 1; ,
+              when 'b' then o = 2; ,
+              when 'c' then o = 3; ,
+              otherwise o = 0; ,
+            end; ,
+            return o/ |
+          spec /4a/ 1 1-* nw |
+          o: ?
+
+          p4: |
+          spec /4b/ 1 1-* nw |
+          o: ?
+
+          p4: |
+          spec /4c/ 1 1-* nw |
+          o: ?
+
+          p4: |
+          spec /4z/ 1 1-* nw |
+          o: ?
+
+          comment select dstring - with persistant variable ?
+          literal aza;e2g;hij |
+          split ; |
+          select properties /c = 0/ /c = c + 1; r = 0; if c = 3 then r = 1; return r/ |
+          spec /5 / 1 1-* nw |
+          o: ?
+          -- fin
+

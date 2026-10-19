@@ -1,0 +1,11 @@
+
+  pipe (nfind0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal abc axc axy xyc
+      | split |
+      nfind a c |
+      o: ?
+      -- fin

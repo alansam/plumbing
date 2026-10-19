@@ -1,0 +1,20 @@
+
+  pipe (overlay0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal the left/the right |
+   f: fanout |
+      o: |
+
+      f: |
+   c: chop before / |
+   y: overlay |
+      o: ?
+
+   c: |
+      spec 2-* 1.50 right |
+      y: ?
+      -- fin
+

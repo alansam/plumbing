@@ -1,0 +1,75 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class juxtapose1 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method juxtapose1() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg tag
+
+    tag = tag.strip()
+    if tag.length = 0 then do
+      tag = 'death'
+    end
+
+    do label _plumbing
+
+      pipe (juxtapose1 stall 1000 debug 0 )
+       o: faninany |
+          spec 1-* 4 |
+          console ?
+
+          command ls ./data/shag/ |
+          nlocate /-HI_/ |
+          spec ,./data/shag/, 1 1-* n |
+       f: fanout |
+          pad 36 |
+       j: juxtapose |
+       i: faninany |
+          o: ?
+
+          f: |
+          getfiles |
+          locate anycase /{tag}/ |
+          j: |
+          insert ,*no match*, after |
+          i: ?
+          -- finis
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
