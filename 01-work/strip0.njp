@@ -1,0 +1,86 @@
+
+  pipe (strip0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort 1-3 singleok |
+      spec 1-* 4 |
+      console ?
+
+      strliteral /     a drum   ;a drum    ;    macbeth doth come/ |
+      split ; |
+  f1: fanout |
+      strip |
+      spec /1__/ 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      f1: |
+      spec /1  / 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      strliteral /     a drum   ;a drum    ;    macbeth doth come/ |
+      split ; |
+  f2: fanout |
+      strip both |
+      spec /2__/ 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      f2: |
+      spec /2  / 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      strliteral /     a drum   ;a drum    ;    macbeth doth come/ |
+      split ; |
+  f3: fanout |
+      strip leading |
+      spec /3__/ 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      f3: |
+      spec /3  / 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      strliteral /~~~~~a drum   ;a drum    ;~~~~macbeth doth come/ |
+      split ; |
+  f4: fanout |
+      strip leading string ,~, |
+      spec /4__/ 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      f4: |
+      spec /4  / 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      strliteral /~~~~~ a drum ___;a drum ____;~~~~macbeth doth come / |
+      split ; |
+  f5: fanout |
+      strip both anyof ,~_* , |
+      spec /5__/ 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      f5: |
+      spec /5  / 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      strliteral /   ~ a drum ~   ;   ~_a drum _ ;   ~ macbeth doth come _ / |
+      split ; |
+  f6: fanout |
+      strip both not anyof /~_/ |
+      spec /6__/ 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      f6: |
+      spec /6  / 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      literal    abcxx;   abc defzy;  z gh ij z kl  y; |
+      split ; |
+  f7: fanout |
+      strip Leading not anyof /agy/ |
+      spec /7__/ 1 /</ nw 1-* n />/ n |
+      o: ?
+
+      f7: |
+      spec /7  / 1 /</ nw 1-* n />/ n |
+      o: ?
+      -- fin
+

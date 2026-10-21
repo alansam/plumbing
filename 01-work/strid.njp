@@ -29,6 +29,9 @@ class strid extends stage public final
 
     depth = 1
 
+    maxi = maxInputStream()
+    say 'DBG: maxInputStream(): ' maxi
+
     do label _running
       istrnr = inStreamNumber()
       ostrnr = outStreamNumber()
@@ -78,6 +81,7 @@ class strid extends stage public final
 
           literal abc def ghi |
           split |
+          strid |
        q: fanout |
           strid |
           spec / top:/ 1 1-* nw |

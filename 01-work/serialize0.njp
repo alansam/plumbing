@@ -1,0 +1,119 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class serialize0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method serialize0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    wicked = Rexx 'wicked'
+    _w = Rexx 0
+    _w = _w + 1; wicked[_w] = 'Something'
+    _w = _w + 1; wicked[_w] = 'wicked'
+    _w = _w + 1; wicked[_w] = 'this'
+    _w = _w + 1; wicked[_w] = 'way'
+    _w = _w + 1; wicked[_w] = 'comes'
+    wicked[0] = _w
+
+    pranging = _true
+    prang = Rexx 1
+
+    weird(wicked)
+    say
+
+    do label _plumbing
+
+      pipe (szw stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          stemr wicked |
+          pad 80 |
+       w: fanout |
+--        rexx insert /aYzB/ after |
+          serialize |
+          diskw stream ./tmp/serialize.data ?
+
+          w: |
+          strip trailing blank |
+          spec /szw:/ 1 1-* nw |
+          o: ?
+          -- fin
+
+      say
+
+      pipe (szr stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          diskr stream ./tmp/serialize.data |
+          serialize Rexx |
+--        deblock string /aYzB/ |
+          strip trailing blank |
+       p: fanout |
+          stemw prang ?
+
+          p: |
+          spec /szr:/ 1 1-* nw |
+          o: ?
+          -- fin
+
+      say
+
+    catch ex = Throwable /* perhaps */
+      pranging = _false
+      say "GRONK!" ex.toString()
+    end _plumbing
+
+    if pranging then do
+      weird(prang)
+      say
+    end
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method weird(wik = Rexx) private static
+
+    scottish = ''
+    loop _w = 1 to wik[0]
+      scottish = scottish || wik[_w] || ' '
+    end _w
+    scottish = scottish.strip()
+    say  '   ' || scottish
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

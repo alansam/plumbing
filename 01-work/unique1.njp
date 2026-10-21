@@ -1,0 +1,51 @@
+
+  pipe (unique1 stall 1000 debug 0 )
+   o: fanin 1 2 3 |
+      spec 1-* 4 |
+      console ?
+
+      < ./tmp/list_jar.a3 |
+      pick word1 ^= word2 | -- discard empty lines |
+      nlocate /~/ |
+      nlocate anycase w5 ,META-INF/, |
+      nlocate anycase w5 ,org/, |
+      buffer |
+      sort 34-44 a singleok strict |
+      unique count 34-44 first |
+      spec /1: [first]   / 1 1-* nw |
+      o: ?
+
+      < ./tmp/list_jar.a3 |
+      pick word1 ^= word2 | -- discard empty lines |
+      nlocate /~/ |
+      nlocate anycase w5 ,META-INF/, |
+      nlocate anycase w5 ,org/, |
+      buffer |
+      sort 34-44 a singleok strict |
+      unique count 34-44 last |
+      spec /1: [last]    / 1 1-* nw |
+      o: ?
+
+      < ./tmp/list_jar.a3 |
+      pick word1 ^= word2 | -- discard empty lines |
+      nlocate /~/ |
+      nlocate anycase w5 ,META-INF/, |
+      nlocate anycase w5 ,org/, |
+      buffer |
+      sort 34-44 a singleok strict |
+      unique count 34-44 singles |
+      spec /2: [singles] / 1 1-* nw |
+      o: ?
+
+      < ./tmp/list_jar.a3 |
+      pick word1 ^= word2 | -- discard empty lines |
+      nlocate /~/ |
+      nlocate anycase w5 ,META-INF/, |
+      nlocate anycase w5 ,org/, |
+      buffer |
+      sort 34-44 a singleok strict |
+      unique count 34-44 multiple |
+      spec /3: [multiple]/ 1 1-* nw |
+      o: ?
+      -- fin
+

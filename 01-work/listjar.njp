@@ -1,0 +1,73 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class listjar extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+    _dlm   = '~'.copies(60)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method listjar() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    parse arg jarname .
+    if jarname.length() = 0 | jarname = '.' then
+      jarname = 'classes.jar'
+
+    say _dlm
+    do label _plumbing
+
+      pipe (listjar stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          literal jar -tvf {jarname} |
+          command |
+          pick word1 ^= word2 | -- discard empty lines |
+          spec w1 1.10 right w7 nw w3-6 nw w8-* nw |
+          spec w1-2 1.10 right,
+               /-/ next,
+               M:w3 NR @mthn = field["M"]; mthn = mthn.lower(); mth = Rexx "jan feb mar apr may jun jul aug sep oct nov".wordpos(mthn); mth = mth.right(2, 0); return mth;@ next,
+               /-/ next,
+               w4-* next |
+          o:
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+    say
+    say _dlm
+    say
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

@@ -1,0 +1,103 @@
+
+  pipe (strwhilelabel_tests1)
+
+   o: faninany |
+      buffer |
+      sort anycase 1-7 a singleok |
+      specs 1-* 4 |
+      console ?
+
+
+      literal a1a a2b a3c d4d e5e f6f g7g |
+  f1: fanout |
+      literal a1a a2b a3c |
+      spec ,1: /a/, 1 1-* nw |
+      o: ?
+
+      f1: |
+      split |
+      strwhilelabel  /a/ |
+      spec /1:_/ 1 1-* nw |
+      o: ?
+
+      literal a1a A2b a3c d4d e5e f6f g7g |
+  f2: fanout |
+      literal a1a A2b a3c |
+      spec ,2: ANYCASE /A/, 1 1-* nw |
+      o: ?
+
+      f2: |
+      split |
+      strwhilelabel ANYCASE /A/ |
+      spec /2:_/ 1 1-* nw |
+      o: ?
+
+      literal a1a a2b a3c d4d e5e f6f g7g |
+  f3: fanout |
+      literal a1a a2b a3c d4d |
+      spec ,3: INCLUSIVE /a/, 1 1-* nw |
+      o: ?
+
+      f3: |
+      split |
+      strwhilelabel INCLUSIVE /a/ |
+      spec /3:_/ 1 1-* nw |
+      o: ?
+
+      literal a1a a2b a3c d4d e5e f6f g7g |
+  f4: fanout |
+      literal a1a a2b a3c |
+      spec ,4: EXCLUSIVE /a/, 1 1-* nw |
+      o: ?
+
+      f4: |
+      split |
+      strwhilelabel EXCLUSIVE /a/ |
+      spec /4:_/ 1 1-* nw |
+      o: ?
+
+      literal a1a A2b a3c d4d e5e f6f g7g |
+  f5: fanout |
+      literal a1a A2b a3c |
+      spec ,5: CASELESS /A/, 1 1-* nw |
+      o: ?
+
+      f5: |
+      split |
+      strwhilel CASELESS /A/ |
+      spec /5:_/ 1 1-* nw |
+      o: ?
+
+      literal a1a a2b a3c d4d e5e f6f g7g |
+  f6: fanout |
+      literal d4d e5e f6f g7g |
+      spec ,6: [secondary] /a/, 1 1-* nw |
+      o: ?
+
+      f6: |
+      split |
+  s6: strwhilelab  /a/ |
+      spec /6:~/ 1 1-* nw |
+      o: ?
+
+      s6: |
+      spec /6:_/ 1 1-* nw |
+      o: ?
+
+      literal a1a a2b a3c d4d e5e f6f g7g |
+  f7: fanout |
+      literal d4d e5e f6f g7g |
+      spec ,7: EXCLUSIVE /a/, 1 1-* nw |
+      o: ?
+
+      f7: |
+      split |
+  s7: strwhilelabel EXCLUSIVE [secondary] /a/ |
+      spec /7:~/ 1 1-* nw |
+      o: ?
+
+      s7: |
+      spec /7:_/ 1 1-* nw |
+      o: ?
+      -- fin
+

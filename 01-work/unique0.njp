@@ -1,0 +1,18 @@
+
+  pipe (unique0 stall 1000 debug 0 )
+   o: fanin 1 |
+      spec 1-* 4 |
+      console ?
+
+      < ./tmp/list_jar.a3 |
+      pick word1 ^= word2 | -- discard empty lines |
+      nlocate /~/ |
+      nlocate anycase w5 ,META-INF/, |
+      nlocate anycase w5 ,org/, |
+      buffer |
+      sort 34-44 a singleok strict |
+      unique count 34-44 |
+      spec /1:/ 1 1-* nw |
+      o: ?
+      -- fin
+

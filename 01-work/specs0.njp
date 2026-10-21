@@ -1,0 +1,12 @@
+
+  pipe (specs0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal {} |
+      spec ,ls -laFAki -D %FT%T%z, 1 1-* nextword |
+      rexx command |
+      o: ?
+      -- fin
+

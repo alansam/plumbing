@@ -1,0 +1,42 @@
+
+  pipe (strliteral0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort 1-5 singleok |
+      spec 1-* 4 |
+      console ?
+
+      < ./data/_256X |
+      locate /3031/ |
+      strliteral preface /Here it is./ |
+      strliteral append /There it goes./ |
+      spec /1:   / 1 1-* nw |
+      o: ?
+
+      < ./data/_256 |
+      drop last 128 bytes |
+      drop first 30 bytes |
+      deblock fixed 16 |
+      spec /2: / 1,
+           1-* NR @lc = counter[0];
+                   counter[0] = lc + 1;
+                   lc = lc * 16 + 32;
+                   return "2:" lc.d2x() data@ 1 |
+      o: ?
+
+      literal abc |
+   x: find find xyz |
+      strliteral ifempty /xyz not found./ |
+      spec /3a:  / 1 1-* nw |
+      o: ?
+
+      x: |
+      strliteral ifempty /abc not found./ |
+      spec /3b:  / 1 1-* nw |
+      o: ?
+
+      strliteral  ifempty /  [IFEMPTY == true] Some stuff with  spaces.  / |
+      spec /4:   / 1 1-* nw |
+      o: ?
+      -- fin
+
