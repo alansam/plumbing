@@ -1,0 +1,45 @@
+
+  pipe (grep1 srall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort |
+      spec 1-* 4 |
+      console ?
+
+      literal y yesNo N |
+  f1: fanout |
+      insert /input: / before |
+      o: ?
+
+      f1: |
+      split |
+      strip both |
+      xlate |
+  q1: grep (tertiary) /^Y$/ |
+      insert /stream 1-0 * / before |
+      o: ?
+
+      q1: |
+  f2: fanout | 
+      insert /stream 1-1 / before |
+      o: ?
+
+      q1: |
+      insert /stream 1-2 / before |
+      o: ?
+
+      f2: |
+      change /:// |
+  q2: grep (tertiary) /^N$/ |
+      insert /stream 2-0 * / before |
+      o: ?
+
+      q2: |
+      insert /stream 2-1 / before |
+      o: ?
+
+      q2: |
+      insert /stream 2-2 / before |
+      o: ?
+      -- fin
+

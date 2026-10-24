@@ -1,0 +1,22 @@
+
+  pipe (grep2 stall 1000 debug 0 )
+   o: faninany |
+      sort |
+      spec 1-* 4 |
+      console ?
+
+      literal abc def agh |
+      split |
+  g1: grep (numbers ter) /^a/ |
+      insert /s1 found,  recno: / before |
+      o: ?
+
+      g1: |
+      insert /s2 missed, recno: / before |
+      o: ?
+
+      g1: |
+      insert /s3 matched      : / before |
+      o: ?
+      -- fin
+
