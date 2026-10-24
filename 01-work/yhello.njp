@@ -1,0 +1,11 @@
+
+  pipe (yhello stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal hello yhello yellow |
+      split |
+      o: ?
+      -- fin
+
