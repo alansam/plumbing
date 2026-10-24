@@ -1,0 +1,12 @@
+
+  pipe (tag0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal This is a paragraph;So is this; |
+      split ; |
+      tags /p/ |
+      o: ?
+      -- fin
+

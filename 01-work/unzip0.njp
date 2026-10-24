@@ -1,0 +1,27 @@
+-- WARNING: Do not run this here! See message below
+  pipe (unzip0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      strliteral preface @WARNING: Do not run this here!  It needs to be set up.\n
+      1: Create a scratch directory.\n
+      2: Copy this script to the scratch directory.\n
+      3: Copy ./tmp/a3-files.zip file to the scratch directory.\n
+      4: Create a ./tmp directory inside the scratch directory.\n
+      5: Remove this commentary.\n
+      6: Run the test.\n
+      7: Delete the scratch directory and it's contents when the test is complete.@ |
+      o: ?
+
+      strliteral ,./a3-files.zip, |
+   z: fanout |
+      spec /zip file:/ 1 1-* nw |
+      o: ?
+
+--    z: |
+--    _rexx unzip |
+
+--    o: ?
+      -- fin
+

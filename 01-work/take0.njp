@@ -1,0 +1,21 @@
+
+  pipe (take0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort singleok |
+      spec 1-* 4 |
+      console ?
+
+      gen 100 |
+   g: fanout |
+      take last 10 |
+      spec /1:/ 1 1-* nw.6 right |
+      o: ?
+
+      g: |
+      take last 20 |
+      take first 10 |
+      spec /2:/ 1 1-* nw.6 right |
+      o: ?
+      -- fin
+

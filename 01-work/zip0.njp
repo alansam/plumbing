@@ -1,0 +1,19 @@
+
+  pipe (zip0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      strliteral ,ls ./tmp/, |
+      command |
+      locate /.a3/ |
+      spec ,./tmp/, 1 1-* n |
+   z: fanout ?
+
+      z: |
+      zip ./tmp/a3-files.zip ?
+
+      z: |
+      o: ?
+      -- fin
+

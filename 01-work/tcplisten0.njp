@@ -1,0 +1,10 @@
+
+  pipe (tcplisten0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      strliteral /tcplisten: No implementation yet./ |
+      o: ?
+      -- fin
+

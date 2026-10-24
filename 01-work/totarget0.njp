@@ -1,0 +1,21 @@
+
+  pipe (totarget0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort 1-2 singleok |
+      spec 1-* 4 |
+      console ?
+
+      literal 123 234 345 456 567 678 |
+      split |
+      totarget locate /456/ |
+      spec /1: [  locate 456] :/ 1 1-* nw |
+      o: ?
+
+      literal 123 234 345 456 567 678 |
+      split |
+      not totarget locate /456/ |
+      spec /2: [¬ locate 456] :/ 1 1-* nw |
+      o: ?
+      -- eof
+

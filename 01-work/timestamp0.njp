@@ -1,0 +1,68 @@
+
+  pipe (timestamp0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort 1-2 singleok |
+      spec 1-* 4 |
+      console ?
+
+      literal |
+      timestamp |
+      spec /1: [default 8] :/ 1 1-* nw |
+      o: ?
+
+      literal abc def ghi |
+      split |
+      timestamp 16 |
+      spec /2: [16]        :/ 1 1-* nw |
+      o: ?
+
+      literal abc;def;ghi |
+      split ; |
+      timestamp 16 12 |
+      spec /3: [16 12]     :/ 1 1-* nw |
+      o: ?
+
+      literal abc;def;ghi |
+      split ; |
+      timestamp shortdate |
+      spec /4: [shortdate] :/ 1 1-* nw |
+      o: ?
+
+      literal abc;def;ghi |
+      split ; |
+      timestamp isodate |
+      spec /5: [isodate]   :/ 1 1-* nw |
+      o: ?
+
+      literal abc;def;ghi |
+      split ; |
+      timestamp fulldate |
+      spec /6: [fulldate]  :/ 1 1-* nw |
+      o: ?
+
+      literal abc;def;ghi |
+      split ; |
+      timestamp standard |
+      spec /7: [standard]  :/ 1 1-* nw |
+      o: ?
+
+      literal abc;def;ghi |
+      split ; |
+      timestamp string Day %e of Month %n in %Y at %H |
+      spec /8: [string]    :/ 1 1-* nw |
+      o: ?
+
+      literal abc;def;ghi |
+      split ; |
+      timestamp string %e/%n/%Y %H:%M:%S |
+      spec /9: [string]    :/ 1 1-* nw |
+      o: ?
+
+      literal abc;def;ghi |
+      split ; |
+      timestamp STRING %Y*%y*%m*%n*%d*%e*%j*%H*%k*%M*%S*%F*%T*%t*%%* |
+      spec /A: [string]    :/ 1 1-* nw |
+      o: ?
+      -- fin
+

@@ -1,0 +1,9 @@
+
+  pipe (truncate0 stall 1000 debug 0 )
+      literal sample line |
+      truncate blank |
+      console
+      ?
+  -- ►sample |
+  -- ►Ready;
+

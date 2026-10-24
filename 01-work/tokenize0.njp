@@ -1,0 +1,11 @@
+
+  pipe (tokenize0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal apples = bananas(cherries+dates) |
+      tokenise /()=+/ |
+      o: ?
+      -- fin
+

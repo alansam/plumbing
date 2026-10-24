@@ -1,0 +1,31 @@
+
+  pipe (tolabel0 stall 1000 debug 0 )
+   o: faninany |
+      buffer |
+      sort 1-2 singleok |
+      spec 1-* 4 |
+      console ?
+
+      literal a1a b2b c3c d4d e5e f6f g7g|
+      split |
+      tolabel d |
+      spec /1:/ 1 1-* nw |
+      o: ?
+
+      literal a1a b2b c3c d4d e5e f6f g7g|
+      split |
+      tolabel |
+      spec /2:/ 1 1-* nw |
+      o: ?
+
+      literal a1a b2b c3c d4d e5e f6f g7g|
+      split |
+      tolabel d |
+  f3: fanout |
+      hole ?
+
+      f3: |
+      spec /3:/ 1 1-* nw |
+      o: ?
+      -- fin
+

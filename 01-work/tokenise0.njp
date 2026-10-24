@@ -1,0 +1,13 @@
+
+  pipe (tokenise0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < ./data/jar-stages.a1 |
+      tokenise / / /  / |
+      pad 8 |
+      chop 8 |
+      o: ?
+      -- fin
+
