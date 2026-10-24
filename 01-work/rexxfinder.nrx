@@ -1,0 +1,114 @@
+#!/usr/bin/env nr
+/* NetRexx */
+/*
+ * Look through current directory for NetRexx & Rexx progrmas (based on file
+ * suffix .njp (NetRexx pipe), .nrx (NetRexx), .rex (Rexx).
+ *
+ * Produce a report of programs and identify those with longest and
+ * shortest names.
+ */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class rexxfinder public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private static
+    _pgms = Rexx ''
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method rexxfinder() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    -- set up the property stem '_pgms'
+    _pgms[0] = 0
+
+    -- set up some counters
+    _pmax  = int 0
+    _pmin  = int Integer.MAX_VALUE
+    _pmaxm = Rexx ''
+    _pminm = Rexx ''
+
+    plumbing()
+
+    -- loop over the '_pgms' stem,
+    -- report the file names,
+    -- calculate the min & max program name lengths
+    -- and capture their names
+    loop _p = 1 to _pgms[0]
+      _pl = _pgms[_p].length().max(_pmax)
+      _ps = _pgms[_p].length().min(_pmin)
+      if _pl \= _pmax then do
+        _pmax  = _pl
+        _pmaxm = _pgms[_p]
+      end
+      if _ps \= _pmin then do
+        _pmin  = _ps
+        _pminm = _pgms[_p]
+      end
+      say _p.right(6)':' _pgms[_p]
+    end _p
+
+    -- report min & max length program name lengths
+    say
+    say 'Shortest:' (Rexx _pmin).right(4)',' _pminm
+    say 'Longest: ' (Rexx _pmax).right(4)',' _pmaxm
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Run a NetRexx pipe to list the directory and capture Rexx program names
+-- Store results in property stem '_pgms'.
+  method plumbing() private static
+
+    do label _plumbing
+
+      -- search for .njp, .nrx, & .rex progrma files
+      -- save the results in property stem '_pgms'
+      address pipe with output replace stem _pgms
+         'o: faninany |' -
+            'change /:// |' -          /* grep stage prefixes results woth a colon */
+            'buffer |' -               /* collect records in buffer to help sort stage */
+            'sort singleok |' -        /* sort output */
+            'console ?' -              /* output goes to stem '_pgms' */
+            '' -
+            'literal ls -a |' -        /* build the search command */
+            'command |' -              /* issue the command */
+        'q1: grep /.*\\\\.njp$/ |' -   /* grep stage has some strange escape requirements */
+            'o: ?' -                   /* accumulate results at o: stream */
+            '' -
+            'q1: |' -                  /* things not found in first grep end up on secondary pipe here */
+        'q2: grep /.*\\\\.nrx$/ |' -   /* ditto */
+            'o: ?' -                   /* accumulate results at o: stream */
+            '' -
+            'q2: |' -                  /* ditto for second grep stage, non-matches come to tertiary pipe */
+            'grep /.*\\\\.rex$/ |' -   /* grep stage escapes ditto */
+            'o: ?' -                   /* accumulate results at o: stream */
+            '-- fin'                   /* terminating comment to prevent accidents */
+
+    end _plumbing
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

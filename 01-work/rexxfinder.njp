@@ -1,0 +1,23 @@
+
+  pipe (rexxfinder stall 1000 debug 0 )
+   o: faninany |
+      change /:// |
+      buffer |
+      sort singleok |
+      spec 1-* 4 |
+      console ?
+
+      literal ls -a |
+      command |
+  q1: grep /.*\\.njp$/ |
+      o: ?
+
+      q1: |
+  q2: grep /.*\\.nrx$/ |
+      o: ?
+
+      q2: |
+      grep /.*\\.rex$/ |
+      o: ?
+      -- fin
+
