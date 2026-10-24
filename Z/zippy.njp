@@ -1,0 +1,15 @@
+
+  pipe (zippy stall 1000 debug 0 )
+      strliteral ,ls .^lib^, |
+      change ,^,/, |
+      command |
+      spec ,./lib/, 1 1-* next |
+   a: fanout ?
+
+      a: |
+      zip Zclasses.zip ?
+
+      a: |
+      spec 1-* 4 |
+      console ?
+      -- fin
