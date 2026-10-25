@@ -1,0 +1,105 @@
+
+  pipe (encode640 stall 1000 debug 0 )
+   o: faninany |
+      sort singleok |
+      specs 1-* 4 |
+      console ?
+
+      literal Hello, Base64!;@!*;@!;@|
+      split ; |
+      encode64 |
+      spec /1-1/ 1 1-* nw |
+      o: ?
+
+      literal SGVsbG8sIEJhc2U2NCE=;QCEq;QCE=;QA== |
+      split ; |
+      spec /1-0/ 1 1-* nw |
+      o: ?
+
+      literal Hello, Base64!;@!*;@!;@|
+      split ; |
+      64encode |
+      spec /2-1/ 1 1-* nw |
+      o: ?
+
+      literal SGVsbG8sIEJhc2U2NCE=;QCEq;QCE=;QA== |
+      split ; |
+      spec /2-0/ 1 1-* nw |
+      o: ?
+
+      literal Hello, Base64!;@!*;@!;@|
+      split ; |
+      encode64 mime |
+      spec /3-1/ 1 1-* nw |
+      o: ?
+
+      literal SGVsbG8sIEJhc2U2NCE=;QCEq;QCE=;QA== |
+      split ; |
+      spec /3-0/ 1 1-* nw |
+      o: ?
+
+      literal Hello, Base64!;@!*;@!;@|
+      split ; |
+      encode64 basic |
+      spec /4-1/ 1 1-* nw |
+      o: ?
+
+      literal SGVsbG8sIEJhc2U2NCE=;QCEq;QCE=;QA== |
+      split ; |
+      spec /4-0/ 1 1-* nw |
+      o: ?
+
+      literal Hello, Base64!;@!*;@!;@|
+      split ; |
+      encode64 url |
+      spec /5-1/ 1 1-* nw |
+      o: ?
+
+      literal SGVsbG8sIEJhc2U2NCE=;QCEq;QCE=;QA== |
+      split ; |
+      spec /5-0/ 1 1-* nw |
+      o: ?
+
+      literal Hello, Base64! this is some long text that will have to span ,
+      a couple of lines in MIME but not in BASIC. |
+      encode64 mime |
+      spec /6-1/ 1 1-* nw |
+      o: ?
+
+      literal SGVsbG8sIEJhc2U2NCEgdGhpcyBpcyBzb21lIGxvbmcgdGV4dCB0aGF0IHdpbGwgaGF2ZSB0byBz!~cGFuICBhIGNvdXBsZSBvZiBsaW5lcyBpbiBNSU1FIGJ1dCBub3QgaW4gQkFTSUMu |
+      change /~/ x0A |
+      change /!/ x0D |
+      spec /6-0/ 1 1-* nw |
+      o: ?
+
+      literal Hello, Base64! this is some long text that will have to span ,
+      a couple of lines in MIME but not in BASIC. |
+      encode64 basic |
+      spec /7-1/ 1 1-* nw |
+      o: ?
+
+      literal SGVsbG8sIEJhc2U2NCEgdGhpcyBpcyBzb21lIGxvbmcgdGV4dCB0aGF0IHdpbGwgaGF2ZSB0byBzcGFuICBhIGNvdXBsZSBvZiBsaW5lcyBpbiBNSU1FIGJ1dCBub3QgaW4gQkFTSUMu |
+      spec /7-0/ 1 1-* nw |
+      o: ?
+
+      literal TutorialsPoint~java8 |
+      change /~/ x3F |
+      encode64 basic |
+      spec /8-1/ 1 1-* nw |
+      o: ?
+
+      literal VHV0b3JpYWxzUG9pbnQ/amF2YTg= |
+      spec /8-0/ 1 1-* nw |
+      o: ?
+
+      literal TutorialsPoint~java8 |
+      change /~/ x3F |
+      encode64 url |
+      spec /9-1/ 1 1-* nw |
+      o: ?
+
+      literal VHV0b3JpYWxzUG9pbnQ_amF2YTg= |
+      spec /9-0/ 1 1-* nw |
+      o: ?
+      -- fin
+
