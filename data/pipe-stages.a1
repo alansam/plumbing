@@ -1,0 +1,88 @@
+#Device Drivers
+< read from a file
+> write to a file (which is overwritten if it exists)
+>> append to a file (which is created if it does not exist)
+diskr read from a fle
+diskw write to a file (which is overwritten if it exists)
+diska append to a file (which is created if it does not exist)
+filer read from a fle
+filew write to a file (which is overwritten if it exists)
+filea append to a file (which is created if it does not exist)
+diskslow read, create or append to a file
+fileslow read, create or append to a file
+array manipulate arrays
+arraya manipulate arrays
+arrayr manipulate arrays
+arrayw manipulate arrays
+stem manipulate stems
+stema manipulate stems
+stemr manipulate stems
+vector manipulate vectors
+vectora manipulate vectors
+vectorr manipulate vectors
+var read or set a variable in a NetREXX program
+zip compress a set of files (0 or more) into a zip archive
+unzip decompress a set of files (0 or more) from a zip archive
+listzip list a zip file directory
+console read from, or write to a terminal (window)
+hole destroy data
+delay suspend stream
+literal write the argument string
+strliteral write the argument string
+sqlselect select from any jdbc source
+xrange write a character range
+
+#Record Selection
+between selects records between labels
+drop discard records from the beginning or the end of a file
+find select lines
+strfind select lines
+frlabel select records from the first one with leading string
+strfrlabel select records from the first one with leading string
+inside select records between labels
+locate select records between labels
+nfind select lines using xedit nfind logic
+strnfind select lines using xedit nfind logic
+nlocate select lines without a string
+notinside select records not between labels
+outside select records not between labels
+pick select records that satisfy a relation
+take select records from the beginning or the end of a file
+tolabel select records to the first one with leading string
+strtolabel select records to the first one with leading string
+unique discard or retain duplicate lines
+abbreviation Select Records that Contain an Abbreviation of a Word in the First Positions
+
+#Filters
+buffer buffer records
+chop truncate the record
+join join records
+pad expand short records
+split split records relative to a target
+change substitute contents of records
+specs rearrange contents of records
+translate transliterate contents of records
+xlate transliterate contents of records
+copy copy records
+count count lines, words and bytes
+dup duplicate the object
+reverse reverse contents of records
+timestamp prefix date and time to records
+append put output from device driver after data on the primary input
+casei run selection stage in a case-insensitive manner
+not run stages with output streams inverted
+prefix Blocks its primary input and excutes stage supplied as an argument
+zone run selection stage on subset of input record
+elastic buffer sufficient records to prevent stall
+fanin concatenate streams
+faninany copy records from whichever input stream has one
+gate pass records until stopped
+juxtapose preface record with marker
+overlay overlay data from input streams
+command issue a command and write response to pipeline
+
+#Other Stages
+query check version and level of Pipelines for NetREXX
+-- insert comments into a pipeline
+comment insert comments into a pipeline
+
