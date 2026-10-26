@@ -1,0 +1,72 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class _string0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private static
+    _vikky = Vector()
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method _string0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    quoth = 'O for a muse of fire'
+
+    loop _q = 1 to quoth.words()
+      muse = quoth.word(_q)
+      _vikky.addElement(String muse)
+    end _q
+
+    do label _plumbing
+
+      pipe (stum stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          gen 10 |
+          _string spec 1-* 1.6 right |
+          vectora {_vikky} ?
+          -- fin
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    loop _v over _vikky
+      say '  '_v
+    end _v
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

@@ -1,0 +1,25 @@
+
+  pipe (pitmatic0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      < ./data/pit_village.a1 |
+      spec fieldseparator , field 1 1 field 2 30 field 3 50 |
+      change /"// |
+   f: fanout |
+      buffer |
+      sort 1-28 a singleok |
+      > ./tmp/pitmatic_name.a3 ?
+
+      f: |
+      buffer |
+      sort 29-36 d singleok |
+      > ./tmp/pitmatic_N2S.a3 ?
+
+      f: |
+      buffer |
+      sort 49-55 a singleok | -- NOTE: offsets must take into account UTF-8 degree symbol |
+      > ./tmp/pitmatic_E2W.a3 ?
+      -- fin
+

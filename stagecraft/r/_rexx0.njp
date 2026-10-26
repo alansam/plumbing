@@ -1,0 +1,73 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class _rexx0 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method _rexx0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    stemmie    = 'Henry V'
+    stemmie[0] = 0
+    quoth = 'O for a muse of fire'
+
+    _z = stemmie[0]
+    loop _q = 1 to quoth.words()
+      _z = _z + 1;
+      stemmie[_z] = quoth.word(_q)
+    end _q
+    stemmie[0] = _z
+
+    do label _plumbing
+
+      pipe (stum stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          gen 10 |
+          _rexx spec 1-* 1.6 right |
+          stema stemmie ?
+          -- fin
+
+ -- catch ex = Exception /* perhaps */
+ --   ...
+ --   say ex.toString()
+    end _plumbing
+
+    loop _s = 1 to stemmie[0]
+      say _s.right(5)':' stemmie[_s]
+    end _s
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
