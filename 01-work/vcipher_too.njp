@@ -21,7 +21,7 @@ class vcipher_too public
     pt = ''
     pt[0] = 0
     pipe (vc2 stall 1000 debug 0 )
-      < vcipher.data |
+      < ./vcipher/vcipher.data |
       specs 1-* 1 / / next |
       join 50 |
       stem pt
