@@ -1,0 +1,26 @@
+
+  pipe (fizzbuzz1 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      gen {} |               -- generate 1..N numbers |
+      insert ,+3+5+, before | -- looking for factors of 3 & 5 |
+      spec 1-* NETREXX @,
+        /* NetRexx program to fizz, buzz, & fizzbuzz */,
+        parse data '+' va '+' vb '+' gnr .;,
+        if va = '.' then va = 3;,
+        if vb = '.' then vb = 5;,
+        if (gnr.datatype('W') = 0) then return data;,
+        select;,
+          when ((gnr // va == 0) & (gnr // vb == 0)) then data = 'FizzBuzz';,
+          when ( gnr // va == 0) then data = 'Fizz';,
+          when ( gnr // vb == 0) then data = 'Buzz';,
+          otherwise data = gnr;,
+        end;,
+        return data;,
+      @ 1.12 right |
+      spec recno 1.6 right /:/ next 1-* nextword |
+      o: ?
+      -- fin
+
