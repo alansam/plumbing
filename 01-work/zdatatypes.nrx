@@ -1,0 +1,73 @@
+#!/usr/bin/env nr
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class zdatatypes public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+    _dlm   = '~'.copies(60)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method zdatatypes() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    tv = '101 109 10A a0A b10 q10 xa0 ABC abc aBc _3X 1.4 a1.4 1 0 . ? ! _ $ # @ ~ $10.0 $10'
+
+    say _dlm
+    loop _v = 1 to tv.words()
+      vw = tv.word(_v).strip()
+      say (''''vw'''').right(8) showtype(vw)
+    end _v
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method showtype(dt = Rexx) private static returns Rexx
+
+    types = ''
+    dt = dt.strip()
+    if dt.datatype('A') == 1 then
+      types = types || 'Alphabetic '
+    if dt.datatype('B') == 1 then
+      types = types || 'Binary '
+    if dt.datatype('D') == 1 then
+      types = types || 'Digits '
+    if dt.datatype('L') == 1 then
+      types = types || 'Lowercase '
+    if dt.datatype('M') == 1 then
+      types = types || 'Mixedcase '
+    if dt.datatype('N') == 1 then
+      types = types || 'Number '
+    if dt.datatype('S') == 1 then
+      types = types || 'Symbol '
+    if dt.datatype('U') == 1 then
+      types = types || 'Uppercase '
+    if dt.datatype('W') == 1 then
+      types = types || 'Whole_number '
+    if dt.datatype('X') == 1 then
+      types = types || 'heXadecimal '
+
+    return types
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
