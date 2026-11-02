@@ -1,0 +1,10 @@
+#!/usr/bin/env pipe -f
+
+  pipe (zshebang stall 1000 debug 0 )
+      literal ls |
+      command |
+      nlocate /~/ |
+      spec 1-* 4 |
+      console ?
+      -- fin
+
