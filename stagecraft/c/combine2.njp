@@ -1,12 +1,12 @@
 
-  pipe (combine_tests01)
+  pipe (combine2)
 
    o: faninany |
       sort singleok |
       specs 2-* 4 |
       cons ?
 
-  -- combine 1 last  ?
+-- combine 1 last  ?
       literal a1a a2b a3c d4d e5e f6f g7c h1h |
       split |
       combine 1 last |

@@ -1,18 +1,18 @@
 
-  pipe (combine_tests01)
+  pipe (combine0)
 
    o: faninany |
       sort singleok |
       specs 2-* 4 |
       cons ?
 
-  -- combine 1 first  ?
+-- combine 1 first  ?
       literal a1a a2b a3c d4d e5e f6f g7c h1h |
       split |
       combine 1 first |
       o: ?
 
-  -- combine 1 last  ?
+-- combine 1 last  ?
       literal a1a a2b a3c d4d e5e f6f g7c h1h |
       split |
       combine 1 last |
@@ -21,7 +21,7 @@
       split |
       o: ?
 
-  -- combine 1 or  ?
+-- combine 1 or  ?
       literal a1a a2b a3c d4d e5e f6f g7c h1h |
       split |
       combine 1 or |
@@ -30,7 +30,7 @@
       split |
       o: ?
 
-  -- combine 1 and  ?
+-- combine 1 and  ?
       literal a1a a2b a3c d4d e5e f6f g7c h1h |
       split |
       combine 1 and |
@@ -39,7 +39,7 @@
       split |
       o: ?
 
-  -- combine 1 exclusiveor ?
+-- combine 1 exclusiveor ?
       literal a1a a2b a3c d4d e5e f6f g7c h1h |
       split |
       combine 1 exclusiveor |
@@ -49,7 +49,7 @@
       split |
       o: ?
 
-  -- combine 2 first  ?
+-- combine 2 first  ?
       literal a1a a2b a3c d4d e5e f6f g7c h1h |
       split |
       combine 2 first |
@@ -58,7 +58,7 @@
       split |
       o: ?
 
-  -- combine 2 or  ?
+-- combine 2 or  ?
       literal a1a a2b a3c d4d e5e f6f g7c h1h |
       split |
       combine 2 or |
@@ -67,7 +67,7 @@
       split |
       o: ?
 
-  -- combine keylen n first  ?
+-- combine keylen n first  ?
       literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
       split |
       combine keylen 2 first  |
@@ -76,7 +76,7 @@
       split |
       o: ?
 
-  -- combine keylen n last  ?
+-- combine keylen n last  ?
       literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
       split |
       combine keylen 2 last  |
@@ -85,7 +85,7 @@
       split |
       o: ?
 
-  -- combine keylen n or  ?
+-- combine keylen n or  ?
       literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
       split |
       combine keylen 2 or  |
@@ -94,7 +94,7 @@
       split |
       o: ?
 
-  -- combine keylen n and  ?
+-- combine keylen n and  ?
       literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
       split |
       combine keylen 2 and  |
@@ -103,7 +103,7 @@
       split |
       o: ?
 
-  -- combine keylen n exclusiveor  ?
+-- combine keylen n exclusiveor  ?
       literal xxa1a xxa2b yya3c yyd4d yye5e zzf6f zzg7c zzh1h |
       split |
       combine keylen 2 exclusiveor  |
@@ -113,7 +113,7 @@
       split |
       o: ?
 
-  -- combine stop or (secondary) ?
+-- combine stop or (secondary) ?
       literal a1a a3c e5e g7c |
       split |
       s13: combine stop or |
@@ -125,7 +125,7 @@
       split |
       s13: ?
 
-  -- combine stop alleof and (secondary) ?
+-- combine stop alleof and (secondary) ?
       literal a1a a3c e5e g7c |
       split |
       s14: combine stop alleof and |
@@ -137,7 +137,7 @@
       split |
       s14: ?
 
-  -- combine stop alleof exclusiveor (secondary) ?
+-- combine stop alleof exclusiveor (secondary) ?
       literal a1a a3c e5e g7c |
       split |
       s15: combine stop alleof exclusiveor |
@@ -150,7 +150,7 @@
       split |
       s15: ?
 
-  -- combine stop anyeof exclusiveor (short primary) ?
+-- combine stop anyeof exclusiveor (short primary) ?
       literal a1a a3c e5e  |
       split |
       s17: combine stop anyeof exclusiveor |
@@ -162,4 +162,5 @@
       literal a2b d4d f6f h1h |
       split |
       s17: ?
+      -- fin
 
