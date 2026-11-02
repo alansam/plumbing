@@ -1,0 +1,7 @@
+
+  pipe (viggy0 stall 1000 debug 0)
+      < ./tmp/viggy0_out.a3 |
+      vigenere decode |
+      > ./tmp/viggy1_out.a3 ?
+      -- fin
+

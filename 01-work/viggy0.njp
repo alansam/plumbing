@@ -1,0 +1,8 @@
+
+  pipe (viggy0 stall 1000 debug 0)
+      < ./data/shag/tomorrow_macbeth.a1 |
+      join 50 |
+      vigenere encode |
+      > ./tmp/viggy0_out.a3 ?
+      -- fin
+

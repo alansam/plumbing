@@ -1,0 +1,36 @@
+
+  pipe (vigenere_test stall 1000 debug 0 )
+   o: faninany |
+      sort 1.8 |
+      spec 1-* 4 |
+      console ?
+
+      diskr ./data/jeremy_lyrics.a1 |
+   t: fanout |
+      join 50 |
+      insert /aaaaa aaaaa aaaaa aaaaa aaaaa aaaaa aaaaa aaaaa aaaaa aaaaa aaaaa aaaaa lemon yello wsunl emony/ before | -- force key exposure |
+   d: vigenere dump key lemon_yellow_sun en |
+   r: fanout |
+      vcfmt |
+      spec /Y/ 1 recno 3.6 right /:/ n 1-* nw | -- of encode |
+      o: ?
+
+      r: |
+   e: vigenere decode key lemonyellowsun dump |
+      vcfmt |
+      spec /Z/ 1 recno 3.6 right /:/ n 1-* nw | -- of decode |
+      o: ?
+
+      t: |
+      spec /A/ 1 recno 3.6 right /:/ n 1-* nw | -- original text |
+      o: ?
+
+      d: |
+      spec /D encode:/ 1 1-* nw | -- dump |
+      o: ?
+
+      e: |
+      spec /E decode:/ 1 1-* nw | -- dump |
+      o: ?
+      -- fin
+

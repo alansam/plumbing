@@ -1,0 +1,22 @@
+
+  pipe (viggy2 stall 1000 debug 0 )
+   o: fanin 0 1 2 |
+      spec 1-* 4 |
+      console ?
+
+      < ./data/shag/horse_richardiii.a1 |
+      join 50 |
+      vigenere |
+      vcfmt |
+   e: fanout |
+      literal Encoded: |
+      o: ?
+
+      e: |
+      join 50 |
+      vigenere decode |
+      vcfmt |
+      literal Decoded: |
+      o: ?
+      -- fin
+

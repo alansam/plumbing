@@ -1,0 +1,12 @@
+
+  pipe (viggy_pretty stall 1000 debug 0)
+      < {} |
+      xlate |
+      translate !-@ = [-~ = |
+      space 0 blank = |
+      space 0 |
+      join 50 |
+      vcfmt |
+      console ?
+      -- fin
+
