@@ -26,33 +26,47 @@ class _unicpblock public
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method main(args = String[]) public static
 
-    arg = Rexx(args).upper()
-    if arg.length() <= 0 then
+    parse source . . prog'.nrx' .
+
+    do label _rangie
+      arg = Rexx(args).upper()
+      if arg.length() <= 0 then do
+        signal IllegalArgumentException("Usage:" prog "U+nnnn U+nnnn")
+      end
+
+      parse arg 'U+'cpbeg . 'U+'cpend .
+      if cpbeg.length() <= 0 & cpend.length() <= 0 then do
+        signal IllegalArgumentException("Arguments should be prefixed with 'U+'")
+      end
+
+      if cpbeg.datatype('X') & cpend.datatype('X') then do
+        nop
+      end
+      else do
+        signal IllegalArgumentException("Arguments should be hexadecimal literals")
+      end
+
+      if cpbeg.length() > 4 | cpend.length() > 4 then do
+        signal IllegalArgumentException("Arguments must be between 1 and 4 digits")
+      end
+
+      cpbeg_d = cpbeg.x2d()
+      cpend_d = cpend.x2d()
+
+      if cpbeg_d > cpend_d then do
+        signal IllegalArgumentException("Arguments must be in ascending order")
+      end
+
+      loop _cd = cpbeg_d to cpend_d
+        ucode = 'U+' || _cd.d2x().right(4, 0)
+
+        _unicodepoint.codepoint(ucode)
+      end _cd
+
+    catch ex = IllegalArgumentException
+      say ex.toString()
       exit 8
-
-    parse arg 'U+'cpbeg . 'U+'cpend .
-    if cpbeg.length() <= 0 & cpend.length() <= 0 then
-      exit 8
-
-    if cpbeg.datatype('X') & cpend.datatype('X') then
-      nop
-    else
-      exit 8
-
-    if cpbeg.length() > 4 | cpend.length() > 4 then
-      exit 8
-
-    cpbeg_d = cpbeg.x2d()
-    cpend_d = cpend.x2d()
-
-    if cpbeg_d > cpend_d then
-      exit 8
-
-    loop _cd = cpbeg_d to cpend_d
-      ucode = 'U+' || _cd.d2x().right(4, 0)
-
-      _unicodepoint.codepoint(ucode)
-    end _cd
+    end _rangie
 
     return
 
