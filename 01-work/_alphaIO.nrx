@@ -1,0 +1,72 @@
+#!/usr/bin/env nr
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class _alphaIO public implements LineHandler
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+    _dlm   = '~'.copies(80)
+
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+    _L = 0
+    _R = 1
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private
+    lct = Rexx
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method _alphaIO() public
+
+    lct = 0
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    say _dlm
+    instance = _alphaIO()
+    RexxIO().file('./data/alphabets').forEachLine(instance)
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method handle(in = Rexx)
+
+    parse in lang ':' letters
+    lang = lang.strip()
+    letters = letters.strip()
+    lct = lct + 1
+
+    if in.length() > 0 then do
+      say lct.right(4)':' -
+          letters.words().right(4) -
+          ':' -
+          lang.left(10) -
+          ':' -
+          gullymet[_L] || letters || gullymet[_R]
+    end
+    else do
+      say lct.right(4)':'
+    end
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

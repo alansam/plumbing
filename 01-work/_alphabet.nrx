@@ -1,0 +1,82 @@
+#!/usr/bin/env nr
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class _alphabet public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+    _dlm   = '~'.copies(80)
+
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+    _L = 0
+    _R = 1
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method _alphabet() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    alfa = './data/alphabets'
+
+    loop _lx = 1 while lines(alfa) > 0
+      in = linein(alfa)
+      if in.strip().length() = 0 then
+        iterate _lx
+
+      parse in lang ':' letters
+      lang = lang.strip()
+      letters = letters.strip()
+      lc = letters.words()
+      say _lx.right(6)':' lang';' lc 'letters.'
+      loop _a = 1 to lc
+        letter = letters.word(_a)
+        if letter = 'SP' then
+          letter = ' '
+        lz = String(letter)
+        zc = lz.charAt(0)
+        cp = lz.codePointAt(0)
+        u8 = lz.getBytes('UTF-8')
+        say ' '.right(6)':' 'Rexx:' gullymet[_L] || letter || gullymet[_R]',' -
+                            'd'''letter.c2d().right(5, 0)''',' -
+                            'x'''letter.c2x().right(4, 0)'''' || -
+                            '. String:' lz', Len:' lz.length() || -
+                            ', x'''Rexx(zc).c2x().right(4, 0)'''' || -
+                            '. Unicode: U+'Rexx(cp).d2x().right(4, 0) || -
+                            ', UTF-8:' utf_8(u8)
+      end _a
+      say
+    end _lx
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method utf_8(u8 = byte[]) private static binary
+  
+    u8r = Rexx ''
+    loop _b = 0 to u8.length - 1
+      dig = Rexx(Byte.toUnsignedInt(u8[_b]))
+      u8r = u8r || "x'"dig.d2x().right(2, 0)"',"
+    end _b
+
+    return u8r.strip('t', ',')
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

@@ -1,0 +1,630 @@
+#!/usr/bin/env nr
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal nostrictsignal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class _punctuation public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+    _L = 0
+    _R = 1
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private
+    yomp = ''
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method _punctuation() public
+
+    setup()
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method simple_runner() private
+
+    ctr = 1
+    loop _y = 1 to yomp[0]
+      do label _yomps
+        yod = yomp[_y].c2d().right(5, 0)
+        yox = yomp[_y].c2x().right(4, 0)
+
+        say gullymet[_L] || yomp[_y] || gullymet[_R] || -
+            ', d'''yod'''' || -
+            ', x'''yox'''' || -
+            ''
+        if ctr // 16 = 0 then say
+        ctr = ctr + 1
+      end _yomps
+    end _y
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method runner() private
+
+--  do label _unsup
+
+    ctr = 1
+    ctr = ctr
+    loop _y = 1 to yomp[0]
+      do label _yomps
+        lz = yomp[_y].toString()
+        zc = lz.charAt(0)
+        cp = lz.codePointAt(0)
+
+        pn = ''
+        do label _getname
+          cn = Character.getName(cp)
+          pn = Rexx(cn)
+        catch exnpe = NullPointerException
+          exnpe = exnpe -- swallow the exception
+          pn = '*Unavailable*'
+        catch exia = IllegalArgumentException
+          exia = exia -- swallow the exception
+          pn = '*Unavailable*'
+        end _getname
+
+        u8 = [byte 2x00, 2x00]
+        do label _getbytes
+          u8 = lz.getBytes('UTF-8')
+        catch exue = UnsupportedEncodingException
+          exue = exue -- swallow exception
+          u8 = [byte 2x00, 2x00]
+        catch exia = IllegalArgumentException
+          exia = exia -- swallow the exception
+          u8 = [byte 2x00, 2x00]
+        end _getbytes
+
+        yod = yomp[_y].c2d().right(5, 0)
+        yox = yomp[_y].c2x().right(4, 0)
+        yo8 = utf_8(u8)
+
+        say gullymet[_L] || yomp[_y] || gullymet[_R] || -
+            ', d'''yod'''' || -
+            ', x'''yox'''' || -
+            '. Unicode: U+'yox || -
+            ', UTF-8:' yo8 || -
+            ', ''' || pn || ''''
+
+        if ctr // 16 = 0 then say
+        ctr = ctr + 1
+      catch ex = IllegalArgumentException
+        say gullymet[_L] || zc || gullymet[_R]'\-'
+        say '<<>>'cp'\-'
+        say '<<->>'Rexx(cp).d2x()'\-'
+        say '<<->>'ex.toString()
+      end _yomps
+    end _y
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method utf_8(u8 = byte[]) private static binary
+  
+    u8r = Rexx ''
+    loop _b = 0 to u8.length - 1
+      dig = Rexx(Byte.toUnsignedInt(u8[_b]))
+      u8r = u8r || "x'"dig.d2x().right(2, 0)"',"
+    end _b
+
+    return u8r.strip('t', ',')
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg opt .
+    opt = opt.lower()
+
+    instance = _punctuation()
+
+    if 'simple'.abbrev(opt, 1) then do
+      instance.simple_runner()
+    end
+    else do
+      instance.runner()
+    end
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method setup() private
+
+    yomp = ''
+    yomp[0] = 0
+    _y = yomp[0]
+
+    _y = _y + 1; yomp[_y] = '\u0020'
+    _y = _y + 1; yomp[_y] = '\u0021'
+    _y = _y + 1; yomp[_y] = '\u0022'
+    _y = _y + 1; yomp[_y] = '\u0023'
+    _y = _y + 1; yomp[_y] = '\u0024'
+    _y = _y + 1; yomp[_y] = '\u0025'
+    _y = _y + 1; yomp[_y] = '\u0026'
+    _y = _y + 1; yomp[_y] = '''' -- won't compile with '\u0027'!
+    _y = _y + 1; yomp[_y] = '\u0028'
+    _y = _y + 1; yomp[_y] = '\u0029'
+    _y = _y + 1; yomp[_y] = '\u002A'
+    _y = _y + 1; yomp[_y] = '\u002B'
+    _y = _y + 1; yomp[_y] = '\u002C'
+    _y = _y + 1; yomp[_y] = '\u002D'
+    _y = _y + 1; yomp[_y] = '\u002E'
+    _y = _y + 1; yomp[_y] = '\u002F'
+
+    _y = _y + 1; yomp[_y] = '\u0030'
+    _y = _y + 1; yomp[_y] = '\u0031'
+    _y = _y + 1; yomp[_y] = '\u0032'
+    _y = _y + 1; yomp[_y] = '\u0033'
+    _y = _y + 1; yomp[_y] = '\u0034'
+    _y = _y + 1; yomp[_y] = '\u0035'
+    _y = _y + 1; yomp[_y] = '\u0036'
+    _y = _y + 1; yomp[_y] = '\u0037'
+    _y = _y + 1; yomp[_y] = '\u0038'
+    _y = _y + 1; yomp[_y] = '\u0039'
+    _y = _y + 1; yomp[_y] = '\u003A'
+    _y = _y + 1; yomp[_y] = '\u003B'
+    _y = _y + 1; yomp[_y] = '\u003C'
+    _y = _y + 1; yomp[_y] = '\u003D'
+    _y = _y + 1; yomp[_y] = '\u003E'
+    _y = _y + 1; yomp[_y] = '\u003F'
+
+    _y = _y + 1; yomp[_y] = '\u0040'
+    _y = _y + 1; yomp[_y] = '\u0041'
+    _y = _y + 1; yomp[_y] = '\u0042'
+    _y = _y + 1; yomp[_y] = '\u0043'
+    _y = _y + 1; yomp[_y] = '\u0044'
+    _y = _y + 1; yomp[_y] = '\u0045'
+    _y = _y + 1; yomp[_y] = '\u0046'
+    _y = _y + 1; yomp[_y] = '\u0047'
+    _y = _y + 1; yomp[_y] = '\u0048'
+    _y = _y + 1; yomp[_y] = '\u0049'
+    _y = _y + 1; yomp[_y] = '\u004A'
+    _y = _y + 1; yomp[_y] = '\u004B'
+    _y = _y + 1; yomp[_y] = '\u004C'
+    _y = _y + 1; yomp[_y] = '\u004D'
+    _y = _y + 1; yomp[_y] = '\u004E'
+    _y = _y + 1; yomp[_y] = '\u004F'
+
+    _y = _y + 1; yomp[_y] = '\u0050'
+    _y = _y + 1; yomp[_y] = '\u0051'
+    _y = _y + 1; yomp[_y] = '\u0052'
+    _y = _y + 1; yomp[_y] = '\u0053'
+    _y = _y + 1; yomp[_y] = '\u0054'
+    _y = _y + 1; yomp[_y] = '\u0055'
+    _y = _y + 1; yomp[_y] = '\u0056'
+    _y = _y + 1; yomp[_y] = '\u0057'
+    _y = _y + 1; yomp[_y] = '\u0058'
+    _y = _y + 1; yomp[_y] = '\u0059'
+    _y = _y + 1; yomp[_y] = '\u005A'
+    _y = _y + 1; yomp[_y] = '\u005B'
+    _y = _y + 1; yomp[_y] = '\u005C'
+    _y = _y + 1; yomp[_y] = '\u005D'
+    _y = _y + 1; yomp[_y] = '\u005E'
+    _y = _y + 1; yomp[_y] = '\u005F'
+
+    _y = _y + 1; yomp[_y] = '\u0060'
+    _y = _y + 1; yomp[_y] = '\u0061'
+    _y = _y + 1; yomp[_y] = '\u0062'
+    _y = _y + 1; yomp[_y] = '\u0063'
+    _y = _y + 1; yomp[_y] = '\u0064'
+    _y = _y + 1; yomp[_y] = '\u0065'
+    _y = _y + 1; yomp[_y] = '\u0066'
+    _y = _y + 1; yomp[_y] = '\u0067'
+    _y = _y + 1; yomp[_y] = '\u0068'
+    _y = _y + 1; yomp[_y] = '\u0069'
+    _y = _y + 1; yomp[_y] = '\u006A'
+    _y = _y + 1; yomp[_y] = '\u006B'
+    _y = _y + 1; yomp[_y] = '\u006C'
+    _y = _y + 1; yomp[_y] = '\u006D'
+    _y = _y + 1; yomp[_y] = '\u006E'
+    _y = _y + 1; yomp[_y] = '\u006F'
+
+    _y = _y + 1; yomp[_y] = '\u0070'
+    _y = _y + 1; yomp[_y] = '\u0071'
+    _y = _y + 1; yomp[_y] = '\u0072'
+    _y = _y + 1; yomp[_y] = '\u0073'
+    _y = _y + 1; yomp[_y] = '\u0074'
+    _y = _y + 1; yomp[_y] = '\u0075'
+    _y = _y + 1; yomp[_y] = '\u0076'
+    _y = _y + 1; yomp[_y] = '\u0077'
+    _y = _y + 1; yomp[_y] = '\u0078'
+    _y = _y + 1; yomp[_y] = '\u0079'
+    _y = _y + 1; yomp[_y] = '\u007A'
+    _y = _y + 1; yomp[_y] = '\u007B'
+    _y = _y + 1; yomp[_y] = '\u007C'
+    _y = _y + 1; yomp[_y] = '\u007D'
+    _y = _y + 1; yomp[_y] = '\u007E'
+    _y = _y + 1; yomp[_y] = '\u007F'
+
+    _y = _y + 1; yomp[_y] = '\u0080'
+    _y = _y + 1; yomp[_y] = '\u0081'
+    _y = _y + 1; yomp[_y] = '\u0082'
+    _y = _y + 1; yomp[_y] = '\u0083'
+    _y = _y + 1; yomp[_y] = '\u0084'
+    _y = _y + 1; yomp[_y] = '\u0085'
+    _y = _y + 1; yomp[_y] = '\u0086'
+    _y = _y + 1; yomp[_y] = '\u0087'
+    _y = _y + 1; yomp[_y] = '\u0088'
+    _y = _y + 1; yomp[_y] = '\u0089'
+    _y = _y + 1; yomp[_y] = '\u008A'
+    _y = _y + 1; yomp[_y] = '\u008B'
+    _y = _y + 1; yomp[_y] = '\u008C'
+    _y = _y + 1; yomp[_y] = '\u008D'
+    _y = _y + 1; yomp[_y] = '\u008E'
+    _y = _y + 1; yomp[_y] = '\u008F'
+
+    _y = _y + 1; yomp[_y] = '\u0090'
+    _y = _y + 1; yomp[_y] = '\u0091'
+    _y = _y + 1; yomp[_y] = '\u0092'
+    _y = _y + 1; yomp[_y] = '\u0093'
+    _y = _y + 1; yomp[_y] = '\u0094'
+    _y = _y + 1; yomp[_y] = '\u0095'
+    _y = _y + 1; yomp[_y] = '\u0096'
+    _y = _y + 1; yomp[_y] = '\u0097'
+    _y = _y + 1; yomp[_y] = '\u0098'
+    _y = _y + 1; yomp[_y] = '\u0099'
+    _y = _y + 1; yomp[_y] = '\u009A'
+    _y = _y + 1; yomp[_y] = '\u009B'
+    _y = _y + 1; yomp[_y] = '\u009C'
+    _y = _y + 1; yomp[_y] = '\u009D'
+    _y = _y + 1; yomp[_y] = '\u009E'
+    _y = _y + 1; yomp[_y] = '\u009F'
+
+    _y = _y + 1; yomp[_y] = '\u00A0'
+    _y = _y + 1; yomp[_y] = '\u00A1'
+    _y = _y + 1; yomp[_y] = '\u00A2'
+    _y = _y + 1; yomp[_y] = '\u00A3'
+    _y = _y + 1; yomp[_y] = '\u00A4'
+    _y = _y + 1; yomp[_y] = '\u00A5'
+    _y = _y + 1; yomp[_y] = '\u00A6'
+    _y = _y + 1; yomp[_y] = '\u00A7'
+    _y = _y + 1; yomp[_y] = '\u00A8'
+    _y = _y + 1; yomp[_y] = '\u00A9'
+    _y = _y + 1; yomp[_y] = '\u00AA'
+    _y = _y + 1; yomp[_y] = '\u00AB'
+    _y = _y + 1; yomp[_y] = '\u00AC'
+    _y = _y + 1; yomp[_y] = '\u00AD'
+    _y = _y + 1; yomp[_y] = '\u00AE'
+    _y = _y + 1; yomp[_y] = '\u00AF'
+
+    _y = _y + 1; yomp[_y] = '\u00B0'
+    _y = _y + 1; yomp[_y] = '\u00B1'
+    _y = _y + 1; yomp[_y] = '\u00B2'
+    _y = _y + 1; yomp[_y] = '\u00B3'
+    _y = _y + 1; yomp[_y] = '\u00B4'
+    _y = _y + 1; yomp[_y] = '\u00B5'
+    _y = _y + 1; yomp[_y] = '\u00B6'
+    _y = _y + 1; yomp[_y] = '\u00B7'
+    _y = _y + 1; yomp[_y] = '\u00B8'
+    _y = _y + 1; yomp[_y] = '\u00B9'
+    _y = _y + 1; yomp[_y] = '\u00BA'
+    _y = _y + 1; yomp[_y] = '\u00BB'
+    _y = _y + 1; yomp[_y] = '\u00BC'
+    _y = _y + 1; yomp[_y] = '\u00BD'
+    _y = _y + 1; yomp[_y] = '\u00BE'
+    _y = _y + 1; yomp[_y] = '\u00BF'
+
+    _y = _y + 1; yomp[_y] = '\u00C0'
+    _y = _y + 1; yomp[_y] = '\u00C1'
+    _y = _y + 1; yomp[_y] = '\u00C2'
+    _y = _y + 1; yomp[_y] = '\u00C3'
+    _y = _y + 1; yomp[_y] = '\u00C4'
+    _y = _y + 1; yomp[_y] = '\u00C5'
+    _y = _y + 1; yomp[_y] = '\u00C6'
+    _y = _y + 1; yomp[_y] = '\u00C7'
+    _y = _y + 1; yomp[_y] = '\u00C8'
+    _y = _y + 1; yomp[_y] = '\u00C9'
+    _y = _y + 1; yomp[_y] = '\u00CA'
+    _y = _y + 1; yomp[_y] = '\u00CB'
+    _y = _y + 1; yomp[_y] = '\u00CC'
+    _y = _y + 1; yomp[_y] = '\u00CD'
+    _y = _y + 1; yomp[_y] = '\u00CE'
+    _y = _y + 1; yomp[_y] = '\u00CF'
+
+    _y = _y + 1; yomp[_y] = '\u00D0'
+    _y = _y + 1; yomp[_y] = '\u00D1'
+    _y = _y + 1; yomp[_y] = '\u00D2'
+    _y = _y + 1; yomp[_y] = '\u00D3'
+    _y = _y + 1; yomp[_y] = '\u00D4'
+    _y = _y + 1; yomp[_y] = '\u00D5'
+    _y = _y + 1; yomp[_y] = '\u00D6'
+    _y = _y + 1; yomp[_y] = '\u00D7'
+    _y = _y + 1; yomp[_y] = '\u00D8'
+    _y = _y + 1; yomp[_y] = '\u00D9'
+    _y = _y + 1; yomp[_y] = '\u00DA'
+    _y = _y + 1; yomp[_y] = '\u00DB'
+    _y = _y + 1; yomp[_y] = '\u00DC'
+    _y = _y + 1; yomp[_y] = '\u00DD'
+    _y = _y + 1; yomp[_y] = '\u00DE'
+    _y = _y + 1; yomp[_y] = '\u00DF'
+
+    _y = _y + 1; yomp[_y] = '\u00E0'
+    _y = _y + 1; yomp[_y] = '\u00E1'
+    _y = _y + 1; yomp[_y] = '\u00E2'
+    _y = _y + 1; yomp[_y] = '\u00E3'
+    _y = _y + 1; yomp[_y] = '\u00E4'
+    _y = _y + 1; yomp[_y] = '\u00E5'
+    _y = _y + 1; yomp[_y] = '\u00E6'
+    _y = _y + 1; yomp[_y] = '\u00E7'
+    _y = _y + 1; yomp[_y] = '\u00E8'
+    _y = _y + 1; yomp[_y] = '\u00E9'
+    _y = _y + 1; yomp[_y] = '\u00EA'
+    _y = _y + 1; yomp[_y] = '\u00EB'
+    _y = _y + 1; yomp[_y] = '\u00EC'
+    _y = _y + 1; yomp[_y] = '\u00ED'
+    _y = _y + 1; yomp[_y] = '\u00EE'
+    _y = _y + 1; yomp[_y] = '\u00EF'
+
+    _y = _y + 1; yomp[_y] = '\u00F0'
+    _y = _y + 1; yomp[_y] = '\u00F1'
+    _y = _y + 1; yomp[_y] = '\u00F2'
+    _y = _y + 1; yomp[_y] = '\u00F3'
+    _y = _y + 1; yomp[_y] = '\u00F4'
+    _y = _y + 1; yomp[_y] = '\u00F5'
+    _y = _y + 1; yomp[_y] = '\u00F6'
+    _y = _y + 1; yomp[_y] = '\u00F7'
+    _y = _y + 1; yomp[_y] = '\u00F8'
+    _y = _y + 1; yomp[_y] = '\u00F9'
+    _y = _y + 1; yomp[_y] = '\u00FA'
+    _y = _y + 1; yomp[_y] = '\u00FB'
+    _y = _y + 1; yomp[_y] = '\u00FC'
+    _y = _y + 1; yomp[_y] = '\u00FD'
+    _y = _y + 1; yomp[_y] = '\u00FE'
+    _y = _y + 1; yomp[_y] = '\u00FF'
+
+    _y = _y + 1; yomp[_y] = '\u2000'
+    _y = _y + 1; yomp[_y] = '\u2001'
+    _y = _y + 1; yomp[_y] = '\u2002'
+    _y = _y + 1; yomp[_y] = '\u2003'
+    _y = _y + 1; yomp[_y] = '\u2004'
+    _y = _y + 1; yomp[_y] = '\u2005'
+    _y = _y + 1; yomp[_y] = '\u2006'
+    _y = _y + 1; yomp[_y] = '\u2007'
+    _y = _y + 1; yomp[_y] = '\u2008'
+    _y = _y + 1; yomp[_y] = '\u2009'
+    _y = _y + 1; yomp[_y] = '\u200A'
+    _y = _y + 1; yomp[_y] = '\u200B'
+    _y = _y + 1; yomp[_y] = '\u200C'
+    _y = _y + 1; yomp[_y] = '\u200D'
+    _y = _y + 1; yomp[_y] = '\u200E'
+    _y = _y + 1; yomp[_y] = '\u200F'
+
+    _y = _y + 1; yomp[_y] = '\u2010'
+    _y = _y + 1; yomp[_y] = '\u2011'
+    _y = _y + 1; yomp[_y] = '\u2012'
+    _y = _y + 1; yomp[_y] = '\u2013'
+    _y = _y + 1; yomp[_y] = '\u2014'
+    _y = _y + 1; yomp[_y] = '\u2015'
+    _y = _y + 1; yomp[_y] = '\u2016'
+    _y = _y + 1; yomp[_y] = '\u2017'
+    _y = _y + 1; yomp[_y] = '\u2018'
+    _y = _y + 1; yomp[_y] = '\u2019'
+    _y = _y + 1; yomp[_y] = '\u201A'
+    _y = _y + 1; yomp[_y] = '\u201B'
+    _y = _y + 1; yomp[_y] = '\u201C'
+    _y = _y + 1; yomp[_y] = '\u201D'
+    _y = _y + 1; yomp[_y] = '\u201E'
+    _y = _y + 1; yomp[_y] = '\u201F'
+
+    _y = _y + 1; yomp[_y] = '\u2020'
+    _y = _y + 1; yomp[_y] = '\u2021'
+    _y = _y + 1; yomp[_y] = '\u2022'
+    _y = _y + 1; yomp[_y] = '\u2023'
+    _y = _y + 1; yomp[_y] = '\u2024'
+    _y = _y + 1; yomp[_y] = '\u2025'
+    _y = _y + 1; yomp[_y] = '\u2026'
+    _y = _y + 1; yomp[_y] = '\u2027'
+    _y = _y + 1; yomp[_y] = '\u2028'
+    _y = _y + 1; yomp[_y] = '\u2029'
+    _y = _y + 1; yomp[_y] = '\u202A'
+    _y = _y + 1; yomp[_y] = '\u202B'
+    _y = _y + 1; yomp[_y] = '\u202C'
+    _y = _y + 1; yomp[_y] = '\u202D'
+    _y = _y + 1; yomp[_y] = '\u202E'
+    _y = _y + 1; yomp[_y] = '\u202F'
+
+    _y = _y + 1; yomp[_y] = '\u2030'
+    _y = _y + 1; yomp[_y] = '\u2031'
+    _y = _y + 1; yomp[_y] = '\u2032'
+    _y = _y + 1; yomp[_y] = '\u2033'
+    _y = _y + 1; yomp[_y] = '\u2034'
+    _y = _y + 1; yomp[_y] = '\u2035'
+    _y = _y + 1; yomp[_y] = '\u2036'
+    _y = _y + 1; yomp[_y] = '\u2037'
+    _y = _y + 1; yomp[_y] = '\u2038'
+    _y = _y + 1; yomp[_y] = '\u2039'
+    _y = _y + 1; yomp[_y] = '\u203A'
+    _y = _y + 1; yomp[_y] = '\u203B'
+    _y = _y + 1; yomp[_y] = '\u203C'
+    _y = _y + 1; yomp[_y] = '\u203D'
+    _y = _y + 1; yomp[_y] = '\u203E'
+    _y = _y + 1; yomp[_y] = '\u203F'
+
+    _y = _y + 1; yomp[_y] = '\u2040'
+    _y = _y + 1; yomp[_y] = '\u2041'
+    _y = _y + 1; yomp[_y] = '\u2042'
+    _y = _y + 1; yomp[_y] = '\u2043'
+    _y = _y + 1; yomp[_y] = '\u2044'
+    _y = _y + 1; yomp[_y] = '\u2045'
+    _y = _y + 1; yomp[_y] = '\u2046'
+    _y = _y + 1; yomp[_y] = '\u2047'
+    _y = _y + 1; yomp[_y] = '\u2048'
+    _y = _y + 1; yomp[_y] = '\u2049'
+    _y = _y + 1; yomp[_y] = '\u204A'
+    _y = _y + 1; yomp[_y] = '\u204B'
+    _y = _y + 1; yomp[_y] = '\u204C'
+    _y = _y + 1; yomp[_y] = '\u204D'
+    _y = _y + 1; yomp[_y] = '\u204E'
+    _y = _y + 1; yomp[_y] = '\u204F'
+
+    _y = _y + 1; yomp[_y] = '\u2050'
+    _y = _y + 1; yomp[_y] = '\u2051'
+    _y = _y + 1; yomp[_y] = '\u2052'
+    _y = _y + 1; yomp[_y] = '\u2053'
+    _y = _y + 1; yomp[_y] = '\u2054'
+    _y = _y + 1; yomp[_y] = '\u2055'
+    _y = _y + 1; yomp[_y] = '\u2056'
+    _y = _y + 1; yomp[_y] = '\u2057'
+    _y = _y + 1; yomp[_y] = '\u2058'
+    _y = _y + 1; yomp[_y] = '\u2059'
+    _y = _y + 1; yomp[_y] = '\u205A'
+    _y = _y + 1; yomp[_y] = '\u205B'
+    _y = _y + 1; yomp[_y] = '\u205C'
+    _y = _y + 1; yomp[_y] = '\u205D'
+    _y = _y + 1; yomp[_y] = '\u205E'
+    _y = _y + 1; yomp[_y] = '\u205F'
+
+    _y = _y + 1; yomp[_y] = '\u2E00'
+    _y = _y + 1; yomp[_y] = '\u2E01'
+    _y = _y + 1; yomp[_y] = '\u2E02'
+    _y = _y + 1; yomp[_y] = '\u2E03'
+    _y = _y + 1; yomp[_y] = '\u2E04'
+    _y = _y + 1; yomp[_y] = '\u2E05'
+    _y = _y + 1; yomp[_y] = '\u2E06'
+    _y = _y + 1; yomp[_y] = '\u2E07'
+    _y = _y + 1; yomp[_y] = '\u2E08'
+    _y = _y + 1; yomp[_y] = '\u2E09'
+    _y = _y + 1; yomp[_y] = '\u2E0A'
+    _y = _y + 1; yomp[_y] = '\u2E0B'
+    _y = _y + 1; yomp[_y] = '\u2E0C'
+    _y = _y + 1; yomp[_y] = '\u2E0D'
+    _y = _y + 1; yomp[_y] = '\u2E0E'
+    _y = _y + 1; yomp[_y] = '\u2E0F'
+
+    _y = _y + 1; yomp[_y] = '\u2E10'
+    _y = _y + 1; yomp[_y] = '\u2E11'
+    _y = _y + 1; yomp[_y] = '\u2E12'
+    _y = _y + 1; yomp[_y] = '\u2E13'
+    _y = _y + 1; yomp[_y] = '\u2E14'
+    _y = _y + 1; yomp[_y] = '\u2E15'
+    _y = _y + 1; yomp[_y] = '\u2E16'
+    _y = _y + 1; yomp[_y] = '\u2E17'
+    _y = _y + 1; yomp[_y] = '\u2E18'
+    _y = _y + 1; yomp[_y] = '\u2E19'
+    _y = _y + 1; yomp[_y] = '\u2E1A'
+    _y = _y + 1; yomp[_y] = '\u2E1B'
+    _y = _y + 1; yomp[_y] = '\u2E1C'
+    _y = _y + 1; yomp[_y] = '\u2E1D'
+    _y = _y + 1; yomp[_y] = '\u2E1E'
+    _y = _y + 1; yomp[_y] = '\u2E1F'
+
+    _y = _y + 1; yomp[_y] = '\u2E20'
+    _y = _y + 1; yomp[_y] = '\u2E21'
+    _y = _y + 1; yomp[_y] = '\u2E22'
+    _y = _y + 1; yomp[_y] = '\u2E23'
+    _y = _y + 1; yomp[_y] = '\u2E24'
+    _y = _y + 1; yomp[_y] = '\u2E25'
+    _y = _y + 1; yomp[_y] = '\u2E26'
+    _y = _y + 1; yomp[_y] = '\u2E27'
+    _y = _y + 1; yomp[_y] = '\u2E28'
+    _y = _y + 1; yomp[_y] = '\u2E29'
+    _y = _y + 1; yomp[_y] = '\u2E2A'
+    _y = _y + 1; yomp[_y] = '\u2E2B'
+    _y = _y + 1; yomp[_y] = '\u2E2C'
+    _y = _y + 1; yomp[_y] = '\u2E2D'
+    _y = _y + 1; yomp[_y] = '\u2E2E'
+    _y = _y + 1; yomp[_y] = '\u2E2F'
+
+    _y = _y + 1; yomp[_y] = '\u2E30'
+    _y = _y + 1; yomp[_y] = '\u2E31'
+    _y = _y + 1; yomp[_y] = '\u2E32'
+    _y = _y + 1; yomp[_y] = '\u2E33'
+    _y = _y + 1; yomp[_y] = '\u2E34'
+    _y = _y + 1; yomp[_y] = '\u2E35'
+    _y = _y + 1; yomp[_y] = '\u2E36'
+    _y = _y + 1; yomp[_y] = '\u2E37'
+    _y = _y + 1; yomp[_y] = '\u2E38'
+    _y = _y + 1; yomp[_y] = '\u2E39'
+    _y = _y + 1; yomp[_y] = '\u2E3A'
+    _y = _y + 1; yomp[_y] = '\u2E3B'
+    _y = _y + 1; yomp[_y] = '\u2E3C'
+    _y = _y + 1; yomp[_y] = '\u2E3D'
+    _y = _y + 1; yomp[_y] = '\u2E3E'
+    _y = _y + 1; yomp[_y] = '\u2E3F'
+
+    _y = _y + 1; yomp[_y] = '\u2E40'
+    _y = _y + 1; yomp[_y] = '\u2E41'
+    _y = _y + 1; yomp[_y] = '\u2E42'
+    _y = _y + 1; yomp[_y] = '\u2E43'
+    _y = _y + 1; yomp[_y] = '\u2E44'
+    _y = _y + 1; yomp[_y] = '\u2E45'
+    _y = _y + 1; yomp[_y] = '\u2E46'
+    _y = _y + 1; yomp[_y] = '\u2E47'
+    _y = _y + 1; yomp[_y] = '\u2E48'
+    _y = _y + 1; yomp[_y] = '\u2E49'
+    _y = _y + 1; yomp[_y] = '\u2E4A'
+    _y = _y + 1; yomp[_y] = '\u2E4B'
+    _y = _y + 1; yomp[_y] = '\u2E4C'
+    _y = _y + 1; yomp[_y] = '\u2E4D'
+    _y = _y + 1; yomp[_y] = '\u2E4E'
+    _y = _y + 1; yomp[_y] = '\u2E4F'
+
+    _y = _y + 1; yomp[_y] = '\u2E50'
+    _y = _y + 1; yomp[_y] = '\u2E51'
+    _y = _y + 1; yomp[_y] = '\u2E52'
+    _y = _y + 1; yomp[_y] = '\u2E53'
+    _y = _y + 1; yomp[_y] = '\u2E54'
+    _y = _y + 1; yomp[_y] = '\u2E55'
+    _y = _y + 1; yomp[_y] = '\u2E56'
+    _y = _y + 1; yomp[_y] = '\u2E57'
+    _y = _y + 1; yomp[_y] = '\u2E58'
+    _y = _y + 1; yomp[_y] = '\u2E59'
+    _y = _y + 1; yomp[_y] = '\u2E5A'
+    _y = _y + 1; yomp[_y] = '\u2E5B'
+    _y = _y + 1; yomp[_y] = '\u2E5C'
+    _y = _y + 1; yomp[_y] = '\u2E5D'
+    _y = _y + 1; yomp[_y] = '\u2E5E'
+    _y = _y + 1; yomp[_y] = '\u2E5F'
+
+    _y = _y + 1; yomp[_y] = '\u2E60'
+    _y = _y + 1; yomp[_y] = '\u2E61'
+    _y = _y + 1; yomp[_y] = '\u2E62'
+    _y = _y + 1; yomp[_y] = '\u2E63'
+    _y = _y + 1; yomp[_y] = '\u2E64'
+    _y = _y + 1; yomp[_y] = '\u2E65'
+    _y = _y + 1; yomp[_y] = '\u2E66'
+    _y = _y + 1; yomp[_y] = '\u2E67'
+    _y = _y + 1; yomp[_y] = '\u2E68'
+    _y = _y + 1; yomp[_y] = '\u2E69'
+    _y = _y + 1; yomp[_y] = '\u2E6A'
+    _y = _y + 1; yomp[_y] = '\u2E6B'
+    _y = _y + 1; yomp[_y] = '\u2E6C'
+    _y = _y + 1; yomp[_y] = '\u2E6D'
+    _y = _y + 1; yomp[_y] = '\u2E6E'
+    _y = _y + 1; yomp[_y] = '\u2E6F'
+
+    _y = _y + 1; yomp[_y] = '\u2E70'
+    _y = _y + 1; yomp[_y] = '\u2E71'
+    _y = _y + 1; yomp[_y] = '\u2E72'
+    _y = _y + 1; yomp[_y] = '\u2E73'
+    _y = _y + 1; yomp[_y] = '\u2E74'
+    _y = _y + 1; yomp[_y] = '\u2E75'
+    _y = _y + 1; yomp[_y] = '\u2E76'
+    _y = _y + 1; yomp[_y] = '\u2E77'
+    _y = _y + 1; yomp[_y] = '\u2E78'
+    _y = _y + 1; yomp[_y] = '\u2E79'
+    _y = _y + 1; yomp[_y] = '\u2E7A'
+    _y = _y + 1; yomp[_y] = '\u2E7B'
+    _y = _y + 1; yomp[_y] = '\u2E7C'
+    _y = _y + 1; yomp[_y] = '\u2E7D'
+    _y = _y + 1; yomp[_y] = '\u2E7E'
+    _y = _y + 1; yomp[_y] = '\u2E7F'
+    yomp[0] = _y
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

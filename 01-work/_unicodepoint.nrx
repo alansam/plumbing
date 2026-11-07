@@ -1,0 +1,147 @@
+#!/usr/bin/env nr
+/* NetRexx */
+
+/**
+ * Hint; to run a block of 16 codepoints use [e.g: 2100..210F]:
+ *
+ * > for uu in {0..9} {a..f}; do ./_unicodepoint.nrx "U+210$uu"; done
+ */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class _unicodepoint public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+    gullymet = [ '\U00AB\U00A0', '\U00A0\U00BB' ] -- guillemetes + NBRS
+    _L = 0
+    _R = 1
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method _unicodepoint() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args).upper()
+
+    if arg.length() = 0 then do
+      usage()
+      exit 8
+    end
+
+    codepoint(arg)
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method codepoint(arg = Rexx) public static
+
+    parse arg 'U+'codpt .
+    if \codpt.datatype('X') | codpt.length() > 4 then do
+      usage()
+      exit 8
+    end
+
+    charpt = codpt.x2c()
+
+    lz = charpt.toString()
+    zc = lz.charAt(0)
+    cp = lz.codePointAt(0)
+
+    parse zc . -- swallow 'unused' warning
+
+    if Character.isISOControl(charpt) then
+      chardisp = ' '
+    else
+      chardisp = charpt
+
+    u8 = [byte 2x00, 2x00]
+    do label _getbytes
+      u8 = lz.getBytes('UTF-8')
+    catch exue = UnsupportedEncodingException
+      exue = exue -- swallow exception
+      u8 = [byte 2x00, 2x00]
+    catch exia = IllegalArgumentException
+      exia = exia -- swallow the exception
+      u8 = [byte 2x00, 2x00]
+    end _getbytes
+
+    charutf8 = utf_8(u8)
+
+    uname = ''
+    do label _getname
+      charnm = Character.getName(cp)
+      uname = Rexx(charnm)
+    catch exnpe = NullPointerException
+      exnpe = exnpe -- swallow the exception
+      uname = '*Unavailable*'
+    catch exia = IllegalArgumentException
+      exia = exia -- swallow the exception
+      uname = '*Unavailable*'
+    end _getname
+
+    ublock = ''
+    do label _getblock
+      ublock = Character.UnicodeBlock.of(cp).toString()
+    catch exnpe = NullPointerException
+      exnpe = exnpe -- swallow the exception
+      uname = '*Unavailable*'
+    catch exia = IllegalArgumentException
+      exia = exia -- swallow exception
+      uname = '*Unavailable*'
+    end _getblock
+
+    say '  ' -
+        'U+'codpt.right(4, 0)',' -
+        'd'''codpt.x2d().right(5, 0)''',' -
+        gullymet[_L] || chardisp || gullymet[_R]',' -
+        'UTF-8:' charutf8',' -
+        'Unicode name: '''uname''',' -
+        'block: '''ublock'''' -
+        ''
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method usage() private static
+
+    parse source ss
+    parse ss . . pgmnm '.nrx'
+
+    say
+    say '  'pgmnm' U+nnnn'
+    say
+    say '  where:'
+    say '    U+   is a literal ''U+'''
+    say '    nnnn is a four digit Unicode code point.'
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method utf_8(u8 = byte[]) private static binary
+  
+    u8r = Rexx ''
+    loop _b = 0 to u8.length - 1
+      dig = Rexx(Byte.toUnsignedInt(u8[_b]))
+      u8r = u8r || "x'"dig.d2x().right(2, 0)"',"
+    end _b
+
+    return u8r.strip('t', ',')
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
