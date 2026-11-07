@@ -1,0 +1,20 @@
+
+  pipe (RCApplyChUse stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal O for a mese of fire |
+   f: fanout |
+      space |
+      o: ?
+
+      f: |
+      split |
+      RCApplyCh |
+      spec 1-* 1.5 left |
+      join 5 |
+      space |
+      o: ?
+      -- fin
+
