@@ -1,0 +1,21 @@
+
+  pipe (all00 stall 1000 debug 0 )
+   o: faninany |
+      sort |
+      spec 1-* 4 |
+      console ?
+
+      literal abc;def;ghi;abc~;def~;ghi~;jkl;mno;pqr;stu;vwx;yz! |
+      split ; |
+      strip both blank |
+   f: fanout |
+      all %debug [/abc/ ! /ghi/] & /~/ |
+      spec /1:/ 1 1-* nw |
+      o: ?
+
+      f: |
+      all %debug [/abc/ ! /ghi/] |
+      spec /2:/ 1 1-* nw |
+      o: ?
+      -- fin
+
