@@ -1,0 +1,12 @@
+
+  pipe (git_filecmp0 stall 1000 debug 0 )
+      literal ls |
+      command |
+   b: not lookup |
+      console ?
+
+      literal git ls-files |
+      command |
+      b: ?
+      -- fin
+

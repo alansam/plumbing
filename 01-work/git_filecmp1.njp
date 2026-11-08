@@ -1,0 +1,16 @@
+
+  pipe (git_filecmp1 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal ls |
+      command |
+   b: not lookup |
+      o: ?
+
+      literal git ls-files |
+      command |
+      b: ?
+      -- fin
+
