@@ -1,0 +1,10 @@
+
+  pipe (juxta1 end ? stall 1000 debug 0 )
+      literal abc |
+   j: juxtapose |
+      console ?
+
+      literal def ghi |
+      split |
+      j: ?
+

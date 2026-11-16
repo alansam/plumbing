@@ -1,0 +1,21 @@
+
+  pipe (juxta0 stall 1000 debug 0 )
+      literal ls |                    -- get list of files |
+      command |                       -- issue the command |
+      locate /.njp/ |                 -- select .njp files |
+      nlocate /~/ |                   -- discard temp files |
+   o: fanout |                        -- make two copies |
+      pad 25 |                        -- some space to align |
+   j: juxtapose |                     -- prefix to contents of file |
+   i: faninany |                      -- combine both streams |
+      comment do more stuff |         -- whatevs |
+      console ?                       -- output ?
+
+      o: |                            -- the file ids |
+      getfiles |                      -- read contents |
+      locate anycase ,pipe, |         -- find lines with this string |
+      j: |                            -- go merge with name |
+      insert , *no maatch*, after |   -- mark files as no match |
+      i: ?                            -- feed into same stream ?
+      -- fin
+
