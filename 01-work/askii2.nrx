@@ -1,0 +1,47 @@
+#!/usr/bin/env nr
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class askii2 public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method askii2() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    loop _p1 = 0 to 7
+      loop _p2 = 0 to 15
+        axxi    = '*GRONK!*'
+        axxi[0] = 1
+        commando = 'ascii' _p1'/'_p2
+        address system commando with output replace stem axxi
+        loop _ax = 1 to axxi[0]
+          say '   ' || axxi[_ax]
+        end _ax
+      end _p2
+    end _p1
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

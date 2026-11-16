@@ -1,0 +1,62 @@
+#!/usr/bin/env nr
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class askii1 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method askii() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+--method run() public
+
+--  rc = 0
+
+--  exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    do label _plumbing
+
+      pipe (askii stall 1000 debug 0 )
+       o: faninany |
+          specs 1-* 4 |
+          console ?
+
+          gen 128 |
+          spec word 1 NR @data = data - 1@ 1.3 right |
+          buffer |
+          sort |
+          spec /ascii -d/ 1 1-* nw |
+          command |
+          o: ?
+          -- fin
+
+--  catch ex = Exception /* perhaps */
+--    ...
+--    say ex.toString()
+    end _plumbing
+
+    exit
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
