@@ -6,7 +6,7 @@
 
       literal This is a paragraph</p>;<p>So is this; |
       split ; |
-      tags /body/ /p/ |
+      tags /body id="b0"/ /p id="p0"/ |
       o: ?
       -- fin
 

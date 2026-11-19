@@ -6,7 +6,7 @@
 
       literal This is a paragraph;So is this; |
       split ; |
-      tags /p/ |
+      tag p |
       o: ?
       -- fin
 
