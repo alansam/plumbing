@@ -38,6 +38,9 @@ gen/
 tmp/
 org/
 
+# issue tracking & testing scratch directory
+z-issues/
+
 # symlinks
 rosettacode
 netrexx-code
