@@ -1,0 +1,42 @@
+
+  pipe (viggy_pretty_counter stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal java viggy_pretty {} |
+      command |
+  c1: fanout |
+      spec recno 1.4 right /:/ next 1-* nw |
+      o: ?
+
+      literal {} |
+      spec /file:/ 1.11 left 1-* nw |
+      o: ?
+
+      c1: |
+      count characters |
+      insert /characters: / |
+      o: ?
+
+      c1: |
+      count words |
+      insert /words:      / |
+      o: ?
+
+      c1: |
+      count lines |
+      insert /lines:      / |
+      o: ?
+
+      literal wc {} |
+      command |
+      insert /wc: / |
+      o: ?
+
+      < {} |
+      buffer |
+      spec recno 1.4 right /:/ next 1-* nw |
+      o: ?
+      -- fin
+
