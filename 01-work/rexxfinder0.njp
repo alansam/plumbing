@@ -1,5 +1,5 @@
 
-  pipe (rexxfinder stall 1000 debug 0 )
+  pipe (rexxfinder0 stall 1000 debug 0 )
    o: faninany |
       change /:// |
       buffer |
