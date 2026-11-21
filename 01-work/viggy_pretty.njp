@@ -1,12 +1,12 @@
 
   pipe (viggy_pretty stall 1000 debug 0)
-      < {} |
-      xlate |
-      translate !-@ = [-~ = |
-      space 0 blank = |
-      space 0 |
-      join 50 |
-      vcfmt |
+      < {} |                  -- argument is input file, read it |
+      xlate |                 -- uppercase |
+      translate !-@ = [-~ = | -- letters between 1 - @ & [ - ~ to = |
+      space 0 blank = |       -- remove = |
+      space 0 |               -- remove speces |
+      join 50 |               -- combine up to 50 records |
+      vcfmt |                 -- cipher formatter |
       console ?
       -- fin
 
