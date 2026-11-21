@@ -36,6 +36,9 @@ class _alphabet public
 
     alfa = './data/alphabets'
 
+    catcher = Rexx ''
+    catcher[0] = 0
+
     loop _lx = 1 while lines(alfa) > 0
       in = linein(alfa)
       if in.strip().length() = 0 then
@@ -46,10 +49,17 @@ class _alphabet public
       letters = letters.strip()
       lc = letters.words()
       say _lx.right(6)':' lang';' lc 'letters.'
+
       loop _a = 1 to lc
         letter = letters.word(_a)
+
         if letter = 'SP' then
           letter = ' '
+        else if letter = 'NBSP' then
+          letter = '\u00A0'
+        else
+          nop
+
         lz = String(letter)
         zc = lz.charAt(0)
         cp = lz.codePointAt(0)
@@ -61,8 +71,37 @@ class _alphabet public
                             ', x'''Rexx(zc).c2x().right(4, 0)'''' || -
                             '. Unicode: U+'Rexx(cp).d2x().right(4, 0) || -
                             ', UTF-8:' utf_8(u8)
+
+      catch ee = UnsupportedEncodingException
+        _e = catcher[0]
+        _e = _e + 1; catcher[_e] = '| Rexx('gullymet[_l] || letter || gullymet[_R]')' -
+                                   '| String('lz') Len:' lz.length() -
+                                   '| charAt('zc')' -
+                                   '| x'''Rexx(zc).c2x().right(4, 0)'''' -
+                                   '| codePointAt('cp')' -
+                                   '|' ee.toString() '|'
+        catcher[0] = _e
+
+      catch ex = NotCharacterException
+        _e = catcher[0]
+        _e = _e + 1; catcher[_e] = '| Rexx('gullymet[_l] || letter || gullymet[_R]')' -
+                                   '| String('lz') Len:' lz.length() -
+                                   '| charAt('zc')' -
+                                   '| x'''Rexx(zc).c2x().right(4, 0)'''' -
+                                   '| codePointAt('cp')' -
+                                   '|' ex.toString() '|'
+        catcher[0] = _e
+
       end _a
       say
+      if catcher[0] > 0 then do label _errors
+        say 'GRONK! -' catcher[0] 'errors:'
+        loop _e = 1 to catcher[0]
+          say _e.right(2, 0)':' catcher[_e]
+        end _e
+      end _errors
+      say
+
     end _lx
 
     return
