@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 
-jar='01-work.jar'
-jardir='/Users/alansampson/usr/src/target/plumbing/01-work'
+main() {
+  local jar='01-work.jar'
+  local jardir='/Users/alansampson/usr/src/target/plumbing/01-work'
 
-pushd "$jardir"
+  pushd "$jardir" > /dev/null
 
-CLASSPATH="$jar:$CLASSPATH"
+  CLASSPATH="$jar:$CLASSPATH"
 
-if [[ -z "$1" ]]; then
-  java jar_stages | bat
-else
-  java jar_stages | less
-fi
+  if [[ -z "$1" ]]; then
+    java jar_stages | bat
+  else
+    java jar_stages | less
+  fi
 
-popd
+  popd > /dev/null
+}
+
+main $@
 

@@ -6,6 +6,10 @@ import org.netrexx.njpipes.pipes.
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
 class jar_stages extends stage public final
 
+  properties constant
+
+    _versn = 'Pipe Menu - Version 1.00'
+
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method jar_stages public
 
@@ -18,8 +22,14 @@ class jar_stages extends stage public final
       -- command jar -tf /Users/alansampson/usr/local/NetRexx/lib/NetRexxF.jar |
       -- locate /stages/ | xlate 2f 20 | xlate 2e 20 | specs word 5-5 1 |
     pipe (js stall 1000 debug 0 )
-      diskr ./data/jar-stages.a1 |
-      join 4 / / | menufmt | console
+      -- diskr ./data/jar-stages.a1 |
+      literal java jar_stages_gen |
+      command |
+      join 4 / / |
+      menufmt |
+      literal {_versn} |
+      console ?
+      -- fin
 
     exit
 

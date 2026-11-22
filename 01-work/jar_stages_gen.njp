@@ -1,0 +1,97 @@
+
+  pipe (jar_stages_gen stall 1000 debug 0 )
+      comment Search for NetRexx Pipes stage names within the NetRexx jar | 
+      literal java jar_stages_classpath |     -- script to list CLASSSPATH |
+      command |                               -- run |
+      split : |                               -- split lines |
+      locate /NetRexxC/ |                     -- single out NetRexxC.jar |
+      spec /jar -tvf/ 1 1-* nw |              -- command to list jar contents | 
+      command |                               -- run |
+      locate ,njpipes/stages, |               -- search for pipe stages |
+      split / |                               -- split paths |
+      locate /.class/ |                       -- extract class names |
+
+      comment Remove class names that are abbreviations |
+      changeregex /^abbreviatio.class/ /=/ |  -- discard dups |
+      changeregex /^abbreviati.class/ /=/ |   -- diito |
+      changeregex /^abbreviat.class/ /=/ |    -- etc. |
+      changeregex /^abbrevia.class/ /=/ |
+      changeregex /^abbrevi.class/ /=/ |
+      changeregex /^abbrev.class/ /=/ |
+      changeregex /^changepars.class/ /=/ |
+      changeregex /^changepar.class/ /=/ |
+      changeregex /^changepa.class/ /=/ |
+      changeregex /^changep.class/ /=/ |
+      changeregex /^changerege.class/ /=/ |
+      changeregex /^changereg.class/ /=/ |
+      changeregex /^changere.class/ /=/ |
+      changeregex /^changer.class/ /=/ |
+      changeregex /^consol.class/ /=/ |
+      changeregex /^conso.class/ /=/ |
+      changeregex /^cons.class/ /=/ |
+      changeregex /^dateconver.class/ /=/ |
+      changeregex /^dateconve.class/ /=/ |
+      changeregex /^dateconv.class/ /=/ |
+      changeregex /^duplicat.class/ /=/ |
+      changeregex /^duplica.class/ /=/ |
+      changeregex /^duplic.class/ /=/ |
+      changeregex /^dupli.class/ /=/ |
+      changeregex /^dupl.class/ /=/ |
+      changeregex /^dup.class/ /=/ |
+      changeregex /^getfile.class/ /=/ |
+      changeregex /^getfil.class/ /=/ |
+      changeregex /^getfi.class/ /=/ |
+      changeregex /^getf.class/ /=/ |
+      changeregex /^get.class/ /=/ |
+      changeregex /^htmlrow.class/ /=/ |
+      changeregex /^locat.class/ /=/ |
+      changeregex /^loca.class/ /=/ |
+      changeregex /^loc.class/ /=/ |
+      changeregex /^lo.class/ /=/ |
+      changeregex /^l.class/ /=/ |
+      changeregex /^notinsid.class/ /=/ |
+      changeregex /^overla.class/ /=/ |
+      changeregex /^overl.class/ /=/ |
+      changeregex /^over.class/ /=/ |
+      changeregex /^quer.class/ /=/ |
+      changeregex /^que.class/ /=/ |
+      changeregex /^qu.class/ /=/ |
+      changeregex /^q.class/ /=/ |
+      changeregex /^spec.class/ /=/ |
+      changeregex /^strfrlab.class/ /=/ |
+      changeregex /^strfrla.class/ /=/ |
+      changeregex /^strlitera.class/ /=/ |
+      changeregex /^strliter.class/ /=/ |
+      changeregex /^strlite.class/ /=/ |
+      changeregex /^strlit.class/ /=/ |
+      changeregex /^strfrlabe.class/ /=/ |
+      changeregex /^strfrlab.class/ /=/ |
+      changeregex /^strtolabe.class/ /=/ |
+      changeregex /^strtolab.class/ /=/ |
+      changeregex /^strwhilelabe.class/ /=/ |
+      changeregex /^strwhilelab.class/ /=/ |
+      changeregex /^strwhilela.class/ /=/ |
+      changeregex /^strwhilel.class/ /=/ |
+      changeregex /^strwhile.class/ /=/ |
+      changeregex /^termina.class/ /=/ |
+      changeregex /^termin.class/ /=/ |
+      changeregex /^termi.class/ /=/ |
+      changeregex /^term.class/ /=/ |
+      changeregex /^translat.class/ /=/ |
+      changeregex /^transla.class/ /=/ |
+      changeregex /^transl.class/ /=/ |
+      changeregex /^trans.class/ /=/ |
+      changeregex /^uniqu.class/ /=/ |
+      changeregex /^uniq.class/ /=/ |
+
+      nfind = |                               -- strip out = |
+      change /.class// |                      -- remove .class suffix |
+      nlocate /$/ |                           -- remove subclasses |
+      literal _z_64encode |                   -- add alias for encode64 (1st pass) |
+      literal _z_64decode |                   -- add alias for encode64 (ditt) |
+      buffer |                                -- prep. for sort |
+      sort |                                  -- collate |
+      change /_z_// |                         -- finalize encode/decode aliases |
+      console ?
+      -- fin
+
