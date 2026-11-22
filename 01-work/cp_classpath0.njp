@@ -1,0 +1,8 @@
+
+  pipe (cp_classpath0 stall 1000 debug 0 )
+      literal printenv CLASSPATH |
+      command |
+      split : |
+      console ?
+      -- fin
+
