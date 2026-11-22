@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# word count (wc) for Vigenère cipher pretty printer
 
 main() {
   local dlm="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
