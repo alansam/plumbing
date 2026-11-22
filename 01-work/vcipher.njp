@@ -1,6 +1,8 @@
 #!/usr/bin/env nr
 /* NetRexx Pipes */
 -- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Vigenère cipher
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
 options format java comments replace symbols decimal
 
 import org.netrexx.njpipes.pipes.
@@ -58,7 +60,8 @@ class vcipher public
 
     exit
 
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Vigenère cipher logic
   method vigenere(meth = Rexx, key = Rexx, text = Rexx) public static returns Rexx
 
     select
@@ -83,19 +86,20 @@ class vcipher public
 
     return code
 
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   method vigenere_encipher(key, plaintext) public static returns Rexx
     return vigenere('encipher', key, plaintext)
 
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method vigenere_decipher(key, ciphertext) public static returns Rexx
     return vigenere('decipher', key, ciphertext)
 
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method mod(_N = int, _D = int) private static returns Rexx
     return (_D + (_N // _D)) // _D
 
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method stringscrubber(cleanup) public static returns Rexx
 
     alpha = Rexx.Uppers
@@ -109,7 +113,7 @@ class vcipher public
 
     return cleanup
 
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method get_lines(text = Rexx, lines = Rexx) public static returns Rexx
     ct = lines[0]
 
@@ -131,7 +135,7 @@ class vcipher public
 
     return lines
 
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
   method omlette() private static returns Rexx
 
     NL = char('\n')
