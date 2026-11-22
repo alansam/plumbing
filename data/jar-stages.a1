@@ -129,11 +129,11 @@ stema
 stemr
 stemw
 strfind
+strfrlabel
 strfromlabel
 strip
 strliteral
 strnfind
-strtolab
 strtolabel
 strwhilelabel
 tag

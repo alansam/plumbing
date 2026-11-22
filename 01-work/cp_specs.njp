@@ -6,5 +6,6 @@ pipe (cp_specs stall 1000 debug 0 )
 | change '*' ''
 | spec ,stat -x, 1 1-* 9
 | command
-| diskw ./data/cp-specs.a1
+| diskw ./data/cp_specs.a1
+? -- fin
 

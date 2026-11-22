@@ -1,0 +1,28 @@
+--  © Copyright Alan Sampson 2026
+
+pipe (cp_specs_deets stall 1000 debug 0 )
+? o: faninany
+| spec 1-* 4
+| console
+? -- next
+| diskr ./data/cp_specsinp.a1
+| take 5
+| change '*' ''
+| q7: fanout
+| spec ,stat -x, 1 1-* 9
+| command
+| q8: fanout
+| diskw ./data/cp_specs.a1
+? -- next
+| q7:
+| spec recno 1.4 right /:/ next 1-* nextword
+| strliteral /   0: Input:/
+| buffer
+| sort
+| change /   0://
+| o:
+? -- next
+| q8:
+| o:
+? -- fin
+

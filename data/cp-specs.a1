@@ -1,8 +1,16 @@
+  File: "cp_clspth.rex"
+  Size: 35           FileType: Symbolic Link
+  Mode: (0755/lrwxr-xr-x)         Uid: (  501/alansampson)  Gid: (   20/   staff)
+Device: 1,7   Inode: 199291224    Links: 1
+Access: Sat Nov 21 16:37:28 2026
+Modify: Sat Nov 21 16:37:28 2026
+Change: Sat Nov 21 16:37:28 2026
+ Birth: Sat Nov 21 16:37:28 2026
   File: "cp_query.rex"
   Size: 916          FileType: Regular File
   Mode: (0755/-rwxr-xr-x)         Uid: (  501/alansampson)  Gid: (   20/   staff)
-Device: 1,12   Inode: 183796169    Links: 1
-Access: Mon Aug 31 11:05:30 2026
+Device: 1,7   Inode: 183796169    Links: 1
+Access: Sun Nov 22 12:59:00 2026
 Modify: Sun Jul 12 22:07:14 2026
 Change: Sun Jul 12 22:07:14 2026
  Birth: Sun Jul 12 22:07:14 2026

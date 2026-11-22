@@ -1,0 +1,11 @@
+--  © Copyright Alan Sampson 2026
+
+pipe (cp_specs_cons stall 1000 debug 0 )
+  diskr ./data/cp_specsinp.a1
+| take 5
+| change '*' ''
+| spec ,stat -x, 1 1-* 9
+| command
+| console
+? -- fin
+
