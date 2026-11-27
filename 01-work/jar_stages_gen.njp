@@ -87,11 +87,11 @@
       nfind = |                               -- strip out = |
       change /.class// |                      -- remove .class suffix |
       nlocate /$/ |                           -- remove subclasses |
-      literal _z_64encode |                   -- add alias for encode64 (1st pass) |
-      literal _z_64decode |                   -- add alias for encode64 (ditt) |
+      literal _~_64encode |                   -- add alias for encode64 (1st pass) |
+      literal _~_64decode |                   -- add alias for encode64 (ditt) |
       buffer |                                -- prep. for sort |
       sort |                                  -- collate |
-      change /_z_// |                         -- finalize encode/decode aliases |
+      change /_~_// |                         -- finalize encode/decode aliases |
       console ?
       -- fin
 
