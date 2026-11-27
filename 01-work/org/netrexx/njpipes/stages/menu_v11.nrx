@@ -1,0 +1,172 @@
+/* NetRexx Pipes */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+package org.netrexx.njpipes.stages
+import org.netrexx.njpipes.pipes.
+import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class menu_v11 extends stage public final
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private static
+    _versn = 'Pipe Menu - Version 1.10'
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method menu_v11() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Process the 'pipe menu' stage
+  method run() public
+
+    rc = 0
+
+    -- try to get an output stream
+    outcon = _true
+    do
+      selectOutput(0)
+    catch StageError
+      outcon = _false
+    end
+
+    -- prep stem to collect output
+    menyoo = ''
+    menyoo[0] = 0
+
+    menyoo = collect(menyoo)  -- fill the output stem
+
+    -- pipe read loop, send output to pipe
+    do label _loopy
+      loop _m = 1 to menyoo[0]
+        line = menyoo[_m]
+        if outcon then  -- we have a stream so send to pipe
+          output(line)
+        else            -- no stream, write to stdout
+          say line
+      end _m
+    catch StageError
+      rc = rc()
+    end _loopy
+
+    exit(rc * (rc <> 12))
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Run a pipe command to extract and format stage names
+  method collect(menyoo = Rexx) private returns Rexx
+
+    -- prep version info stem
+    pver = _versn
+    pver[0] = 0
+
+    -- get the NetRexx Pipe version info
+    address pipe with output replace stem pver
+      '(muv stall 1000 debug 0 ) ?' -
+      'query level | console' -
+      ''
+
+    if pver[0] > 0 then
+      _versn = pver[1].strip()  -- save version info
+
+    commando = jar_stages()   -- pipe commands
+
+    -- run pipe command to pull stage names from jar and format in columns
+    address pipe with output replace stem menyoo
+      commando
+
+    return menyoo
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Pipe command string
+  method jar_stages() private static returns Rexx
+
+    commando = -
+      '(mu end ! stall 1000 debug 0 ) !' -
+      '   comment Search for NetRexx Pipes stage names within CLASSPATH |' - 
+      'o: faninany |' -
+      '   change ,./,, |' -                               -- remove ./ prefix
+      '   regex ,^org/netrexx/njpipes/stages, |' -        -- only select NetRexx pipes stages
+      '   split / |' -
+      '   regex /\\\\.class$/ |' -                        -- only class files
+      '   changeregex /.class$// |' -                     -- drop .class suffis
+      '   nlocate /$/ |' -                                -- drop subclass members
+      '   comment Remove class names that are abbreviations |' -
+      '   spec 1-* nr @if "abbreviation".abbrev(data, 6) then data = "abbreviation"@ 1 |' -
+      '   spec 1-* nr @if "changeparse".abbrev(data, 7) then data = "changeparse"@ 1 |' -
+      '   spec 1-* nr @if "changeregex".abbrev(data, 7) then data = "changeregex"@ 1 |' -
+      '   spec 1-* nr @if "console".abbrev(data, 4) then data = "console"@ 1 |' -
+      '   spec 1-* nr @if "dateconvert".abbrev(data, 5) then data = "dateconvert"@ 1 |' -
+      '   spec 1-* nr @if "duplicate".abbrev(data, 3) then data = "duplicate"@ 1 |' -
+      '   spec 1-* nr @if "getfiles".abbrev(data, 3) then data = "getfiles"@ 1 |' -
+      '   spec 1-* nr @if "htmlrows".abbrev(data, 7) then data = "htmlrows"@ 1 |' -
+      '   spec 1-* nr @if "locate".abbrev(data, 1) then data = "locate"@ 1 |' -
+      '   spec 1-* nr @if "overlay".abbrev(data, 4) then data = "overlay"@ 1 |' -
+      '   spec 1-* nr @if "notinside".abbrev(data, 8) then data = "notinside"@ 1 |' -
+      '   spec 1-* nr @if "query".abbrev(data, 1) then data = "query"@ 1 |' -
+      '   spec 1-* nr @if "specs".abbrev(data, 4) then data = "specs"@ 1 |' -
+      '   spec 1-* nr @if "strfrlabel".abbrev(data, 8) then data = "strfrlabel"@ 1 |' -
+      '   spec 1-* nr @if "strliteral".abbrev(data, 6) then data = "strliteral"@ 1 |' -
+      '   spec 1-* nr @if "strtolabel".abbrev(data, 8) then data = "strtolabel"@ 1 |' -
+      '   spec 1-* nr @if "strwhilelabel".abbrev(data, 8) then data = "strwhilelabel"@ 1 |' -
+      '   spec 1-* nr @if "terminal".abbrev(data, 4) then data = "terminal"@ 1 |' -
+      '   spec 1-* nr @if "translate".abbrev(data, 5) then data = "translate"@ 1 |' -
+      '   spec 1-* nr @if "unique".abbrev(data, 4) then data = "unique"@ 1 |' -
+      '   comment insert builtin stage aliases |' -
+      '   literal _~_64decode |' -                -- append _~_ to force sorting
+      '   literal _~_64encode |' -                -- ditto
+      '   literal random |' -
+      '   literal rexx |' -
+      '   literal string |' -
+      '   literal var |' -
+      '   buffer |' -                             -- prep for sort
+      '   sort |' -                               -- sort stages
+      '   change /_~_// |' -                      -- remove sorting cheats
+      '   unique |' -                             -- delete dips.
+      '   spec 1-* 1.14 left |' -                 -- align
+      '-- snake 5 |' -
+      '   join 4 |' -                             -- set to 5 columns per line
+      '   strip trailing blank |' -               -- remove trailing blanks
+      '   literal '_versn' BUILTIN stages|' -     -- insert version string
+      '   specs 1-* 4 |' -                        -- align output
+      '   console !' -                            -- send to sysout
+      '' -
+      '   comment Extract current classpath |' -
+      '   literal printenv CLASSPATH |' -
+      '   command |' -
+      '   split : |' -                            -- get each entry onto it's own record
+      'y: regex ,\\\\.jar$, |' -                  -- working with JAR files
+      '   insert /jar -tvf / |' -                 -- prep the command
+      '   command |' -
+      '   spec w8-* 1 |' -                        -- extract the file name
+      '   o: !' -
+      '' -
+      '   comment Search any filesystem directories on CLASSPATH |' -
+      '   y: |' -
+      '   spec w1 nr @data = "find" data "-name *.class"@ 1 |' -    -- use `find` command
+      '   command |' -
+      '   o: !' -
+      '  -- fin' -
+      ''
+
+    return commando
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Pipe help menu
+  method givehelp() public static returns Rexx
+    return -
+      "\n/** menu_v11 --  Display a menu of supported pipe commands." - 
+      "\n" -
+      "\n                 +--BUILTINS--+" -
+      "\n>>-----MENU_V11--+------------+--><" -
+      "\n" -
+      "\n*/" -
+      "\n"
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

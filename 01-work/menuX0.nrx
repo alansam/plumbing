@@ -1,0 +1,240 @@
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- package org.netrexx.njpipes.stages
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class menuX0 public -- extends stage
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+--properties private unused
+--  memvar_ = Rexx '' -- maybe ...
+
+  properties private static
+    _help  = boolean _false
+    _debug = boolean _false
+    _versn = 'Pipe Menu - Version 1.00'
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method menuX0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg . '(' opts ')' .
+
+    loop _o = 1 to opts.words()
+      opts = opts.upper()
+      if 'HELP'.abbrev(opts.word(_o), 1) then do
+        _help = _true
+      end
+
+      if 'DEBUG'.abbrev(opts.word(_o), 1) then do
+        _debug = boolean _true
+      end
+    end _o
+
+    select
+      when _help & _debug then do
+        say givehelp()
+        show_command('!')
+        exit
+      end
+      when _help then do
+        say givehelp()
+        exit
+      end
+      otherwise do
+        nop
+      end
+    end
+
+    pver = _versn
+    pver[0] = 0
+
+    address pipe with output replace stem pver
+      '(muv stall 1000 debug 0 ) ?' -
+      'query level | console' -
+      ''
+
+    _versn = pver[1].strip()
+
+    commando = jar_stages()
+
+    menyoo = ''
+    menyoo[0] = 0
+
+    address pipe with output replace stem menyoo
+      commando
+
+    loop _m = 1 to menyoo[0]
+      line = menyoo[_m]
+      say line
+    end _m
+
+    if _debug then do label _dehumbug
+      show_command('!')
+    end _dehumbug
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method show_command(ep = Rexx '?', es = Rexx '|') private static
+
+    commando = jar_stages()
+
+--trace results; nop
+
+    estge = es
+    epipe = ep
+
+    say
+    say '~'.copies(80)
+
+    -- (....) ||=====||====VV====VV====||
+    parse commando . '('ctrl')' valve
+    if ctrl.length() > 0 then
+      say '(' || ctrl || ')'
+
+    -- separate into stages
+    valve = valve.strip()
+    loop label _splitter while valve.length() > 0
+      valves = ''
+      valves[0] = 0
+      loop _v = 1 while valve.length() > 0
+        parse valve pl (estge) valve
+        valve = valve.strip()
+        valves[0] = _v
+        valves[_v] = pl.strip() estge -- re-attach stage terminator
+      end _v
+    end _splitter
+
+    -- for each stage
+    loop _v = 1 to valves[0]
+      vl = valves[_v]
+      -- look fore pipe terminators
+      vc = vl.countstr(epipe)
+      if vc > 0 then do
+        loop _p = 1 to vc
+          _p = _p
+          parse vl vp (epipe) vl
+          vl = vl.strip()
+          say vp.strip() epipe
+        end _p
+        say vl.strip()
+      end
+      else do
+        say vl.strip()
+      end
+    end _v
+      /*
+      parse valve ln (estge) valve
+      valve = valve.strip()
+      oot = ln
+      parse oot ll (epipe) flange
+      if flange.strip().length() = 0 then do
+        say ll.strip() estge
+      end
+      else do
+        say ll.strip() epipe
+        say flange.strip()
+      end
+      */
+    say '~'.copies(80)
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method jar_stages() private static returns Rexx
+
+    commando = -
+      '(mu end ! stall 1000 debug 0 ) !' -
+      '   comment Search for NetRexx Pipes stage names within CLASSPATH |' - 
+      'o: faninany |' -
+      '   change ,./,, |' -                               -- remove ./ prefix
+      '   regex ,^org/netrexx/njpipes/stages, |' -        -- only select NetRexx pipes stages
+      '   split / |' -
+      '   regex /\\\\.class$/ |' -                        -- only class files
+      '   changeregex /.class$// |' -                     -- drop .class suffis
+      '   nlocate /$/ |' -                                -- drop subclass members
+      '   comment Remove class names that are abbreviations |' -
+      '   spec 1-* nr @if "abbreviation".abbrev(data, 6) then data = "abbreviation"@ 1 |' -
+      '   spec 1-* nr @if "changeparse".abbrev(data, 7) then data = "changeparse"@ 1 |' -
+      '   spec 1-* nr @if "changeregex".abbrev(data, 7) then data = "changeregex"@ 1 |' -
+      '   spec 1-* nr @if "console".abbrev(data, 4) then data = "console"@ 1 |' -
+      '   spec 1-* nr @if "dateconvert".abbrev(data, 5) then data = "dateconvert"@ 1 |' -
+      '   spec 1-* nr @if "duplicate".abbrev(data, 3) then data = "duplicate"@ 1 |' -
+      '   spec 1-* nr @if "getfiles".abbrev(data, 3) then data = "getfiles"@ 1 |' -
+      '   spec 1-* nr @if "htmlrows".abbrev(data, 7) then data = "htmlrows"@ 1 |' -
+      '   spec 1-* nr @if "locate".abbrev(data, 1) then data = "locate"@ 1 |' -
+      '   spec 1-* nr @if "overlay".abbrev(data, 4) then data = "overlay"@ 1 |' -
+      '   spec 1-* nr @if "notinside".abbrev(data, 8) then data = "notinside"@ 1 |' -
+      '   spec 1-* nr @if "query".abbrev(data, 1) then data = "query"@ 1 |' -
+      '   spec 1-* nr @if "specs".abbrev(data, 4) then data = "specs"@ 1 |' -
+      '   spec 1-* nr @if "strfrlabel".abbrev(data, 8) then data = "strfrlabel"@ 1 |' -
+      '   spec 1-* nr @if "strliteral".abbrev(data, 6) then data = "strliteral"@ 1 |' -
+      '   spec 1-* nr @if "strtolabel".abbrev(data, 8) then data = "strtolabel"@ 1 |' -
+      '   spec 1-* nr @if "strwhilelabel".abbrev(data, 8) then data = "strwhilelabel"@ 1 |' -
+      '   spec 1-* nr @if "terminal".abbrev(data, 4) then data = "terminal"@ 1 |' -
+      '   spec 1-* nr @if "translate".abbrev(data, 5) then data = "translate"@ 1 |' -
+      '   spec 1-* nr @if "unique".abbrev(data, 4) then data = "unique"@ 1 |' -
+      '   comment insert builtin stage aliases |' -
+      '   literal _~_64decode |' -                -- append _~_ to force sorting
+      '   literal _~_64encode |' -                -- ditto
+      '   literal random |' -
+      '   literal rexx |' -
+      '   literal string |' -
+      '   literal var |' -
+      '   buffer |' -                             -- prep for sort
+      '   sort |' -                               -- sort stages
+      '   change /_~_// |' -                      -- remove sorting cheats
+      '   unique |' -                             -- delete dips.
+      '   spec 1-* 1.14 left |' -                 -- align
+      '-- snake 5 |' -
+      '   join 4 |' -                             -- set to 5 columns per line
+      '   strip trailing blank |' -               -- remove trailing blanks
+      '   literal '_versn' BUILTIN stages|' -     -- insert version string
+      '   specs 1-* 4 |' -                        -- align output
+      '   console !' -                            -- send to sysout
+      '' -
+      '   comment Extract current classpath |' -
+      '   literal printenv CLASSPATH |' -
+      '   command |' -
+      '   split : |' -                            -- get each entry onto it's own record
+      'y: regex ,\\\\.jar$, |' -                  -- working with JAR files
+      '   insert /jar -tvf / |' -                 -- prep the command
+      '   command |' -
+      '   spec w8-* 1 |' -                        -- extract the file name
+      '   o: !' -
+      '' -
+      '   comment Search any filesystem directories on CLASSPATH |' -
+      '   y: |' -
+      '   spec w1 nr @data = "find" data "-name *.class"@ 1 |' -    -- use `find` command
+      '   command |' -
+      '   o: !' -
+      '  -- fin' -
+      ''
+
+    return commando
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method givehelp() static returns Rexx
+    return -
+      "\n/** menuX0 --  Display a menu of supported pipe commands." - 
+      "\n" -
+      "\n               +--BUILTINS--+" -
+      "\n>>-----MENUX0--+------------+--><" -
+      "\n*/" -
+      "\n" -
+      "\n"
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... 

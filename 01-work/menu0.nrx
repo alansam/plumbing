@@ -1,0 +1,206 @@
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- package org.netrexx.njpipes.stages
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class menu0 public -- extends stage
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private static
+    _debug = boolean _false
+    _versn = 'Pipe Menu - Version 1.00'
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method menu0() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg . '(' opts ')' .
+
+    loop _o = 1 to opts.words()
+      opts = opts.upper()
+      if 'HELP'.abbrev(opts.word(_o), 1) then do
+        say givehelp()
+        exit
+      end
+
+      if 'DEBUG'.abbrev(opts.word(_o), 1) then do
+        _debug = boolean _true
+      end
+    end _o
+
+    pver = _versn
+    pver[0] = 0
+
+    address pipe with output replace stem pver
+      'query level | console'
+
+    _versn = pver[1].strip()
+
+    commando = jar_stages()
+
+    menyoo = ''
+    menyoo[0] = 0
+
+    address pipe -
+      with output replace stem menyoo
+      commando
+
+    loop _m = 1 to menyoo[0]
+      line = menyoo[_m]
+      say line
+    end _m
+
+    if _debug then do label _dehumbug
+      say
+      say '~'.copies(80)
+      split = commando
+      loop label _splitter while split.strip().length() > 0
+        parse split ln '|' split
+        split = split.strip()
+        oot = ln
+        parse oot ll '?' tail
+        if tail.strip().length() = 0 then do
+          say ll.strip() '|'
+        end
+        else do
+          say ll.strip() '?'
+          say tail.strip()
+        end
+      end _splitter
+      say '~'.copies(80)
+    end _dehumbug
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method jar_stages() private static returns Rexx
+
+    commando = -
+     'comment jar_stages_gen |' -
+     'comment Search for NetRexx Pipes stage names within the NetRexx jar |' - 
+     'literal java jar_stages_classpath |' -      -- script to list CLASSPATH
+     'command |' -                                -- run
+     'split : |' -                                -- split lines
+     'locate /NetRexxC/ |' -                      -- single out NetRexxC.jar
+     'spec /jar -tvf/ 1 1-* nw |' -               -- command to list jar contents
+     'command |' -                                -- run
+     'locate ,njpipes/stages, |' -                -- search for pipe stages
+     'split / |' -                                -- split paths
+     'locate /.class/ |' -                        -- extract class names
+     'comment Remove class names that are abbreviations |' -
+     'changeregex /^abbreviatio.class/ /=/ |' -   -- discard dups
+     'changeregex /^abbreviati.class/ /=/ |' -    -- diito
+     'changeregex /^abbreviat.class/ /=/ |' -     -- etc.
+     'changeregex /^abbrevia.class/ /=/ |' -
+     'changeregex /^abbrevi.class/ /=/ |' -
+     'changeregex /^abbrev.class/ /=/ |' -
+     'changeregex /^changepars.class/ /=/ |' -
+     'changeregex /^changepar.class/ /=/ |' -
+     'changeregex /^changepa.class/ /=/ |' -
+     'changeregex /^changep.class/ /=/ |' -
+     'changeregex /^changerege.class/ /=/ |' -
+     'changeregex /^changereg.class/ /=/ |' -
+     'changeregex /^changere.class/ /=/ |' -
+     'changeregex /^changer.class/ /=/ |' -
+     'changeregex /^consol.class/ /=/ |' -
+     'changeregex /^conso.class/ /=/ |' -
+     'changeregex /^cons.class/ /=/ |' -
+     'changeregex /^dateconver.class/ /=/ |' -
+     'changeregex /^dateconve.class/ /=/ |' -
+     'changeregex /^dateconv.class/ /=/ |' -
+     'changeregex /^duplicat.class/ /=/ |' -
+     'changeregex /^duplica.class/ /=/ |' -
+     'changeregex /^duplic.class/ /=/ |' -
+     'changeregex /^dupli.class/ /=/ |' -
+     'changeregex /^dupl.class/ /=/ |' -
+     'changeregex /^dup.class/ /=/ |' -
+     'changeregex /^getfile.class/ /=/ |' -
+     'changeregex /^getfil.class/ /=/ |' -
+     'changeregex /^getfi.class/ /=/ |' -
+     'changeregex /^getf.class/ /=/ |' -
+     'changeregex /^get.class/ /=/ |' -
+     'changeregex /^htmlrow.class/ /=/ |' -
+     'changeregex /^locat.class/ /=/ |' -
+     'changeregex /^loca.class/ /=/ |' -
+     'changeregex /^loc.class/ /=/ |' -
+     'changeregex /^lo.class/ /=/ |' -
+     'changeregex /^l.class/ /=/ |' -
+     'changeregex /^notinsid.class/ /=/ |' -
+     'changeregex /^overla.class/ /=/ |' -
+     'changeregex /^overl.class/ /=/ |' -
+     'changeregex /^over.class/ /=/ |' -
+     'changeregex /^quer.class/ /=/ |' -
+     'changeregex /^que.class/ /=/ |' -
+     'changeregex /^qu.class/ /=/ |' -
+     'changeregex /^q.class/ /=/ |' -
+     'changeregex /^spec.class/ /=/ |' -
+     'changeregex /^strfrlab.class/ /=/ |' -
+     'changeregex /^strfrla.class/ /=/ |' -
+     'changeregex /^strlitera.class/ /=/ |' -
+     'changeregex /^strliter.class/ /=/ |' -
+     'changeregex /^strlite.class/ /=/ |' -
+     'changeregex /^strlit.class/ /=/ |' -
+     'changeregex /^strfrlabe.class/ /=/ |' -
+     'changeregex /^strfrlab.class/ /=/ |' -
+     'changeregex /^strtolabe.class/ /=/ |' -
+     'changeregex /^strtolab.class/ /=/ |' -
+     'changeregex /^strwhilelabe.class/ /=/ |' -
+     'changeregex /^strwhilelab.class/ /=/ |' -
+     'changeregex /^strwhilela.class/ /=/ |' -
+     'changeregex /^strwhilel.class/ /=/ |' -
+     'changeregex /^strwhile.class/ /=/ |' -
+     'changeregex /^termina.class/ /=/ |' -
+     'changeregex /^termin.class/ /=/ |' -
+     'changeregex /^termi.class/ /=/ |' -
+     'changeregex /^term.class/ /=/ |' -
+     'changeregex /^translat.class/ /=/ |' -
+     'changeregex /^transla.class/ /=/ |' -
+     'changeregex /^transl.class/ /=/ |' -
+     'changeregex /^trans.class/ /=/ |' -
+     'changeregex /^uniqu.class/ /=/ |' -
+     'changeregex /^uniq.class/ /=/ |' -
+     'nfind = |' -                                -- strip out =
+     'change /.class// |' -                       -- remove .class suffix
+     'nlocate /$/ |' -                            -- remove subclasses
+     'literal _~_64encode |' -                    -- add alias for encode64 (1st pass)
+     'literal _~_64decode |' -                    -- add alias for encode64 (ditt)
+     'buffer |' -                                 -- prep. for sort
+     'sort |' -                                   -- collate
+     'change /_~_// |' -                          -- finalize encode/decode aliases
+     'comment jar_stages |' -
+     'join 4 / / |' -
+     'menufmt |' -
+     'literal '_versn' |' -
+     'console ?' -
+     '-- fin'
+
+    return commando
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method givehelp() static returns Rexx
+    return -
+      "\n/** menu --  Display a menu of supported pipe commands." - 
+      "\n" -
+      "\n>>-----MENU--------><" -
+      "\n*/" -
+      "\n" -
+      "\n"
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+
