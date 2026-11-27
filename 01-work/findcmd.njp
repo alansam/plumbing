@@ -1,0 +1,17 @@
+
+  pipe (findcmd stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal printenv CLASSPATH |
+      command |
+      split : |
+      nlocate /.jar/ |
+      spec w1 nr @data = "find" data "-name *.class"@ 1 |
+      command |
+      change ,./,, |
+      sort |
+      o: ?
+      -- fin
+
